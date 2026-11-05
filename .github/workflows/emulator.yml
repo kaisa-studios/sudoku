@@ -1,0 +1,104 @@
+name: Android-Emulator
+# Läuft die App auf einem echten (virtuellen) Android-System:
+# Release-APK installieren, wie ein Nutzer bedienen (uiautomator), Neustart prüfen, Screenshots.
+# Auslösen: "[emu]" in der Commit-Nachricht oder manuell. Bericht auf Branch ci-status-emulator.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  emulator:
+    if: contains(github.event.head_commit.message, '[emu]') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      SYSIMG: "system-images;android-33;aosp_atd;x86_64"
+    steps:
+      - name: Speicherplatz freimachen
+        run: |
+          df -h / > /tmp/disk_before.txt
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/local/share/boost \
+            /usr/local/lib/node_modules /opt/hostedtoolcache/CodeQL /usr/share/swift /usr/local/share/powershell
+          sudo docker image prune --all --force > /dev/null 2>&1 || true
+          df -h / > /tmp/disk_after.txt
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: KVM aktivieren
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          mkdir -p /tmp/emu && ls -la /dev/kvm > /tmp/emu/kvm.txt 2>&1 || true
+          cat /tmp/disk_before.txt /tmp/disk_after.txt > /tmp/emu/disk.txt
+      - name: Vorbereitung und Release-APK (x86_64)
+        id: prep
+        run: |
+          # Speicher sparen: Emulator und Gradle teilen sich 16 GB
+          sed -i 's/-Xmx8G -XX:MaxMetaspaceSize=4G/-Xmx3G -XX:MaxMetaspaceSize=1G/' android/gradle.properties
+          {
+            flutter pub get
+            dart run build_runner build --delete-conflicting-outputs
+            flutter build apk --release --target-platform android-x64
+            (cd android && ./gradlew --stop)
+            pkill -f KotlinCompileDaemon || true
+            free -m
+          } > /tmp/emu/prep.log 2>&1
+      - name: Emulator starten
+        id: boot
+        continue-on-error: true
+        run: |
+          SDK="$ANDROID_HOME"
+          export ANDROID_AVD_HOME="$HOME/.android/avd"
+          mkdir -p "$ANDROID_AVD_HOME"
+          SDKM="$SDK/cmdline-tools/latest/bin/sdkmanager"
+          AVDM="$SDK/cmdline-tools/latest/bin/avdmanager"
+          {
+            yes | "$SDKM" --licenses > /dev/null
+            "$SDKM" --install "$SYSIMG" "emulator" "platform-tools" | tr '\r' '\n' | grep -v '^\s*$' | tail -20
+            echo no | "$AVDM" create avd -n ci -k "$SYSIMG" -d pixel_6 --force -p "$ANDROID_AVD_HOME/ci.avd"
+            "$SDK/emulator/emulator" -list-avds
+          } > /tmp/emu/sdk.log 2>&1
+          nohup "$SDK/emulator/emulator" -avd ci -no-window -no-audio -no-boot-anim -no-snapshot \
+            -gpu swiftshader_indirect -memory 3072 -cores 3 -accel on -no-snapshot-save > /tmp/emu/emulator.log 2>&1 &
+          timeout 300 "$SDK/platform-tools/adb" wait-for-device || { echo "no device after 300s" > /tmp/emu/boot_error.txt; exit 1; }
+          for i in $(seq 1 180); do
+            if [ "$("$SDK/platform-tools/adb" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ]; then
+              echo "booted after $((i*5))s" > /tmp/emu/boot.txt; break
+            fi
+            sleep 5
+          done
+          test -f /tmp/emu/boot.txt || { "$SDK/platform-tools/adb" shell getprop > /tmp/emu/getprop.txt 2>&1; exit 1; }
+          "$SDK/platform-tools/adb" shell settings put global window_animation_scale 0
+          "$SDK/platform-tools/adb" shell settings put global transition_animation_scale 0
+          "$SDK/platform-tools/adb" shell settings put global animator_duration_scale 0
+          "$SDK/platform-tools/adb" shell input keyevent 82
+      - name: Release-App bedienen und Screenshots
+        id: emu
+        if: steps.boot.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 25
+        run: |
+          ( while true; do { date +%T; free -m | sed -n 2p; } >> /tmp/emu/mem.log; sleep 10; done ) &
+          bash .github/scripts/emulator_screens.sh /tmp/emu build/app/outputs/flutter-apk/app-release.apk 2>&1 | tee /tmp/emu/run_stdout.log
+      - name: Bericht
+        if: always()
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          cd /tmp/emu
+          rm -f ui.xml
+          tail -c 200000 emulator.log > emulator_tail.log 2>/dev/null && rm -f emulator.log || true
+          echo "run ${{ github.run_id }} sha ${{ github.sha }} prep=${{ steps.prep.outcome }} boot=${{ steps.boot.outcome }} emu=${{ steps.emu.outcome }}" > summary.txt
+          cat it_result.txt >> summary.txt 2>/dev/null || true
+          git init -q -b r . && git config user.name ci-bot && git config user.email ci-bot@users.noreply.github.com
+          git add -A && git commit -qm "Emulator-Bericht ${{ github.run_id }}"
+          git push -qf "https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git" HEAD:refs/heads/ci-status-emulator
