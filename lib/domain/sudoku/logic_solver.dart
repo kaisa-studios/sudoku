@@ -41,10 +41,9 @@ class LogicResult {
 }
 
 class LogicSolver {
-  LogicSolver(List<int> puzzle, {List<int>? oracle})
+  LogicSolver(List<int> puzzle, {this.oracle})
       : values = List.of(puzzle),
-        cand = List.filled(cellCount, 0),
-        _oracle = oracle {
+        cand = List.filled(cellCount, 0) {
     for (var c = 0; c < cellCount; c++) {
       if (values[c] != 0) continue;
       var used = 0;
@@ -57,7 +56,8 @@ class LogicSolver {
 
   final List<int> values;
   final List<int> cand;
-  final List<int>? _oracle;
+  /// Known solution; when set, every step is checked against it (tests).
+  final List<int>? oracle;
   int violations = 0;
 
   bool get solved => !values.contains(0);
@@ -98,7 +98,7 @@ class LogicSolver {
   // ------------------------------------------------------------ primitives --
 
   void _place(int c, int d) {
-    final o = _oracle;
+    final o = oracle;
     if (o != null && o[c] != d) violations++;
     values[c] = d;
     cand[c] = 0;
@@ -111,7 +111,7 @@ class LogicSolver {
   /// Removes [mask] from cell [c]; returns true if something changed.
   bool _elim(int c, int mask) {
     if (values[c] != 0 || cand[c] & mask == 0) return false;
-    final o = _oracle;
+    final o = oracle;
     if (o != null && cand[c] & mask & (1 << o[c]) != 0) violations++;
     cand[c] &= ~mask;
     return true;

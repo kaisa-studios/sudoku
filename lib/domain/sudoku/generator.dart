@@ -75,15 +75,15 @@ class GeneratedPuzzle {
 
 /// Removes givens from [solution] in symmetric pairs while the puzzle stays
 /// unique and solvable with the strategies of [target].
-List<int> carve(List<int> solution, Difficulty target, Random rng) {
+List<int> carve(List<int> solution, Difficulty target, Random rng, {int? floor}) {
   final puzzle = List.of(solution);
   final order = List<int>.generate(41, (i) => i)..shuffle(rng); // 40 pairs + centre
   var givens = cellCount;
-  final floor = minGivens[target]!;
+  final minimum = floor ?? minGivens[target]!;
   for (final i in order) {
     final j = 80 - i;
     final removing = i == j ? 1 : 2;
-    if (givens - removing < floor) continue;
+    if (givens - removing < minimum) continue;
     final vi = puzzle[i], vj = puzzle[j];
     puzzle[i] = 0;
     puzzle[j] = 0;
