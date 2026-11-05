@@ -1,0 +1,49 @@
+name: Rätsel-Inhalte
+# Erzeugt Ersatzpool und Tagesrätsel (tool/build_content.dart), prüft sie unabhängig
+# (tool/verify_puzzles.py) und committet assets/puzzles zurück. Auslöser: Änderung an .ci/content.
+on:
+  push:
+    branches: [main]
+    paths: [".ci/content"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Erzeugen
+        id: build
+        run: |
+          mkdir -p /tmp/rep
+          flutter pub get > /tmp/rep/pub.log 2>&1
+          dart run tool/build_content.dart 2>&1 | tee /tmp/rep/build.log
+      - name: Unabhängig prüfen
+        id: verify
+        run: python3 tool/verify_puzzles.py assets/puzzles/pool.json assets/puzzles/daily.json 2>&1 | tee /tmp/rep/verify.log
+      - name: Rückcommit
+        id: commit
+        run: |
+          git config user.name "Kaisa Studios"; git config user.email "kaisa-studios@users.noreply.github.com"
+          ls -la assets/puzzles | tee -a /tmp/rep/verify.log
+          git add assets/puzzles
+          git commit -m "Inhalte: Ersatzpool und Tagesrätsel (geprüft)" || echo "keine Änderung"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Bericht
+        if: always()
+        run: |
+          cd /tmp/rep
+          {
+            echo "run ${{ github.run_id }} sha ${{ github.sha }}"
+            echo "build=${{ steps.build.outcome }} verify=${{ steps.verify.outcome }} commit=${{ steps.commit.outcome }}"
+          } > summary.txt
+          git init -q -b r . && git config user.name ci-bot && git config user.email ci-bot@users.noreply.github.com
+          git add -A && git commit -qm "Inhalte-Bericht ${{ github.run_id }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:refs/heads/ci-status-content

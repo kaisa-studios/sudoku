@@ -5,7 +5,7 @@ name: CI
 on:
   push:
     branches: [main]
-    paths-ignore: [".ci/**", "docs/**", "*.md"]
+    paths-ignore: [".ci/**", "docs/**", "*.md", "tool/**", ".github/workflows/content.yml"]
   workflow_dispatch:
 permissions:
   contents: write
