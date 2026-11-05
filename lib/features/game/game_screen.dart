@@ -42,6 +42,10 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   bool _foreground = true;
   Future<void> _saving = Future.value();
 
+  /// Short feedback in the status line (announced by screen readers, covers nothing).
+  String? _message;
+  Timer? _messageTimer;
+
   SavedGame get saved => widget.saved;
   Game get game => saved.game;
 
@@ -65,6 +69,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _ticker?.cancel();
+    _messageTimer?.cancel();
     _hScroll.dispose();
     _vScroll.dispose();
     _commitTime();
@@ -135,9 +140,11 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
     int? filled;
     _act(() => filled = game.hint());
     if (filled != null && game.phase != GamePhase.completed && mounted) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(context.s.hintDone), duration: const Duration(seconds: 2)));
+      setState(() => _message = context.s.hintDone);
+      _messageTimer?.cancel();
+      _messageTimer = Timer(const Duration(seconds: 3), () {
+        if (mounted) setState(() => _message = null);
+      });
     }
   }
 
@@ -257,7 +264,18 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                   style: theme.textTheme.titleLarge
                       ?.copyWith(color: game.mistakes > 0 ? context.colors.wrong : null)),
             ),
-            if (_settings.showTimer)
+            if (_message != null)
+              Semantics(
+                liveRegion: true,
+                label: _message,
+                excludeSemantics: true,
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(Icons.lightbulb, size: 22, color: context.colors.entry),
+                  const SizedBox(width: 6),
+                  Text(s.hint, style: theme.textTheme.titleLarge?.copyWith(color: context.colors.entry)),
+                ]),
+              )
+            else if (_settings.showTimer)
               Semantics(
                 label: s.timeLabel(formatDuration(_shownMs)),
                 excludeSemantics: true,
@@ -501,7 +519,8 @@ class _ToolButton extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Icon(icon, size: 26),
           const SizedBox(height: 2),
-          Text(label, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis),
+          // one line; shrinks instead of breaking inside a word with very large text
+          FittedBox(fit: BoxFit.scaleDown, child: Text(label, maxLines: 1)),
         ]),
       ),
     );

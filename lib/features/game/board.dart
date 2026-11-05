@@ -88,6 +88,8 @@ class _Cell extends StatelessWidget {
       content = Stack(alignment: Alignment.center, children: [
         Text(
           '$v',
+          // sized from the cell already; larger digits come from the large view
+          textScaler: TextScaler.noScaling,
           style: TextStyle(
             fontSize: size * 0.62,
             height: 1,
@@ -148,7 +150,7 @@ class _Notes extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Text(mask & (1 << (r * 3 + c + 1)) != 0 ? '${r * 3 + c + 1}' : '',
-                        style: style),
+                        textScaler: TextScaler.noScaling, style: style),
                   ),
                 ),
             ]),

@@ -31,7 +31,7 @@ void main() {
     await tester.tap(find.text('Hinweis'));
     await tester.pump();
     expect(find.bySemanticsLabel('Zeile 1, Spalte 3, Hinweis 4, nicht bearbeitbar'), findsOneWidget);
-    expect(find.text('Hinweis: Ein Feld wurde richtig eingetragen.'), findsOneWidget);
+    expect(find.text('Hinweis'), findsNWidgets(2)); // tool button and the short note in the status line
     await tester.pumpAndSettle(const Duration(seconds: 3));
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
