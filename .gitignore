@@ -1,0 +1,23 @@
+# Flutter / build output
+build/
+.dart_tool/
+*.iml
+.idea/
+.DS_Store
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+# drift code generation runs in CI
+*.g.dart
+# Python helpers
+__pycache__/
+*.pyc
+.venv/
+# secrets never belong in the repository
+*.jks
+*.keystore
+key.properties
+*.p12
+*.mobileprovision
+.env
