@@ -10,6 +10,10 @@ enum GameOutcome { undecided, won, failed, abandoned }
 
 enum EntryResult { ignored, note, correct, mistake }
 
+/// Where the one second chance came from (statistics show ads separately).
+/// `free` is the placeholder until rewarded ads exist (Phase 5).
+enum ContinueSource { none, free, rewarded, adFree }
+
 const int mistakeLimit = 3;
 
 class _CellBefore {
@@ -39,7 +43,13 @@ class Game {
   GameOutcome outcome = GameOutcome.undecided;
   int mistakes = 0;
   bool continueUsed = false;
+  ContinueSource continueSource = ContinueSource.none;
   bool failed = false;
+  DateTime? failedAt;
+
+  /// Active play time in milliseconds (only while visible and playable, 6.4).
+  int activeMs = 0;
+  int hintCount = 0;
   int? selected;
   bool notesMode = false;
 
@@ -98,6 +108,7 @@ class Game {
     mistakes++;
     if (mistakes >= mistakeLimit && !failed) {
       failed = true;
+      failedAt = DateTime.now().toUtc();
       outcome = GameOutcome.failed;
       phase = GamePhase.awaitingContinue;
     }
@@ -126,9 +137,10 @@ class Game {
   }
 
   /// The one second chance after the third mistake; the loss stays recorded.
-  bool grantContinue() {
+  bool grantContinue({ContinueSource source = ContinueSource.free}) {
     if (phase != GamePhase.awaitingContinue || continueUsed) return false;
     continueUsed = true;
+    continueSource = source;
     phase = GamePhase.active;
     return true;
   }
@@ -137,6 +149,71 @@ class Game {
     if (phase == GamePhase.completed) return;
     phase = GamePhase.abandoned;
     if (!failed) outcome = GameOutcome.abandoned;
+  }
+
+  bool get isFinal => phase == GamePhase.completed || phase == GamePhase.abandoned;
+
+  // ---------------------------------------------------------- persistence --
+
+  Map<String, Object?> toJson() => {
+        'v': 1,
+        'values': gridToString(values),
+        'notes': notes,
+        'phase': phase.name,
+        'outcome': outcome.name,
+        'mistakes': mistakes,
+        'continueUsed': continueUsed,
+        'continueSource': continueSource.name,
+        'failed': failed,
+        'failedAt': failedAt?.toIso8601String(),
+        'activeMs': activeMs,
+        'hintCount': hintCount,
+        'selected': selected,
+        'notesMode': notesMode,
+        'undo': [
+          for (final step in _undo) [for (final b in step) [b.cell, b.value, b.notes]],
+        ],
+      };
+
+  /// Restores a saved game. Unknown or broken fields fall back to safe values;
+  /// the rule lock (third mistake without used chance) is never loosened.
+  static Game fromJson({
+    required List<int> puzzle,
+    required List<int> solution,
+    required Difficulty difficulty,
+    required Map<String, Object?> json,
+  }) {
+    final g = Game(puzzle: puzzle, solution: solution, difficulty: difficulty);
+    final values = gridFromString(json['values'] as String? ?? gridToString(puzzle));
+    for (var c = 0; c < cellCount; c++) {
+      g.values[c] = g.isGiven(c) ? puzzle[c] : values[c];
+    }
+    final notes = (json['notes'] as List?)?.cast<int>() ?? const [];
+    for (var c = 0; c < cellCount && c < notes.length; c++) {
+      g.notes[c] = g.values[c] == 0 ? notes[c] & allDigits : 0;
+    }
+    g.phase = GamePhase.values.asNameMap()[json['phase']] ?? GamePhase.active;
+    g.outcome = GameOutcome.values.asNameMap()[json['outcome']] ?? GameOutcome.undecided;
+    g.mistakes = json['mistakes'] as int? ?? 0;
+    g.continueUsed = json['continueUsed'] as bool? ?? false;
+    g.continueSource =
+        ContinueSource.values.asNameMap()[json['continueSource']] ?? ContinueSource.none;
+    g.failed = (json['failed'] as bool? ?? false) || g.mistakes >= mistakeLimit;
+    final failedAt = json['failedAt'] as String?;
+    g.failedAt = failedAt == null ? null : DateTime.tryParse(failedAt);
+    g.activeMs = json['activeMs'] as int? ?? 0;
+    g.hintCount = json['hintCount'] as int? ?? 0;
+    g.selected = json['selected'] as int?;
+    g.notesMode = json['notesMode'] as bool? ?? false;
+    for (final step in (json['undo'] as List?) ?? const []) {
+      g._undo.add([
+        for (final b in step as List) _CellBefore((b as List)[0] as int, b[1] as int, b[2] as int),
+      ]);
+    }
+    // invariant (6.3): a failed game without used chance stays locked
+    if (g.failed && !g.continueUsed && !g.isFinal) g.phase = GamePhase.awaitingContinue;
+    if (g.failed && g.outcome == GameOutcome.undecided) g.outcome = GameOutcome.failed;
+    return g;
   }
 
   void _push(List<int> cells) {

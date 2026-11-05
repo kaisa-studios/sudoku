@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../../app/services.dart';
+import '../../data/game_repository.dart';
 import '../../domain/game/game.dart';
 import '../../domain/sudoku/difficulty.dart';
-import '../../domain/sudoku/generator.dart';
 import 'board.dart';
 
 String difficultyLabel(Difficulty d) => switch (d) {
@@ -12,112 +15,207 @@ String difficultyLabel(Difficulty d) => switch (d) {
       Difficulty.expert => 'Experte',
     };
 
-/// Result returned to the home screen when the player leaves.
+/// Result returned to the previous screen when the player leaves.
 enum GameExit { home, newGame }
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key, required this.puzzle});
+  const GameScreen({super.key, required this.saved});
 
-  final GeneratedPuzzle puzzle;
+  final SavedGame saved;
 
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
-  late final Game game = Game(
-    puzzle: widget.puzzle.puzzle,
-    solution: widget.puzzle.solution,
-    difficulty: widget.puzzle.difficulty,
-  )..select(widget.puzzle.puzzle.indexOf(0));
+class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
+  late final GameRepository _repo;
+  final _clock = Stopwatch();
+  Timer? _ticker;
+  int _ticks = 0;
+  bool _dialogOpen = false;
+  bool _foreground = true;
+  Future<void> _saving = Future.value();
 
-  void _update(VoidCallback change) {
-    setState(change);
-    _afterChange();
+  SavedGame get saved => widget.saved;
+  Game get game => saved.game;
+
+  @override
+  void initState() {
+    super.initState();
+    _repo = ServicesScope.read(context).games;
+    WidgetsBinding.instance.addObserver(this);
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
+    _updateClock();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && game.phase == GamePhase.awaitingContinue) _showThirdMistake();
+    });
   }
 
-  Future<void> _afterChange() async {
-    if (game.phase == GamePhase.awaitingContinue) {
-      await _showThirdMistake();
-    } else if (game.phase == GamePhase.completed) {
-      await _showFinished();
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _ticker?.cancel();
+    _commitTime();
+    _save();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _foreground = state == AppLifecycleState.resumed;
+    _updateClock();
+    if (!_foreground) _save();
+  }
+
+  // ------------------------------------------------------------- timer --
+
+  /// Time only counts while the game is visible and playable (6.4).
+  void _updateClock() {
+    final run = _foreground && !_dialogOpen && game.canPlay;
+    if (run && !_clock.isRunning) {
+      _clock.start();
+    } else if (!run && _clock.isRunning) {
+      _commitTime();
+      _clock.stop();
     }
   }
 
+  void _commitTime() {
+    game.activeMs += _clock.elapsedMilliseconds;
+    _clock.reset();
+  }
+
+  void _tick() {
+    if (!mounted || !_clock.isRunning) return;
+    setState(() {});
+    if (++_ticks % 5 == 0) {
+      _commitTime();
+      _save();
+    }
+  }
+
+  int get _shownMs => game.activeMs + _clock.elapsedMilliseconds;
+
+  /// Saves are serialised so an older state can never overwrite a newer one.
+  Future<void> _save() => _saving = _saving.then((_) => _repo.save(saved)).catchError((_) {});
+
+  // ----------------------------------------------------------- actions --
+
+  void _act(VoidCallback change) {
+    setState(change);
+    _commitTime();
+    _save();
+    _updateClock();
+    if (game.phase == GamePhase.awaitingContinue) {
+      _showThirdMistake();
+    } else if (game.phase == GamePhase.completed) {
+      _showFinished();
+    }
+  }
+
+  Future<T?> _dialog<T>(WidgetBuilder builder) async {
+    _dialogOpen = true;
+    _updateClock();
+    final r = await showDialog<T>(context: context, barrierDismissible: false, builder: builder);
+    _dialogOpen = false;
+    _updateClock();
+    return r;
+  }
+
+  Future<void> _leave(GameExit exit) async {
+    _commitTime();
+    await _save();
+    if (mounted) Navigator.pop(context, exit);
+  }
+
   Future<void> _showThirdMistake() async {
-    final choice = await showDialog<String>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text('Drei Fehler'),
-        content: const Text(
-            'Dieses Sudoku zählt jetzt als nicht geschafft. Du kannst es trotzdem zu Ende spielen.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, 'end'), child: const Text('Spiel beenden')),
-          FilledButton(onPressed: () => Navigator.pop(context, 'continue'), child: const Text('Weiterspielen')),
-        ],
-      ),
-    );
+    final choice = await _dialog<String>((context) => AlertDialog(
+          title: const Text('Drei Fehler'),
+          content: const Text(
+              'Dieses Sudoku zählt jetzt als nicht geschafft. Du kannst es trotzdem zu Ende spielen.'),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, 'end'), child: const Text('Spiel beenden')),
+            TextButton(onPressed: () => Navigator.pop(context, 'later'), child: const Text('Später')),
+            FilledButton(onPressed: () => Navigator.pop(context, 'continue'), child: const Text('Weiterspielen')),
+          ],
+        ));
     if (!mounted) return;
-    if (choice == 'continue') {
-      setState(game.grantContinue);
-    } else {
-      game.abandon();
-      Navigator.pop(context, GameExit.home);
+    switch (choice) {
+      case 'continue':
+        _act(() => game.grantContinue());
+      case 'end':
+        game.abandon();
+        await _leave(GameExit.home);
+      default:
+        await _leave(GameExit.home); // stays locked; the decision is offered again later
     }
   }
 
   Future<void> _showFinished() async {
     final won = game.outcome == GameOutcome.won;
-    final choice = await showDialog<GameExit>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(won ? 'Geschafft!' : 'Sudoku beendet'),
-        content: Text(won
-            ? 'Fehler: ${game.mistakes}'
-            : 'Zählt als nicht geschafft (zweite Chance genutzt). Fehler: ${game.mistakes}'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, GameExit.home), child: const Text('Zur Startseite')),
-          FilledButton(onPressed: () => Navigator.pop(context, GameExit.newGame), child: const Text('Neues Sudoku')),
-        ],
-      ),
-    );
+    final daily = saved.isDaily;
+    final choice = await _dialog<GameExit>((context) => AlertDialog(
+          title: Text(won ? 'Geschafft!' : 'Sudoku beendet'),
+          content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            if (!won) const Text('Zählt als nicht geschafft, weil die zweite Chance genutzt wurde.\n'),
+            Text('Zeit: ${formatDuration(game.activeMs)}'),
+            Text('Fehler: ${game.mistakes}'),
+          ]),
+          actions: [
+            if (daily)
+              FilledButton(onPressed: () => Navigator.pop(context, GameExit.home), child: const Text('Fertig'))
+            else ...[
+              TextButton(onPressed: () => Navigator.pop(context, GameExit.home), child: const Text('Zur Startseite')),
+              FilledButton(onPressed: () => Navigator.pop(context, GameExit.newGame), child: const Text('Neues Sudoku')),
+            ],
+          ],
+        ));
     if (!mounted) return;
-    Navigator.pop(context, choice ?? GameExit.home);
+    await _leave(choice ?? GameExit.home);
   }
+
+  // --------------------------------------------------------------- UI --
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(difficultyLabel(game.difficulty)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Center(
-              child: Semantics(
-                label: 'Fehler ${game.mistakes} von $mistakeLimit',
-                excludeSemantics: true,
-                child: Text('Fehler ${game.mistakes}/$mistakeLimit', style: theme.textTheme.titleMedium),
-              ),
+    final title = saved.isDaily ? 'Tagesrätsel · ${difficultyLabel(game.difficulty)}' : difficultyLabel(game.difficulty);
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _leave(GameExit.home);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          actions: [
+            Semantics(
+              label: 'Spielzeit ${formatDuration(_shownMs)}',
+              excludeSemantics: true,
+              child: Text(formatDuration(_shownMs), style: theme.textTheme.titleMedium),
             ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: OrientationBuilder(builder: (context, orientation) {
-          final board = Padding(
-            padding: const EdgeInsets.all(8),
-            child: Center(child: Board(game: game, onTap: (c) => setState(() => game.select(c)))),
-          );
-          final pad = _Controls(game: game, onAction: _update);
-          if (orientation == Orientation.landscape) {
-            return Row(children: [Expanded(child: board), Expanded(child: pad)]);
-          }
-          return Column(children: [Expanded(child: board), pad]);
-        }),
+            const SizedBox(width: 16),
+            Semantics(
+              label: 'Fehler ${game.mistakes} von $mistakeLimit',
+              excludeSemantics: true,
+              child: Text('Fehler ${game.mistakes}/$mistakeLimit', style: theme.textTheme.titleMedium),
+            ),
+            const SizedBox(width: 16),
+          ],
+        ),
+        body: SafeArea(
+          child: OrientationBuilder(builder: (context, orientation) {
+            final board = Padding(
+              padding: const EdgeInsets.all(8),
+              child: Center(child: Board(game: game, onTap: (c) => setState(() => game.select(c)))),
+            );
+            final pad = _Controls(game: game, onAction: _act);
+            if (orientation == Orientation.landscape) {
+              return Row(children: [Expanded(child: board), Expanded(child: SingleChildScrollView(child: pad))]);
+            }
+            return Column(children: [Expanded(child: board), pad]);
+          }),
+        ),
       ),
     );
   }
@@ -193,7 +291,8 @@ class _DigitButton extends StatelessWidget {
         style: FilledButton.styleFrom(minimumSize: const Size(56, 56)),
         onPressed: game.canPlay ? () => onAction(() => game.enter(digit)) : null,
         child: Text('$digit',
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600, color: done ? Theme.of(context).disabledColor : null)),
+            style: TextStyle(
+                fontSize: 26, fontWeight: FontWeight.w600, color: done ? Theme.of(context).disabledColor : null)),
       ),
     );
   }

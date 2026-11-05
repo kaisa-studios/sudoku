@@ -5,7 +5,7 @@ name: CI
 on:
   push:
     branches: [main]
-    paths-ignore: [".ci/**", "docs/**", "*.md", "tool/**", ".github/workflows/content.yml"]
+    paths-ignore: [".ci/**", "docs/**", "*.md", "tool/**", ".github/workflows/content.yml", "assets/puzzles/**"]
   workflow_dispatch:
 permissions:
   contents: write
@@ -29,7 +29,8 @@ jobs:
         id: prep
         run: |
           mkdir -p /tmp/rep
-          flutter pub get > /tmp/rep/prep.log 2>&1
+          sudo apt-get install -y -qq libsqlite3-dev > /dev/null
+          { flutter pub get && dart run build_runner build --delete-conflicting-outputs; } > /tmp/rep/prep.log 2>&1
       - name: Analyse
         id: analyze
         continue-on-error: true
