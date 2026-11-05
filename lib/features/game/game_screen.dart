@@ -192,7 +192,13 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
           child: OrientationBuilder(builder: (context, orientation) {
             final status = Padding(
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-              child: Row(children: [
+              // wraps to two lines with large system text instead of overflowing
+              child: SizedBox(width: double.infinity, child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 16,
+                  runSpacing: 4,
+                  children: [
                 Semantics(
                   label: 'Fehler ${game.mistakes} von $mistakeLimit',
                   excludeSemantics: true,
@@ -200,17 +206,16 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                       style: theme.textTheme.titleLarge?.copyWith(
                           color: game.mistakes > 0 ? context.colors.wrong : null)),
                 ),
-                const Spacer(),
                 Semantics(
                   label: 'Spielzeit ${formatDuration(_shownMs)}',
                   excludeSemantics: true,
-                  child: Row(children: [
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
                     const Icon(Icons.timer_outlined, size: 22),
                     const SizedBox(width: 6),
                     Text(formatDuration(_shownMs), style: theme.textTheme.titleLarge),
                   ]),
                 ),
-              ]),
+              ])),
             );
             final board = Padding(
               padding: const EdgeInsets.all(8),
