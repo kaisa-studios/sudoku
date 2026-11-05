@@ -97,6 +97,51 @@ List<int> carve(List<int> solution, Difficulty target, Random rng, {int? floor})
   return puzzle;
 }
 
+/// Single-cell removal that steers towards harder puzzles: each round tests up
+/// to [sample] removable cells and removes the one with the highest logical
+/// score at [target]. A cell whose removal breaks uniqueness or
+/// target-solvability can never become removable later (fewer givens only add
+/// solutions and difficulty), so it is dropped for good.
+/// With [sample] = 1 this is plain random single-cell removal.
+List<int> carveGreedy(List<int> solution, Difficulty target, Random rng,
+    {int? floor, int sample = 6}) {
+  final puzzle = List.of(solution);
+  final open = List<int>.generate(cellCount, (i) => i);
+  var givens = cellCount;
+  final minimum = floor ?? minGivens[target]!;
+  while (givens > minimum && open.isNotEmpty) {
+    open.shuffle(rng);
+    var best = -1, bestScore = -1, tried = 0;
+    final dead = <int>[];
+    for (final c in open) {
+      final v = puzzle[c];
+      puzzle[c] = 0;
+      if (hasUniqueSolution(puzzle)) {
+        final r = solveLogically(puzzle, target);
+        if (r.solved) {
+          tried++;
+          if (r.score > bestScore) {
+            best = c;
+            bestScore = r.score;
+          }
+        } else {
+          dead.add(c);
+        }
+      } else {
+        dead.add(c);
+      }
+      puzzle[c] = v;
+      if (tried >= sample) break;
+    }
+    open.removeWhere(dead.contains);
+    if (best < 0) break;
+    puzzle[best] = 0;
+    open.remove(best);
+    givens--;
+  }
+  return puzzle;
+}
+
 /// Tries up to [maxCandidates] grids or [budget] time, whichever ends first.
 /// Returns null if no puzzle of exactly [target] was found; the caller then
 /// falls back to the verified pool (never to an unverified puzzle).
