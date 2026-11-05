@@ -101,6 +101,13 @@ tap_node '^(Statistik|Statistics)' && sleep 3 && shot 09_statistik
 adb shell input keyevent KEYCODE_BACK && sleep 2
 adb shell input swipe 540 700 540 1800 300 && sleep 1
 tap_node '^(Einstellungen|Settings)' && sleep 3 && shot 10_einstellungen
+# dark mode: switch, look at the game, switch back
+tap_node '^(Dunkel|Dark)' && sleep 2
+adb shell input keyevent KEYCODE_BACK && sleep 2
+tap_node '^(Spiel fortsetzen|Continue game)' && sleep 3 && shot 10b_dunkel_spiel
+adb shell input keyevent KEYCODE_BACK && sleep 2
+adb shell input swipe 540 700 540 1800 300 && sleep 1
+tap_node '^(Einstellungen|Settings)' && sleep 2 && tap_node '^(Wie Gerät|Like device)' && sleep 1
 adb shell input keyevent KEYCODE_BACK && sleep 2
 
 # very large system text (200 %): home and game must stay usable

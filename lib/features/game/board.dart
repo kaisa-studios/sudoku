@@ -124,7 +124,15 @@ class _Cell extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => onTap(index),
-        child: Container(color: bg, alignment: Alignment.center, child: content),
+        child: Container(
+          alignment: Alignment.center,
+          // selection is shown by colour and by a frame (not by colour alone, 8.1)
+          decoration: BoxDecoration(
+            color: bg,
+            border: sel == index ? Border.all(color: colors.entry, width: size > 44 ? 3 : 2.5) : null,
+          ),
+          child: content,
+        ),
       ),
     );
   }

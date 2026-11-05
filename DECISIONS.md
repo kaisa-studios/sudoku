@@ -75,3 +75,9 @@ Einstellungen wählbar (Wie Gerät / Deutsch / English).
 - Einstellungen: Darstellung (Wie Gerät/Hell/Dunkel), Sprache, Spielzeit anzeigen (Messung läuft weiter),
   Vibration bei Fehlern (Standard aus), große Darstellung als Standard, lokale Spieldaten löschen
   (mit Bestätigung; Einstellungen bleiben), Version.
+
+## D10 – Farbkontraste gemessen (6. Nov. 2026)
+WCAG-Kontraste der Rasterfarben berechnet (hell/dunkel): alle Ziffern und Notizen auf jedem Feldhintergrund
+(normal, ausgewählt, Zeile/Spalte/Block, gleiche Zahl) mindestens 5,5 : 1; dicke Linien ≥ 9 : 1, dünne Linien
+≥ 3 : 1 zum Hintergrund. Das ausgewählte Feld hat zusätzlich einen Rahmen in der Akzentfarbe, damit die Auswahl
+nicht nur über einen hellen Farbton erkennbar ist. Falsche Eingaben: Farbe plus Kreuz-Symbol plus Ansage „falsch“.

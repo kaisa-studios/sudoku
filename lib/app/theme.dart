@@ -29,28 +29,28 @@ class AppColors extends ThemeExtension<AppColors> {
 
   static const light = AppColors(
     boardBackground: Color(0xFFFFFDF8),
-    lineThin: Color(0xFFC9C2B5),
+    lineThin: Color(0xFF8C8478),
     lineThick: Color(0xFF3E4A52),
     given: Color(0xFF1F2A30),
-    entry: Color(0xFF2B5F8A),
-    wrong: Color(0xFFB3261E),
-    selected: Color(0xFFBFD6EA),
-    related: Color(0xFFEDE7DC),
-    sameDigit: Color(0xFFD6E4F0),
-    note: Color(0xFF5A646B),
+    entry: Color(0xFF245580),
+    wrong: Color(0xFFA1201A),
+    selected: Color(0xFFD3E3F1),
+    related: Color(0xFFEFEAE0),
+    sameDigit: Color(0xFFDCE8F3),
+    note: Color(0xFF4E585F),
   );
 
   static const dark = AppColors(
     boardBackground: Color(0xFF1E2327),
-    lineThin: Color(0xFF4A535A),
+    lineThin: Color(0xFF6E7880),
     lineThick: Color(0xFFC9D1D6),
     given: Color(0xFFF1EEE8),
-    entry: Color(0xFF8EC1EA),
-    wrong: Color(0xFFFF8A80),
-    selected: Color(0xFF34506A),
+    entry: Color(0xFF9ECBEE),
+    wrong: Color(0xFFFFA49C),
+    selected: Color(0xFF2C4255),
     related: Color(0xFF2A3036),
-    sameDigit: Color(0xFF2E4252),
-    note: Color(0xFFB4BCC2),
+    sameDigit: Color(0xFF2A3B49),
+    note: Color(0xFFC2C9CE),
   );
 
   @override
