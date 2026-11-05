@@ -15,6 +15,7 @@ class PuzzleContent {
     required this.dailyLevels,
     required List<List<GeneratedPuzzle>> daily,
   })  : _pool = pool,
+        // ignore: prefer_initializing_formals
         _daily = daily;
 
   final Map<Difficulty, List<GeneratedPuzzle>> _pool;

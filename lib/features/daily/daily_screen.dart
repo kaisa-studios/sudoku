@@ -34,7 +34,8 @@ class _DailyScreenState extends State<DailyScreen> {
     final now = s.clock();
     final status = await s.games.dailyStatus(dayKey(now));
     final streak = computeStreak(await s.games.completedDailyDays(), now);
-    if (mounted) setState(() {
+    if (!mounted) return;
+    setState(() {
       _status = status;
       _streak = streak;
     });

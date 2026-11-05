@@ -15,7 +15,7 @@ import 'package:sudoku/domain/sudoku/solver.dart';
 
 const poolPerLevel = 25;
 final dailyStart = DateTime.utc(2026, 11, 1);
-const dailyDays = 790; // until end of 2028
+const dailyDays = 790; // 1 Nov 2026 – 29 Dec 2028
 const dailyLevels = [Difficulty.easy, Difficulty.medium, Difficulty.hard];
 
 final _seen = <String>{};

@@ -24,9 +24,10 @@ void main() {
     }
   });
 
-  test('daily puzzles cover today until the end of 2028', () {
+  test('daily puzzles cover 1 Nov 2026 to 29 Dec 2028', () {
     expect(content.dailyFor(DateTime(2026, 11, 5)), hasLength(3));
-    expect(content.dailyFor(DateTime(2028, 12, 31)), hasLength(3));
+    expect(content.dailyFor(DateTime(2028, 12, 29)), hasLength(3));
+    expect(content.dailyFor(DateTime(2028, 12, 30)), isNull);
     expect(content.dailyLevels, [Difficulty.easy, Difficulty.medium, Difficulty.hard]);
   });
 

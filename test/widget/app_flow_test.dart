@@ -10,6 +10,13 @@ void _phone(WidgetTester tester) {
   addTearDown(tester.view.reset);
 }
 
+/// Scrolls the home screen if needed, then taps.
+Future<void> _tapVisible(WidgetTester tester, Finder f) async {
+  await tester.ensureVisible(f);
+  await tester.pumpAndSettle();
+  await tester.tap(f);
+}
+
 void main() {
   testWidgets('start, enter digits, leave, continue with the saved state', (tester) async {
     _phone(tester);
@@ -19,9 +26,9 @@ void main() {
     expect(find.text('Tidy Sudoku'), findsOneWidget);
     expect(find.textContaining('Spiel fortsetzen'), findsNothing);
 
-    await tester.tap(find.text('Mittel'));
+    await _tapVisible(tester, find.text('Mittel'));
     await tester.pump();
-    await tester.tap(find.text('Spiel starten'));
+    await _tapVisible(tester, find.text('Spiel starten'));
     await tester.pumpAndSettle();
     expect(find.text('Fehler 0/3'), findsOneWidget);
 
@@ -37,7 +44,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('Spiel fortsetzen'), findsOneWidget);
 
-    await tester.tap(find.textContaining('Spiel fortsetzen'));
+    await _tapVisible(tester, find.textContaining('Spiel fortsetzen'));
     await tester.pumpAndSettle();
     expect(find.text('Fehler 1/3'), findsOneWidget);
     expect(find.bySemanticsLabel(RegExp(r'Zeile 1, Spalte 3, Eingabe 4$')), findsOneWidget);
@@ -47,7 +54,7 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(TidySudokuApp(services: testServices(now: DateTime(2026, 11, 9, 10))));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Spiel starten'));
+    await _tapVisible(tester, find.text('Spiel starten'));
     await tester.pumpAndSettle();
     for (final d in [1, 2, 3]) {
       await tester.tap(find.bySemanticsLabel('Zahl $d'));
@@ -58,7 +65,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // back home; continuing offers the decision again instead of a free chance
-    await tester.tap(find.textContaining('Spiel fortsetzen'));
+    await _tapVisible(tester, find.textContaining('Spiel fortsetzen'));
     await tester.pumpAndSettle();
     expect(find.text('Drei Fehler'), findsOneWidget);
     await tester.tap(find.text('Weiterspielen'));
@@ -70,11 +77,11 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(TidySudokuApp(services: testServices(now: DateTime(2026, 11, 9, 10))));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Spiel starten'));
+    await _tapVisible(tester, find.text('Spiel starten'));
     await tester.pumpAndSettle();
     await tester.pageBack();
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Spiel starten'));
+    await _tapVisible(tester, find.text('Spiel starten'));
     await tester.pumpAndSettle();
     expect(find.text('Neues Sudoku starten?'), findsOneWidget);
     await tester.tap(find.text('Abbrechen'));
@@ -118,7 +125,7 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(TidySudokuApp(services: testServices(now: DateTime(2026, 11, 9, 10))));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Statistik'));
+    await _tapVisible(tester, find.text('Statistik'));
     await tester.pumpAndSettle();
     expect(find.text('Noch keine Spiele – starte dein erstes Sudoku.'), findsOneWidget);
   });

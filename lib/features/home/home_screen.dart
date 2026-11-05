@@ -54,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _play(SavedGame saved) async {
     var current = saved;
-    while (mounted) {
+    while (true) {
+      if (!mounted) return;
       final exit = await Navigator.of(context).push<GameExit>(
         MaterialPageRoute(builder: (_) => GameScreen(saved: current)),
       );
