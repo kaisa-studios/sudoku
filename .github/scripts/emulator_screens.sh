@@ -49,6 +49,8 @@ swipe_up() { adb shell input swipe 540 1800 540 700 300; sleep 1; }
 
 log "install $APK"
 adb install -r "$APK" >> "$OUT/steps.log" 2>&1
+# German screenshots: per-app language (Android 13+); patterns also accept English
+adb shell cmd locale set-app-locales "$PKG" --locales de-DE >> "$OUT/steps.log" 2>&1 || log "per-app locale not available"
 adb logcat -c
 adb shell am start -W -n "$PKG/.MainActivity" >> "$OUT/steps.log" 2>&1
 sleep 10
@@ -59,22 +61,25 @@ if [ -n "$PID" ]; then echo "release_app=running" >> "$OUT/it_result.txt"; else 
 adb logcat -d -b crash > "$OUT/logcat_crash.txt" 2>&1
 
 # daily sudoku
-tap_node '^Tägliches Sudoku' && sleep 3 && shot 02_tagesraetsel
-tap_node '^Leicht, ' && sleep 3
-tap_node '^Zahl 1' && sleep 1
-tap_node '^Notizen' && sleep 1 && tap_node '^Zahl 2' && tap_node '^Zahl 7' && sleep 1
+tap_node '^(Tägliches Sudoku|Daily Sudoku)' && sleep 3 && shot 02_tagesraetsel
+tap_node '^(Leicht|Easy), ' && sleep 3
+tap_node '^(Zahl|Number) 1' && sleep 1
+tap_node '^(Notizen|Notes)' && sleep 1 && tap_node '^(Zahl|Number) 2' && tap_node '^(Zahl|Number) 7' && sleep 1
 shot 03_tagesraetsel_spiel
 adb shell input keyevent KEYCODE_BACK && sleep 2
 adb shell input keyevent KEYCODE_BACK && sleep 2
 
-# regular game
+# regular game: entries, hint, large view
 swipe_up
-tap_node '^Spiel starten' && sleep 5
+tap_node '^(Spiel starten|Start game)' && sleep 5
 shot 04_spiel
-tap_node '^Zahl 5' && sleep 1 && tap_node '^Zahl 3' && sleep 1
-shot 05_spiel_eingaben
+tap_node '^(Zahl|Number) 5' && sleep 1 && tap_node '^(Zahl|Number) 3' && sleep 1
+tap_node '^(Hinweis|Hint)' && sleep 2
+shot 05_spiel_hinweis
+tap_node '^(Große Darstellung|Large view)' && sleep 2
+tap_node '^(Feld rechts|Cell to the right)' && sleep 1 && tap_node '^(Feld darunter|Cell below)' && sleep 1
+shot 06_grosse_darstellung
 adb shell input keyevent KEYCODE_BACK && sleep 3
-shot 06_start_mit_fortsetzen
 
 # restart: the game must be continuable with its entries
 adb shell am force-stop "$PKG"
@@ -82,7 +87,7 @@ sleep 2
 adb shell am start -W -n "$PKG/.MainActivity" >> "$OUT/steps.log" 2>&1
 sleep 8
 shot 07_nach_neustart
-if tap_node '^Spiel fortsetzen'; then
+if tap_node '^(Spiel fortsetzen|Continue game)'; then
   echo "resume_after_restart=yes" >> "$OUT/it_result.txt"
   sleep 3 && shot 08_fortgesetzt
   adb shell input keyevent KEYCODE_BACK && sleep 3
@@ -90,9 +95,25 @@ else
   echo "resume_after_restart=no" >> "$OUT/it_result.txt"
 fi
 
-# statistics
+# statistics and settings
 swipe_up
-tap_node '^Statistik' && sleep 3 && shot 09_statistik
+tap_node '^(Statistik|Statistics)' && sleep 3 && shot 09_statistik
+adb shell input keyevent KEYCODE_BACK && sleep 2
+adb shell input swipe 540 700 540 1800 300 && sleep 1
+tap_node '^(Einstellungen|Settings)' && sleep 3 && shot 10_einstellungen
+adb shell input keyevent KEYCODE_BACK && sleep 2
+
+# very large system text (200 %): home and game must stay usable
+adb shell settings put system font_scale 2.0
+adb shell am force-stop "$PKG"
+sleep 2
+adb shell am start -W -n "$PKG/.MainActivity" >> "$OUT/steps.log" 2>&1
+sleep 8
+shot 11_schrift200_start
+if tap_node '^(Spiel fortsetzen|Continue game)'; then sleep 3; shot 12_schrift200_spiel; fi
+PID=$(adb shell pidof "$PKG" | tr -d '\r')
+if [ -n "$PID" ]; then echo "large_text=running" >> "$OUT/it_result.txt"; else echo "large_text=CRASHED" >> "$OUT/it_result.txt"; fi
+adb shell settings put system font_scale 1.0
 
 adb logcat -d -s flutter:V AndroidRuntime:E > "$OUT/logcat.txt" 2>&1
 log "done"
