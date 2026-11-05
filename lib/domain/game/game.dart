@@ -17,10 +17,11 @@ enum ContinueSource { none, free, rewarded, adFree }
 const int mistakeLimit = 3;
 
 class _CellBefore {
-  _CellBefore(this.cell, this.value, this.notes);
+  _CellBefore(this.cell, this.value, this.notes, this.hinted);
   final int cell;
   final int value;
   final int notes;
+  final bool hinted;
 }
 
 class Game {
@@ -38,6 +39,9 @@ class Game {
   final Difficulty difficulty;
   final List<int> values;
   final List<int> notes;
+
+  /// Cells filled by a hint: protected like givens, but undoable (6.2).
+  final Set<int> hinted = {};
 
   GamePhase phase = GamePhase.active;
   GameOutcome outcome = GameOutcome.undecided;
@@ -59,6 +63,10 @@ class Game {
   bool get canPlay => phase == GamePhase.active;
   bool get canUndo => canPlay && _undo.isNotEmpty;
   bool isGiven(int c) => givens[c] != 0;
+  bool isHinted(int c) => hinted.contains(c);
+
+  /// Givens and hinted cells cannot be changed by entries or erasing.
+  bool isProtected(int c) => isGiven(c) || isHinted(c);
   bool isWrong(int c) => values[c] != 0 && values[c] != solution[c];
 
   /// How many of [digit] are correctly placed (used to grey out finished digits).
@@ -78,7 +86,7 @@ class Game {
 
   EntryResult enter(int digit) {
     final c = selected;
-    if (!canPlay || c == null || isGiven(c) || digit < 1 || digit > 9) {
+    if (!canPlay || c == null || isProtected(c) || digit < 1 || digit > 9) {
       return EntryResult.ignored;
     }
     if (notesMode) {
@@ -117,7 +125,7 @@ class Game {
 
   bool erase() {
     final c = selected;
-    if (!canPlay || c == null || isGiven(c)) return false;
+    if (!canPlay || c == null || isProtected(c)) return false;
     if (values[c] == 0 && notes[c] == 0) return false;
     _push([c]);
     values[c] = 0;
@@ -131,9 +139,51 @@ class Game {
     for (final b in _undo.removeLast()) {
       values[b.cell] = b.value;
       notes[b.cell] = b.notes;
+      if (b.hinted) {
+        hinted.add(b.cell);
+      } else {
+        hinted.remove(b.cell);
+      }
     }
     _checkComplete();
     return true;
+  }
+
+  /// Free hint (6.2): fills the selected cell if it is editable and not yet
+  /// correct, otherwise the first such cell. Returns the filled cell or null.
+  /// The hint count stays even if the hint is undone.
+  int? hint() {
+    if (!canPlay) return null;
+    bool open(int c) => !isProtected(c) && values[c] != solution[c];
+    final sel = selected;
+    int? target = sel != null && open(sel) ? sel : null;
+    if (target == null) {
+      for (var c = 0; c < cellCount; c++) {
+        if (open(c)) {
+          target = c;
+          break;
+        }
+      }
+    }
+    if (target == null) return null;
+    final c = target;
+    final digit = solution[c];
+    final touched = [
+      c,
+      for (final p in peers[c])
+        if (values[p] == 0 && notes[p] & (1 << digit) != 0) p,
+    ];
+    _push(touched);
+    values[c] = digit;
+    notes[c] = 0;
+    for (final p in touched.skip(1)) {
+      notes[p] &= ~(1 << digit);
+    }
+    hinted.add(c);
+    hintCount++;
+    selected = c;
+    _checkComplete();
+    return c;
   }
 
   /// The one second chance after the third mistake; the loss stays recorded.
@@ -170,8 +220,9 @@ class Game {
         'hintCount': hintCount,
         'selected': selected,
         'notesMode': notesMode,
+        'hinted': hinted.toList()..sort(),
         'undo': [
-          for (final step in _undo) [for (final b in step) [b.cell, b.value, b.notes]],
+          for (final step in _undo) [for (final b in step) [b.cell, b.value, b.notes, if (b.hinted) 1]],
         ],
       };
 
@@ -205,9 +256,13 @@ class Game {
     g.hintCount = json['hintCount'] as int? ?? 0;
     g.selected = json['selected'] as int?;
     g.notesMode = json['notesMode'] as bool? ?? false;
+    for (final c in (json['hinted'] as List?)?.cast<int>() ?? const <int>[]) {
+      if (c >= 0 && c < cellCount && !g.isGiven(c) && g.values[c] == solution[c]) g.hinted.add(c);
+    }
     for (final step in (json['undo'] as List?) ?? const []) {
       g._undo.add([
-        for (final b in step as List) _CellBefore((b as List)[0] as int, b[1] as int, b[2] as int),
+        for (final b in step as List)
+          _CellBefore((b as List)[0] as int, b[1] as int, b[2] as int, b.length > 3 && b[3] == 1),
       ]);
     }
     // invariant (6.3): a failed game without used chance stays locked
@@ -217,7 +272,7 @@ class Game {
   }
 
   void _push(List<int> cells) {
-    _undo.add([for (final c in cells) _CellBefore(c, values[c], notes[c])]);
+    _undo.add([for (final c in cells) _CellBefore(c, values[c], notes[c], hinted.contains(c))]);
     if (_undo.length > undoLimit) _undo.removeAt(0);
   }
 

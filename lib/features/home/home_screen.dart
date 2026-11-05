@@ -6,7 +6,9 @@ import '../../domain/daily/streak.dart';
 import '../../domain/game/game.dart';
 import '../../domain/sudoku/difficulty.dart';
 import '../daily/daily_screen.dart';
+import '../../l10n/strings.dart';
 import '../game/game_screen.dart';
+import '../settings/settings_screen.dart';
 import '../stats/stats_screen.dart';
 
 class _HomeData {
@@ -75,9 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return await s.games.startRegular(puzzle);
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Das Sudoku konnte nicht erstellt werden. Bitte versuche es erneut.'),
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.s.createFailed)));
       }
       return null;
     } finally {
@@ -91,11 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
       final ok = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Neues Sudoku starten?'),
-          content: const Text('Das angefangene Sudoku wird verworfen.'),
+          title: Text(context.s.discardTitle),
+          content: Text(context.s.discardBody),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Abbrechen')),
-            FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Verwerfen und starten')),
+            TextButton(onPressed: () => Navigator.pop(context, false), child: Text(context.s.cancel)),
+            FilledButton(onPressed: () => Navigator.pop(context, true), child: Text(context.s.discardConfirm)),
           ],
         ),
       );
@@ -109,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final s = context.s;
     final data = _data;
     return Scaffold(
       body: SafeArea(
@@ -118,11 +119,25 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 480),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                Text('Tidy Sudoku',
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    tooltip: s.settings,
+                    icon: const Icon(Icons.settings_outlined, size: 30),
+                    onPressed: _loading
+                        ? null
+                        : () async {
+                            await Navigator.of(context)
+                                .push(MaterialPageRoute<void>(builder: (_) => const SettingsScreen()));
+                            await _refresh();
+                          },
+                  ),
+                ),
+                Text(s.appTitle,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
-                Text('Große Zahlen. Klare Felder.', textAlign: TextAlign.center, style: theme.textTheme.titleMedium),
+                Text(s.tagline, textAlign: TextAlign.center, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 28),
                 if (data != null && data.dailyAvailable) ...[
                   _DailyCard(
@@ -142,17 +157,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   FilledButton.icon(
                     onPressed: _loading ? null : () => _play(data!.open!),
                     icon: const Icon(Icons.play_arrow),
-                    label: Text('Spiel fortsetzen · ${difficultyLabel(data!.open!.game.difficulty)}'),
+                    label: Text(s.continueGame(s.difficulty(data!.open!.game.difficulty))),
                   ),
                   const SizedBox(height: 24),
                 ],
-                Text('Neues Spiel', style: theme.textTheme.titleLarge),
+                Text(s.newGame, style: theme.textTheme.titleLarge),
                 const SizedBox(height: 12),
                 for (final d in Difficulty.values)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: _LevelTile(
-                      label: difficultyLabel(d),
+                      label: s.difficulty(d),
                       selected: d == _level,
                       onTap: _loading ? null : () => setState(() => _level = d),
                     ),
@@ -167,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: _loading ? null : _start,
                   child: _loading
                       ? const SizedBox.square(dimension: 26, child: CircularProgressIndicator(strokeWidth: 3))
-                      : const Text('Spiel starten'),
+                      : Text(s.startGame),
                 ),
                 const SizedBox(height: 16),
                 OutlinedButton.icon(
@@ -176,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? null
                       : () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const StatsScreen())),
                   icon: const Icon(Icons.bar_chart),
-                  label: const Text('Statistik', style: TextStyle(fontSize: 18)),
+                  label: Text(s.statistics, style: const TextStyle(fontSize: 18)),
                 ),
               ]),
             ),
@@ -198,10 +213,10 @@ class _DailyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final days = streak.current == 1 ? '1 Tag' : '${streak.current} Tage';
+    final s = context.s;
     return Semantics(
       button: true,
-      label: 'Tägliches Sudoku, heute $done von 3 gelöst, Serie $days',
+      label: s.dailyCardLabel(done, streak.current),
       excludeSemantics: true,
       child: Material(
         color: scheme.secondaryContainer,
@@ -216,10 +231,10 @@ class _DailyCard extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('Tägliches Sudoku', style: text.titleLarge),
+                  Text(s.dailyTitle, style: text.titleLarge),
                   const SizedBox(height: 4),
-                  Text('Heute $done von 3 gelöst', style: text.bodyLarge),
-                  Text('Serie: $days', style: text.bodyLarge),
+                  Text(s.dailyToday(done), style: text.bodyLarge),
+                  Text(s.streakLine(streak.current), style: text.bodyLarge),
                 ]),
               ),
               const Icon(Icons.chevron_right),

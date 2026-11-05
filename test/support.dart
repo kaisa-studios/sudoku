@@ -35,12 +35,15 @@ PuzzleContent testContent() {
   return PuzzleContent.parse(pool, daily);
 }
 
-Services testServices({DateTime? now, AppDatabase? db}) {
+/// German by default so the checks can use the German texts; pass null to follow the device.
+Services testServices({DateTime? now, AppDatabase? db, String? language = 'de'}) {
   final clock = now == null ? DateTime.now : () => now;
-  return Services(
+  final services = Services(
     games: GameRepository(db ?? memoryDb(), clock: clock),
     content: testContent(),
     source: (level, avoid) async => examplePuzzleOf(level),
     clock: clock,
   );
+  services.settings.languageCode = language;
+  return services;
 }

@@ -1,23 +1,23 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../../app/app_settings.dart';
 import '../../app/services.dart';
 import '../../app/theme.dart';
 import '../../data/game_repository.dart';
 import '../../domain/game/game.dart';
-import '../../domain/sudoku/difficulty.dart';
+import '../../domain/sudoku/grid.dart';
+import '../../l10n/strings.dart';
 import 'board.dart';
-
-String difficultyLabel(Difficulty d) => switch (d) {
-      Difficulty.easy => 'Leicht',
-      Difficulty.medium => 'Mittel',
-      Difficulty.hard => 'Schwer',
-      Difficulty.expert => 'Experte',
-    };
 
 /// Result returned to the previous screen when the player leaves.
 enum GameExit { home, newGame }
+
+/// Smallest cell edge in the large view (Master-Prompt 8.2: at least 48).
+const double largeCellSize = 56;
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key, required this.saved});
@@ -30,7 +30,12 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   late final GameRepository _repo;
+  late final AppSettings _settings;
+  late bool _large;
   final _clock = Stopwatch();
+  final _hScroll = ScrollController();
+  final _vScroll = ScrollController();
+  double _cell = 0;
   Timer? _ticker;
   int _ticks = 0;
   bool _dialogOpen = false;
@@ -43,11 +48,15 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _repo = ServicesScope.read(context).games;
+    final services = ServicesScope.read(context);
+    _repo = services.games;
+    _settings = services.settings;
+    _large = _settings.largeViewDefault;
     WidgetsBinding.instance.addObserver(this);
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
     _updateClock();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _ensureVisible();
       if (mounted && game.phase == GamePhase.awaitingContinue) _showThirdMistake();
     });
   }
@@ -56,6 +65,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _ticker?.cancel();
+    _hScroll.dispose();
+    _vScroll.dispose();
     _commitTime();
     _save();
     super.dispose();
@@ -88,7 +99,7 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
 
   void _tick() {
     if (!mounted || !_clock.isRunning) return;
-    setState(() {});
+    if (_settings.showTimer) setState(() {});
     if (++_ticks % 5 == 0) {
       _commitTime();
       _save();
@@ -107,11 +118,58 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
     _commitTime();
     _save();
     _updateClock();
+    _ensureVisible();
     if (game.phase == GamePhase.awaitingContinue) {
       _showThirdMistake();
     } else if (game.phase == GamePhase.completed) {
       _showFinished();
     }
+  }
+
+  void _enter(int digit) => _act(() {
+        final r = game.enter(digit);
+        if (r == EntryResult.mistake && _settings.haptics) HapticFeedback.mediumImpact();
+      });
+
+  void _hint() {
+    int? filled;
+    _act(() => filled = game.hint());
+    if (filled != null && game.phase != GamePhase.completed && mounted) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(context.s.hintDone), duration: const Duration(seconds: 2)));
+    }
+  }
+
+  void _select(int cell) {
+    setState(() => game.select(cell));
+    _ensureVisible();
+  }
+
+  void _move(int dr, int dc) {
+    final c = game.selected ?? 0;
+    final r = (rowOf(c) + dr).clamp(0, 8), k = (colOf(c) + dc).clamp(0, 8);
+    _select(r * 9 + k);
+  }
+
+  /// Large view: scrolls so the selected cell is fully visible.
+  void _ensureVisible() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final c = game.selected;
+      if (!mounted || !_large || c == null || _cell == 0) return;
+      void fit(ScrollController sc, double start) {
+        if (!sc.hasClients) return;
+        final p = sc.position;
+        var target = p.pixels;
+        if (start < target) target = start;
+        if (start + _cell > target + p.viewportDimension) target = start + _cell - p.viewportDimension;
+        target = target.clamp(0.0, p.maxScrollExtent);
+        if (target != p.pixels) sc.jumpTo(target);
+      }
+
+      fit(_hScroll, colOf(c) * _cell);
+      fit(_vScroll, rowOf(c) * _cell);
+    });
   }
 
   Future<T?> _dialog<T>(WidgetBuilder builder) async {
@@ -130,14 +188,14 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _showThirdMistake() async {
+    final s = context.s;
     final choice = await _dialog<String>((context) => AlertDialog(
-          title: const Text('Drei Fehler'),
-          content: const Text(
-              'Dieses Sudoku zählt jetzt als nicht geschafft. Du kannst es trotzdem zu Ende spielen.'),
+          title: Text(s.threeMistakesTitle),
+          content: Text(s.threeMistakesBody),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context, 'end'), child: const Text('Spiel beenden')),
-            TextButton(onPressed: () => Navigator.pop(context, 'later'), child: const Text('Später')),
-            FilledButton(onPressed: () => Navigator.pop(context, 'continue'), child: const Text('Weiterspielen')),
+            TextButton(onPressed: () => Navigator.pop(context, 'end'), child: Text(s.endGame)),
+            TextButton(onPressed: () => Navigator.pop(context, 'later'), child: Text(s.later)),
+            FilledButton(onPressed: () => Navigator.pop(context, 'continue'), child: Text(s.keepPlaying)),
           ],
         ));
     if (!mounted) return;
@@ -153,21 +211,22 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _showFinished() async {
+    final s = context.s;
     final won = game.outcome == GameOutcome.won;
     final daily = saved.isDaily;
     final choice = await _dialog<GameExit>((context) => AlertDialog(
-          title: Text(won ? 'Geschafft!' : 'Sudoku beendet'),
+          title: Text(won ? s.solvedTitle : s.finishedTitle),
           content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            if (!won) const Text('Zählt als nicht geschafft, weil die zweite Chance genutzt wurde.\n'),
-            Text('Zeit: ${formatDuration(game.activeMs)}'),
-            Text('Fehler: ${game.mistakes}'),
+            if (!won) ...[Text(s.failedNote), const SizedBox(height: 12)],
+            Text(s.timeLine(formatDuration(game.activeMs))),
+            Text(s.mistakesLine(game.mistakes)),
           ]),
           actions: [
             if (daily)
-              FilledButton(onPressed: () => Navigator.pop(context, GameExit.home), child: const Text('Fertig'))
+              FilledButton(onPressed: () => Navigator.pop(context, GameExit.home), child: Text(s.done))
             else ...[
-              TextButton(onPressed: () => Navigator.pop(context, GameExit.home), child: const Text('Zur Startseite')),
-              FilledButton(onPressed: () => Navigator.pop(context, GameExit.newGame), child: const Text('Neues Sudoku')),
+              TextButton(onPressed: () => Navigator.pop(context, GameExit.home), child: Text(s.toHome)),
+              FilledButton(onPressed: () => Navigator.pop(context, GameExit.newGame), child: Text(s.newSudoku)),
             ],
           ],
         ));
@@ -177,58 +236,153 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
 
   // --------------------------------------------------------------- UI --
 
+  Widget _status(BuildContext context) {
+    final s = context.s;
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+      // wraps to two lines with large system text instead of overflowing
+      child: SizedBox(
+        width: double.infinity,
+        child: Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 16,
+          runSpacing: 4,
+          children: [
+            Semantics(
+              label: s.mistakesLabel(game.mistakes, mistakeLimit),
+              excludeSemantics: true,
+              child: Text(s.mistakes(game.mistakes, mistakeLimit),
+                  style: theme.textTheme.titleLarge
+                      ?.copyWith(color: game.mistakes > 0 ? context.colors.wrong : null)),
+            ),
+            if (_settings.showTimer)
+              Semantics(
+                label: s.timeLabel(formatDuration(_shownMs)),
+                excludeSemantics: true,
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  const Icon(Icons.timer_outlined, size: 22),
+                  const SizedBox(width: 6),
+                  Text(formatDuration(_shownMs), style: theme.textTheme.titleLarge),
+                ]),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _boardArea() {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: LayoutBuilder(builder: (context, box) {
+        final fitCell = box.biggest.shortestSide / 9;
+        final largeCell = max(largeCellSize, fitCell);
+        if (!_large || largeCell <= fitCell + 0.5) {
+          _cell = fitCell;
+          return Center(child: Board(game: game, onTap: _select));
+        }
+        _cell = largeCell;
+        return Scrollbar(
+          controller: _vScroll,
+          child: SingleChildScrollView(
+            controller: _vScroll,
+            child: Scrollbar(
+              controller: _hScroll,
+              child: SingleChildScrollView(
+                controller: _hScroll,
+                scrollDirection: Axis.horizontal,
+                child: Board(game: game, onTap: _select, cellSize: largeCell),
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _arrows(BuildContext context) {
+    final s = context.s;
+    final c = game.selected ?? 0;
+    Widget arrow(IconData icon, String label, int dr, int dc) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: IconButton.filledTonal(
+            constraints: const BoxConstraints(minWidth: 56, minHeight: 56),
+            tooltip: label,
+            onPressed: () => _move(dr, dc),
+            icon: Icon(icon, size: 28),
+          ),
+        );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        runSpacing: 4,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Text(s.position(rowOf(c) + 1, colOf(c) + 1), style: Theme.of(context).textTheme.titleMedium),
+          ),
+          arrow(Icons.arrow_back, s.moveLeft, 0, -1),
+          arrow(Icons.arrow_upward, s.moveUp, -1, 0),
+          arrow(Icons.arrow_downward, s.moveDown, 1, 0),
+          arrow(Icons.arrow_forward, s.moveRight, 0, 1),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final title = saved.isDaily ? 'Tagesrätsel · ${difficultyLabel(game.difficulty)}' : difficultyLabel(game.difficulty);
+    final s = context.s;
+    final level = s.difficulty(game.difficulty);
+    final title = saved.isDaily ? s.dailyGameTitle(level) : level;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _leave(GameExit.home);
       },
       child: Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: AppBar(
+          title: Text(title),
+          actions: [
+            IconButton(
+              tooltip: _large ? s.normalView : s.largeView,
+              icon: Icon(_large ? Icons.zoom_out_map : Icons.zoom_in, size: 28),
+              onPressed: () {
+                setState(() => _large = !_large);
+                _ensureVisible();
+              },
+            ),
+          ],
+        ),
         body: SafeArea(
           child: OrientationBuilder(builder: (context, orientation) {
-            final status = Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-              // wraps to two lines with large system text instead of overflowing
-              child: SizedBox(width: double.infinity, child: Wrap(
-                  alignment: WrapAlignment.spaceBetween,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 16,
-                  runSpacing: 4,
-                  children: [
-                Semantics(
-                  label: 'Fehler ${game.mistakes} von $mistakeLimit',
-                  excludeSemantics: true,
-                  child: Text('Fehler ${game.mistakes}/$mistakeLimit',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                          color: game.mistakes > 0 ? context.colors.wrong : null)),
-                ),
-                Semantics(
-                  label: 'Spielzeit ${formatDuration(_shownMs)}',
-                  excludeSemantics: true,
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    const Icon(Icons.timer_outlined, size: 22),
-                    const SizedBox(width: 6),
-                    Text(formatDuration(_shownMs), style: theme.textTheme.titleLarge),
-                  ]),
-                ),
-              ])),
-            );
-            final board = Padding(
-              padding: const EdgeInsets.all(8),
-              child: Center(child: Board(game: game, onTap: (c) => setState(() => game.select(c)))),
-            );
-            final pad = _Controls(game: game, onAction: _act);
+            final pad = _Controls(game: game, onAction: _act, onDigit: _enter, onHint: _hint);
+            final controls = Column(mainAxisSize: MainAxisSize.min, children: [if (_large) _arrows(context), pad]);
             if (orientation == Orientation.landscape) {
               return Row(children: [
-                Expanded(child: Column(children: [status, Expanded(child: board)])),
-                Expanded(child: Center(child: SingleChildScrollView(child: pad))),
+                Expanded(child: Column(children: [_status(context), Expanded(child: _boardArea())])),
+                Expanded(child: Center(child: SingleChildScrollView(child: controls))),
               ]);
             }
-            return Column(children: [status, Expanded(child: board), pad]);
+            return LayoutBuilder(builder: (context, box) {
+              final scale = (MediaQuery.textScalerOf(context).scale(14) / 14).clamp(1.0, 2.0);
+              final controlsEstimate = 300 * scale + (_large ? 80 : 0);
+              if (box.maxHeight - controlsEstimate >= min(box.maxWidth, 280)) {
+                return Column(children: [_status(context), Expanded(child: _boardArea()), controls]);
+              }
+              // small phone or very large text: everything scrolls, nothing is cut off (8.2)
+              return SingleChildScrollView(
+                child: Column(children: [
+                  _status(context),
+                  SizedBox(height: box.maxWidth, child: _boardArea()),
+                  controls,
+                ]),
+              );
+            });
           }),
         ),
       ),
@@ -237,13 +391,16 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
 }
 
 class _Controls extends StatelessWidget {
-  const _Controls({required this.game, required this.onAction});
+  const _Controls({required this.game, required this.onAction, required this.onDigit, required this.onHint});
 
   final Game game;
   final void Function(VoidCallback) onAction;
+  final ValueChanged<int> onDigit;
+  final VoidCallback onHint;
 
   @override
   Widget build(BuildContext context) {
+    final s = context.s;
     final play = game.canPlay;
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
@@ -252,7 +409,7 @@ class _Controls extends StatelessWidget {
           Expanded(
             child: _ToolButton(
               icon: game.notesMode ? Icons.edit : Icons.edit_outlined,
-              label: game.notesMode ? 'Notizen an' : 'Notizen',
+              label: game.notesMode ? s.notesOn : s.notes,
               selected: game.notesMode,
               onPressed: play ? () => onAction(game.toggleNotesMode) : null,
             ),
@@ -260,15 +417,22 @@ class _Controls extends StatelessWidget {
           Expanded(
             child: _ToolButton(
               icon: Icons.backspace_outlined,
-              label: 'Löschen',
+              label: s.erase,
               onPressed: play ? () => onAction(() => game.erase()) : null,
             ),
           ),
           Expanded(
             child: _ToolButton(
               icon: Icons.undo,
-              label: 'Rückgängig',
+              label: s.undo,
               onPressed: game.canUndo ? () => onAction(() => game.undo()) : null,
+            ),
+          ),
+          Expanded(
+            child: _ToolButton(
+              icon: Icons.lightbulb_outline,
+              label: s.hint,
+              onPressed: play ? onHint : null,
             ),
           ),
         ]),
@@ -279,7 +443,7 @@ class _Controls extends StatelessWidget {
             child: Row(children: [
               for (var c = 0; c < 3; c++) ...[
                 if (c > 0) const SizedBox(width: 8),
-                Expanded(child: _DigitButton(game: game, digit: r * 3 + c + 1, onAction: onAction)),
+                Expanded(child: _DigitButton(game: game, digit: r * 3 + c + 1, onDigit: onDigit)),
               ],
             ]),
           ),
@@ -289,22 +453,23 @@ class _Controls extends StatelessWidget {
 }
 
 class _DigitButton extends StatelessWidget {
-  const _DigitButton({required this.game, required this.digit, required this.onAction});
+  const _DigitButton({required this.game, required this.digit, required this.onDigit});
 
   final Game game;
   final int digit;
-  final void Function(VoidCallback) onAction;
+  final ValueChanged<int> onDigit;
 
   @override
   Widget build(BuildContext context) {
+    final s = context.s;
     final done = game.placedCount(digit) >= 9;
     return Semantics(
-      label: done ? 'Zahl $digit, vollständig gesetzt' : 'Zahl $digit',
+      label: done ? s.digitDone(digit) : s.digit(digit),
       button: true,
       excludeSemantics: true,
       child: FilledButton.tonal(
         style: FilledButton.styleFrom(minimumSize: const Size(56, 56)),
-        onPressed: game.canPlay ? () => onAction(() => game.enter(digit)) : null,
+        onPressed: game.canPlay ? () => onDigit(digit) : null,
         child: Text('$digit',
             style: TextStyle(
                 fontSize: 26, fontWeight: FontWeight.w600, color: done ? Theme.of(context).disabledColor : null)),
@@ -329,13 +494,14 @@ class _ToolButton extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
           minimumSize: const Size(48, 56),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
           backgroundColor: selected ? scheme.secondaryContainer : null,
         ),
         onPressed: onPressed,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Icon(icon, size: 26),
           const SizedBox(height: 2),
-          Text(label, textAlign: TextAlign.center),
+          Text(label, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis),
         ]),
       ),
     );

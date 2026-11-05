@@ -59,3 +59,19 @@ Vorrat und geprüften Ersatzpool (Phase 2). CI: Schwer bis 1,7 s für ein Rätse
 - **Rangliste** („wer war heute am schnellsten“): als Update nach dem Start. Offen bis dahin: Server oder
   Game Center/Google Play Games (plattformgetrennt), Spielernamen und Moderation, Schutz gegen gefälschte
   Zeiten, Datenschutz. V1 zeigt nur eigene Bestzeit und eigene Serie.
+
+## D8 – Sprachen: Deutsch und Englisch, sonst Englisch (6. Nov. 2026)
+Texte wie bei Mandala zentral in `lib/l10n/strings.dart` (ohne Codegenerator). Abweichend von Mandala fallen
+andere Gerätesprachen auf **Englisch** zurück, weil das Sudoku international angeboten wird. In den
+Einstellungen wählbar (Wie Gerät / Deutsch / English).
+
+## D9 – Hinweis, große Darstellung, Einstellungen (6. Nov. 2026)
+- Hinweis nach 6.2: kostenlos, unbegrenzt; füllt das ausgewählte Feld, wenn es leer oder falsch ist, sonst das
+  erste solche Feld; das Feld ist danach geschützt (Glühbirnen-Zeichen), per Rückgängig zurücknehmbar; der
+  Zähler bleibt. Spiele mit Hinweis zählen als geschafft, aber nicht für Bestzeit/Durchschnittszeit.
+- Große Darstellung nach 8.2: Lupen-Knopf im Spiel (und als Standard einstellbar); Zellen 56 px, Raster scrollt,
+  das ausgewählte Feld bleibt sichtbar, Pfeiltasten (je 56 px) und Anzeige „Zeile x, Spalte y“.
+  Reicht die Höhe nicht (kleines Handy, große Schrift), scrollt der ganze Spielbildschirm statt abzuschneiden.
+- Einstellungen: Darstellung (Wie Gerät/Hell/Dunkel), Sprache, Spielzeit anzeigen (Messung läuft weiter),
+  Vibration bei Fehlern (Standard aus), große Darstellung als Standard, lokale Spieldaten löschen
+  (mit Bestätigung; Einstellungen bleiben), Version.

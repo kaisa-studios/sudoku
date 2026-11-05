@@ -1,16 +1,24 @@
 import 'package:flutter/widgets.dart';
 
 import '../data/game_repository.dart';
+import 'app_settings.dart';
 import '../data/puzzle_content.dart';
 import '../features/game/puzzle_source.dart';
 
 /// Explicit dependencies of the app (Master-Prompt 4.2: simple DI).
 class Services {
-  Services({required this.games, required this.content, PuzzleSource? source, DateTime Function()? clock})
-      : source = source ?? puzzleSourceWith(content),
+  Services({
+    required this.games,
+    required this.content,
+    AppSettings? settings,
+    PuzzleSource? source,
+    DateTime Function()? clock,
+  })  : source = source ?? puzzleSourceWith(content),
+        settings = settings ?? AppSettings(games),
         clock = clock ?? DateTime.now;
 
   final GameRepository games;
+  final AppSettings settings;
   final PuzzleContent content;
   final PuzzleSource source;
   final DateTime Function() clock;

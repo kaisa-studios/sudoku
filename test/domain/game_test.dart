@@ -107,4 +107,49 @@ void main() {
     final g = _newGame()..abandon();
     expect(g.outcome, GameOutcome.abandoned);
   });
+
+  test('hint fills the selected wrong cell, protects it, undo takes it back but the count stays', () {
+    final g = _newGame()..select(_empty);
+    g.enter(_wrong);
+    expect(g.hint(), _empty);
+    expect(g.values[_empty], _right);
+    expect(g.isHinted(_empty), isTrue);
+    expect(g.hintCount, 1);
+    expect(g.enter(9), EntryResult.ignored);
+    expect(g.erase(), isFalse);
+    expect(g.undo(), isTrue);
+    expect(g.values[_empty], _wrong);
+    expect(g.isHinted(_empty), isFalse);
+    expect(g.hintCount, 1);
+    expect(g.mistakes, 1);
+  });
+
+  test('hint without a usable selection takes the first open cell', () {
+    final g = _newGame()..select(0); // a given
+    expect(g.hint(), _empty); // cell 2 is the first empty cell
+  });
+
+  test('hint is locked after the third mistake', () {
+    final g = _newGame()..select(_empty);
+    g
+      ..enter(1)
+      ..enter(2)
+      ..enter(3);
+    expect(g.hint(), isNull);
+  });
+
+  test('hints survive saving and loading', () {
+    final g = _newGame()..select(_empty);
+    g.hint();
+    final back = Game.fromJson(
+      puzzle: gridFromString(_puzzle),
+      solution: gridFromString(_solution),
+      difficulty: Difficulty.easy,
+      json: g.toJson(),
+    );
+    expect(back.isHinted(_empty), isTrue);
+    expect(back.hintCount, 1);
+    expect(back.undo(), isTrue);
+    expect(back.isHinted(_empty), isFalse);
+  });
 }

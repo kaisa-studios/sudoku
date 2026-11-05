@@ -196,6 +196,9 @@ class GameRepository {
     ];
   }
 
+  /// Deletes all games, the daily history and statistics; settings stay (9.4).
+  Future<void> deleteAllGameData() => _db.deleteAllGameData();
+
   // ----------------------------------------------------------- settings --
 
   Future<String?> setting(String key) async => (await (_db.select(_db.settingsEntries)

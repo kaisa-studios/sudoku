@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import '../../app/services.dart';
 import '../../domain/daily/streak.dart';
 import '../../domain/game/game.dart';
+import '../../l10n/strings.dart';
 import '../game/game_screen.dart';
-
-const _months = [
-  'Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni',
-  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
-];
 
 /// Today's three daily puzzles and the streak (DECISIONS D7).
 class DailyScreen extends StatefulWidget {
@@ -62,48 +58,45 @@ class _DailyScreenState extends State<DailyScreen> {
     final now = s.clock();
     final puzzles = s.content.dailyFor(now);
     final text = Theme.of(context).textTheme;
+    final str = context.s;
     final streak = _streak;
     return Scaffold(
-      appBar: AppBar(title: const Text('Tägliches Sudoku')),
+      appBar: AppBar(title: Text(str.dailyTitle)),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: ListView(padding: const EdgeInsets.all(24), children: [
-              Text('${now.day}. ${_months[now.month - 1]} ${now.year}', style: text.headlineSmall),
+              Text(str.longDate(now), style: text.headlineSmall),
               const SizedBox(height: 8),
-              Text('Drei Rätsel pro Tag – für alle gleich.', style: text.bodyLarge),
+              Text(str.dailyIntro, style: text.bodyLarge),
               const SizedBox(height: 20),
               if (streak != null)
-                Row(children: [
-                  Expanded(child: _StatBox(label: 'Serie', value: _days(streak.current))),
-                  const SizedBox(width: 12),
-                  Expanded(child: _StatBox(label: 'Beste Serie', value: _days(streak.best))),
+                Wrap(spacing: 12, runSpacing: 12, children: [
+                  _StatBox(label: str.streak, value: str.days(streak.current)),
+                  _StatBox(label: str.bestStreak, value: str.days(streak.best)),
                 ]),
               const SizedBox(height: 24),
               if (puzzles == null)
-                Text('Für heute sind keine Tagesrätsel verfügbar. Bitte aktualisiere die App.', style: text.bodyLarge)
+                Text(str.dailyUnavailable, style: text.bodyLarge)
               else
                 for (var i = 0; i < puzzles.length; i++)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: _SlotTile(
-                      title: difficultyLabel(puzzles[i].difficulty),
+                      title: str.difficulty(puzzles[i].difficulty),
                       phase: _status[i],
                       onTap: _busy ? null : () => _open(i),
                     ),
                   ),
               const SizedBox(height: 8),
-              Text('Ein Tag zählt für die Serie, sobald du mindestens ein Tagesrätsel gelöst hast.',
-                  style: text.bodyMedium),
+              Text(str.dailyStreakNote, style: text.bodyMedium),
             ]),
           ),
         ),
       ),
     );
   }
-
-  static String _days(int n) => n == 1 ? '1 Tag' : '$n Tage';
 }
 
 class _StatBox extends StatelessWidget {
@@ -117,6 +110,7 @@ class _StatBox extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     return Container(
+      constraints: const BoxConstraints(minWidth: 150),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: scheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(14)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -137,11 +131,12 @@ class _SlotTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final s = context.s;
     final (status, icon) = switch (phase) {
-      null => ('Starten', Icons.play_arrow),
-      GamePhase.completed => ('Gelöst', Icons.check_circle),
-      GamePhase.abandoned => ('Beendet', Icons.flag_outlined),
-      _ => ('Weiterspielen', Icons.play_arrow),
+      null => (s.slotStart, Icons.play_arrow),
+      GamePhase.completed => (s.slotSolved, Icons.check_circle),
+      GamePhase.abandoned => (s.slotEnded, Icons.flag_outlined),
+      _ => (s.slotResume, Icons.play_arrow),
     };
     final closed = phase == GamePhase.completed || phase == GamePhase.abandoned;
     return Semantics(
@@ -158,12 +153,19 @@ class _SlotTile extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 64),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-              child: Row(children: [
-                Expanded(child: Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500))),
-                Text(status, style: const TextStyle(fontSize: 18)),
-                const SizedBox(width: 8),
-                Icon(icon, color: scheme.primary),
-              ]),
+              child: Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 12,
+                children: [
+                  Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
+                  Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(status, style: const TextStyle(fontSize: 18)),
+                    const SizedBox(width: 8),
+                    Icon(icon, color: scheme.primary),
+                  ]),
+                ],
+              ),
             ),
           ),
         ),

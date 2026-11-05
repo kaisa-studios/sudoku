@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 import '../../app/theme.dart';
 import '../../domain/game/game.dart';
 import '../../domain/sudoku/grid.dart';
+import '../../l10n/strings.dart';
 
-/// The 9x9 board: square, as large as the space allows, thick 3x3 borders.
+/// The 9x9 board: square, as large as the space allows (or with a fixed
+/// [cellSize] for the large view), thick 3x3 borders.
 class Board extends StatelessWidget {
-  const Board({super.key, required this.game, required this.onTap});
+  const Board({super.key, required this.game, required this.onTap, this.cellSize});
 
   final Game game;
   final ValueChanged<int> onTap;
+  final double? cellSize;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     return LayoutBuilder(builder: (context, box) {
-      final side = box.biggest.shortestSide;
+      final side = cellSize != null ? cellSize! * 9 : box.biggest.shortestSide;
       final cell = side / 9;
       return SizedBox.square(
         dimension: side,
@@ -57,7 +60,10 @@ class _Cell extends StatelessWidget {
     final v = game.values[index];
     final sel = game.selected;
     final given = game.isGiven(index);
+    final hinted = game.isHinted(index);
     final wrong = game.isWrong(index);
+    final s = context.s;
+    final row = rowOf(index) + 1, col = colOf(index) + 1;
 
     Color? bg;
     if (sel == index) {
@@ -69,16 +75,13 @@ class _Cell extends StatelessWidget {
       bg = colors.related;
     }
 
-    final label = StringBuffer('Zeile ${rowOf(index) + 1}, Spalte ${colOf(index) + 1}, ');
-    if (v == 0) {
-      label.write('leer');
-      final n = game.notes[index];
-      if (n != 0) label.write(', Notizen ${digitsOf(n).join(' und ')}');
-    } else if (given) {
-      label.write('vorgegebene $v, nicht bearbeitbar');
-    } else {
-      label.write('Eingabe $v${wrong ? ', falsch' : ''}');
-    }
+    final label = v == 0
+        ? s.cellEmpty(row, col, digitsOf(game.notes[index]))
+        : given
+            ? s.cellGiven(row, col, v)
+            : hinted
+                ? s.cellHinted(row, col, v)
+                : s.cellEntry(row, col, v, wrong);
 
     Widget content;
     if (v != 0) {
@@ -92,6 +95,12 @@ class _Cell extends StatelessWidget {
             color: wrong ? colors.wrong : (given ? colors.given : colors.entry),
           ),
         ),
+        if (hinted)
+          Positioned(
+            right: size * 0.05,
+            bottom: size * 0.03,
+            child: Icon(Icons.lightbulb, size: size * 0.22, color: colors.entry),
+          ),
         if (wrong)
           Positioned(
             right: size * 0.06,
@@ -106,7 +115,7 @@ class _Cell extends StatelessWidget {
     }
 
     return Semantics(
-      label: label.toString(),
+      label: label,
       selected: sel == index,
       button: true,
       excludeSemantics: true,
