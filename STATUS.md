@@ -7,7 +7,8 @@ Stand: 5. November 2026 · Grundlage: `docs/MASTER_PROMPT.md` (Version 1.2)
 | 0 – Bestandsaufnahme | erledigt: Repository, Bauweg (D1), Name/ID (D2), Prüfdienst (D3), Bausteine (D4) |
 | 1 – Spielbarer Zwischenstand | **erledigt** (Commit 4aa9441): Startseite, 4 Stufen, Raster, Zahlenfeld, Notizen, Löschen, Rückgängig, Fehler, Drei-Fehler-Dialog |
 | 2 – Vollständige Engine | in Arbeit: Solver, Generator, Rater fertig und getestet; offen: Ersatzpool (100), Vorrat, Isolate-Puffer |
-| 3–8 | offen |
+| 3 – Spielkern | offen; umfasst jetzt auch Tägliches Sudoku mit Serie (D7) |
+| 4–8 | offen |
 
 ## CI (5. Nov. 2026, Commit 4aa9441)
 Analyse fehlerfrei, **20 Tests bestanden** (Engine: Eindeutigkeit, Seed-Reproduzierbarkeit, Einstufung exakt je Stufe,
@@ -20,4 +21,4 @@ Orakel-Prüfung aller Strategien an 60 Rätseln; Spielregeln; App-Ablauf), Test-
 
 ## Offene Eingaben (siehe Master-Prompt 18.3)
 - O01 Name endgültig (Arbeitsname Tidy Sudoku), O02–O09 wie Mandala (gemeinsame Konten)
-- Neu: Entscheidung „Tägliches Sudoku mit Serie und Rangliste“ (Vorschlag Auftraggeber, 5. Nov. 2026)
+- Rangliste für das tägliche Sudoku: Update nach dem Start (D7)

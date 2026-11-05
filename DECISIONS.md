@@ -41,3 +41,21 @@ Mittel ≈ 43 %, Schwer ≈ 4 %, Experte ≈ 26 %, je ≈ 9–12 ms. „Leicht�
 Mindestvorgaben: Leicht 36, Mittel 22, Schwer 20, Experte 17 [A]. „Schwer“ ist selten, weil Dreier-Gruppen und
 X-Wing seltener der Engpass sind als XY-Wing (Experte); bleibt bei der Einteilung aus 6.1, abgefangen durch
 Vorrat und geprüften Ersatzpool (Phase 2). CI: Schwer bis 1,7 s für ein Rätsel.
+
+## D7 – Tägliches Sudoku mit Serie in V1, Rangliste später (5. Nov. 2026, Auftraggeber)
+Ändert Abschnitt 3 und A08 des Master-Prompts (dort ausgeschlossen: tägliche Herausforderungen, Streaks, Ranglisten).
+
+- **Täglich drei Rätsel** (Leicht, Mittel, Schwer), für alle Spieler am selben Kalendertag gleich.
+  Damit das auf jedem Gerät exakt gleich und geprüft ist, werden die Tagesrätsel vorab erzeugt und als
+  App-Inhalt ausgeliefert (geplant: 2 Jahre = rund 2.200 Rätsel, wenige hundert KB), nicht auf dem Gerät mit
+  Zeitbudget erzeugt. Tag = lokales Datum des Geräts. Funktioniert offline.
+- **Serie** [A]: Ein Tag zählt, wenn mindestens ein Tagesrätsel fertig gelöst ist (auch nach zweiter Chance).
+  Anzeige „Tage in Folge“ und beste Serie. Freundlich gehalten: kein Schuld- oder Verlust-Druck, keine
+  Push-Benachrichtigungen in V1; ein verpasster Tag setzt die Serie ohne Hinweisdialog zurück.
+- **Werbung** zwischen Tagesrätseln nach derselben zentralen Regel wie zwischen normalen Partien (10.2:
+  nur an Übergängen, mindestens 3 Minuten Abstand, höchstens 3 pro Stunde), nie während des Lösens.
+- Drei-Fehler-Regel und Statistik gelten wie bei normalen Partien; Tagesrätsel bekommen eine eigene
+  Statistikzeile.
+- **Rangliste** („wer war heute am schnellsten“): als Update nach dem Start. Offen bis dahin: Server oder
+  Game Center/Google Play Games (plattformgetrennt), Spielernamen und Moderation, Schutz gegen gefälschte
+  Zeiten, Datenschutz. V1 zeigt nur eigene Bestzeit und eigene Serie.
