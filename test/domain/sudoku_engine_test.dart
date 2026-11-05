@@ -75,7 +75,9 @@ void main() {
       for (var i = 0; i < 60; i++) {
         final solution = randomSolution(rng);
         // carve with expert strategies to exercise every technique
-        final puzzle = carve(solution, Difficulty.expert, rng);
+        final puzzle = i.isEven
+            ? carve(solution, Difficulty.expert, rng)
+            : carveGreedy(solution, Difficulty.expert, rng, sample: 4);
         final r = LogicSolver(puzzle, oracle: solution).run(Strategy.values);
         expect(r.oracleViolations, 0, reason: gridToString(puzzle));
         expect(r.contradiction, isFalse, reason: gridToString(puzzle));

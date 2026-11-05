@@ -17,9 +17,9 @@ const int generatorVersion = 1;
 /// keeps easy puzzles short and friendly.
 const Map<Difficulty, int> minGivens = {
   Difficulty.easy: 36,
-  Difficulty.medium: 30,
-  Difficulty.hard: 26,
-  Difficulty.expert: 22,
+  Difficulty.medium: 22,
+  Difficulty.hard: 20,
+  Difficulty.expert: 17,
 };
 
 class GeneratedPuzzle {
@@ -156,7 +156,12 @@ GeneratedPuzzle? generate(
   for (var attempt = 0; attempt < maxCandidates; attempt++) {
     if (watch.elapsed > budget) break;
     final solution = randomSolution(rng);
-    final puzzle = carve(solution, target, rng);
+    // Calibrated in CI (5 Nov 2026, test/domain/calibration_test.dart): symmetric
+    // carving always yields easy; for higher levels steering towards harder
+    // removals (4 samples per step) gives the best hits per millisecond.
+    final puzzle = target == Difficulty.easy
+        ? carve(solution, target, rng)
+        : carveGreedy(solution, target, rng, sample: 4);
     final rating = rate(puzzle);
     if (rating.level != target) continue;
     return GeneratedPuzzle(

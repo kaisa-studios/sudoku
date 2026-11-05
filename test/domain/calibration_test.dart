@@ -37,5 +37,5 @@ void main() {
             'ms/candidate=${ms.toStringAsFixed(1)} hist=$hist');
       }
     }
-  }, timeout: const Timeout(Duration(minutes: 15)));
+  }, timeout: const Timeout(Duration(minutes: 15)), skip: 'nur bei Bedarf: skip entfernen und CI-Log lesen');
 }
