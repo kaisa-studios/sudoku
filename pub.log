@@ -1,0 +1,236 @@
++ flutter pub add flutter_riverpod drift drift_flutter path_provider path
+Resolving dependencies...
+Downloading packages...
++ args 2.7.0
++ code_assets 1.2.1 (2.1.0 available)
++ convert 3.1.2
++ crypto 3.0.8
+  cupertino_icons 1.0.9 (2.0.0 available)
++ drift 2.35.3
++ drift_flutter 0.3.1
++ ffi 2.2.0
++ file 7.0.1
++ fixnum 1.1.1
++ flutter_riverpod 3.4.3
++ glob 2.2.0
++ hooks 2.0.2 (2.2.0 available)
++ jni 1.1.2
++ jni_flutter 1.0.4+1
++ jni_util 1.0.0
++ listen 1.0.1
++ logging 1.3.0
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
++ native_toolchain_c 0.19.2 (0.19.5 available)
++ objective_c 9.5.0 (9.6.3 available)
++ package_config 3.0.0
+  path 1.9.1 (from transitive dependency to direct dependency)
++ path_provider 2.1.6
++ path_provider_android 2.3.1
++ path_provider_foundation 2.6.0
++ path_provider_linux 2.2.2
++ path_provider_platform_interface 2.1.3
++ path_provider_windows 2.3.0
++ platform 3.2.0
++ plugin_platform_interface 2.1.8
++ pub_semver 2.2.1
++ record_use 0.6.0 (1.1.1 available)
++ riverpod 3.4.3
++ sqlcipher_flutter_libs 0.7.0+eol
++ sqlite3 3.5.2 (3.9.0 available)
++ sqlite3_flutter_libs 0.6.0+eol
++ state_notifier 1.0.0
+  test_api 0.7.12 (0.7.15 available)
++ typed_data 1.4.0
++ uuid 4.6.0
+  vector_math 2.4.0 (2.4.4 available)
++ web 1.1.2
++ xdg_directories 1.1.0
++ yaml 3.1.4
+Changed 41 dependencies!
+11 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
++ flutter pub add flutter_localizations --sdk=flutter
+Resolving dependencies...
+Downloading packages...
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
++ flutter_localizations 0.0.0 from sdk flutter
+  hooks 2.0.2 (2.2.0 available)
++ intl 0.20.3
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.5 available)
+  objective_c 9.5.0 (9.6.3 available)
+  record_use 0.6.0 (1.1.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+Changed 2 dependencies!
+11 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
++ flutter pub add --dev drift_dev build_runner
+Resolving dependencies...
+Downloading packages...
++ _fe_analyzer_shared 111.0.0
++ analyzer 14.7.0
++ build 5.0.0
++ build_config 1.4.0
++ build_daemon 4.1.7
++ build_runner 2.17.1
++ built_collection 5.1.2 (6.0.0 available)
++ built_value 8.13.0
++ charcode 1.4.0
++ checked_yaml 2.0.4
++ cli_util 0.6.0
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
++ dart_style 3.1.14
++ drift_dev 2.35.2
++ graphs 2.3.2
+  hooks 2.0.2 (2.2.0 available)
++ http_multi_server 3.2.3
++ http_parser 4.1.2
++ io 1.1.0
++ json_annotation 4.12.0
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
++ mime 2.1.0
+  native_toolchain_c 0.19.2 (0.19.5 available)
+  objective_c 9.5.0 (9.6.3 available)
++ pool 1.5.3
++ pubspec_parse 1.7.0
++ recase 4.1.0
+  record_use 0.6.0 (1.1.1 available)
++ shelf 1.4.3
++ shelf_web_socket 3.0.0
++ source_gen 4.3.1
+  sqlite3 3.5.2 (3.9.0 available)
++ sqlparser 0.45.1
++ stream_transform 2.1.2
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
++ watcher 1.2.1
++ web_socket 1.0.1
++ web_socket_channel 3.0.3
++ yaml_edit 2.2.4
+Changed 31 dependencies!
+12 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
++ flutter pub get
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.5 available)
+  objective_c 9.5.0 (9.6.3 available)
+  record_use 0.6.0 (1.1.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+Got dependencies!
+12 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
++ cat pubspec.yaml
+name: sudoku
+description: "Tidy Sudoku"
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.7
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^3.4.3
+  drift: ^2.35.3
+  drift_flutter: ^0.3.1
+  path_provider: ^2.1.6
+  path: ^1.9.1
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^6.0.0
+  drift_dev: ^2.35.2
+  build_runner: ^2.17.1
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
