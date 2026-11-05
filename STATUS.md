@@ -1,23 +1,31 @@
 # Tidy Sudoku – Umsetzungsstand
 
-Stand: 5. November 2026 · Grundlage: `docs/MASTER_PROMPT.md` (Version 1.2)
+Stand: 5. November 2026 · Grundlage: `docs/MASTER_PROMPT.md` (Version 1.2), Entscheidungen in `DECISIONS.md`
 
 | Phase | Stand |
 | --- | --- |
 | 0 – Bestandsaufnahme | erledigt: Repository, Bauweg (D1), Name/ID (D2), Prüfdienst (D3), Bausteine (D4) |
-| 1 – Spielbarer Zwischenstand | **erledigt** (Commit 4aa9441): Startseite, 4 Stufen, Raster, Zahlenfeld, Notizen, Löschen, Rückgängig, Fehler, Drei-Fehler-Dialog |
-| 2 – Vollständige Engine | in Arbeit: Solver, Generator, Rater fertig und getestet; offen: Ersatzpool (100), Vorrat, Isolate-Puffer |
-| 3 – Spielkern | offen; umfasst jetzt auch Tägliches Sudoku mit Serie (D7) |
-| 4–8 | offen |
+| 1 – Spielbarer Zwischenstand | erledigt (Test-APK 1) |
+| 2 – Vollständige Engine | erledigt: Solver, Generator (kalibriert, D6), Rater mit 10 Strategien; Ersatzpool 4 × 25; Erzeugung im Hintergrund-Isolate mit 2 s Budget, sonst Pool |
+| 3 – Spielkern | weitgehend erledigt: Speichern nach jeder Aktion (SQLite/Drift), Fortsetzen, Verwerfen-Rückfrage, Drei-Fehler-Sperre auch nach Neustart, aktive Spielzeit, Statistik (6.5), **Tägliches Sudoku mit Serie (D7)**. Offen: Hinweis-Funktion, Einstellungen, Löschen aller Daten in der Oberfläche |
+| 4 – Bedienung/Assets | offen: Englisch, große Darstellung, Hell/Dunkel-Auswahl, App-Symbol, Screenreader-Prüfung |
+| 5 – Monetarisierung | offen: Werbung (Interstitial, Rewarded für zweite Chance), Kauf „Werbung entfernen“, gemeinsamer Prüfdienst (D3) |
+| 6–8 | offen |
 
-## CI (5. Nov. 2026, Commit 4aa9441)
-Analyse fehlerfrei, **20 Tests bestanden** (Engine: Eindeutigkeit, Seed-Reproduzierbarkeit, Einstufung exakt je Stufe,
-Orakel-Prüfung aller Strategien an 60 Rätseln; Spielregeln; App-Ablauf), Test-APK arm64 18,1 MB auf Branch `ci-apk`.
+## Inhalte (Commit e9a75d7)
+2.470 Rätsel: Ersatzpool 100 (25 je Stufe) und Tagesrätsel 1. Nov. 2026 – 29. Dez. 2028 (3 pro Tag).
+Doppelt geprüft: Dart-Engine (Eindeutigkeit, Einstufung mit Orakel) und unabhängiger Python-Prüfer
+(`tool/verify_puzzles.py`): jede Lösung eindeutig, keine Dopplung. 0,5 MB.
 
-## Bekannte Grenzen des Zwischenstands
-- Zweite Chance ist noch ohne Werbung (Platzhalter bis Phase 5); keine Speicherung, kein Timer, keine Statistik.
-- Nur Deutsch; Hinweis-Funktion, große Darstellung, Einstellungen folgen.
-- „Schwer“ dauert in CI bis 1,7 s (Vorrat/Ersatzpool folgen).
+## CI und Gerätetest
+- CI: Analyse fehlerfrei, **43 Tests bestanden** (Engine, Spielregeln, Statistik-Referenzfall, Serie, Datenbank inkl.
+  Neustart-Sperre und veralteter Schreibvorgänge, ausgelieferte Inhalte, App-Abläufe).
+- Emulator (Android 13, Release-App): startet in ≈ 1 s, Tagesrätsel, Spiel, nach erzwungenem Neustart „Spiel fortsetzen“
+  mit Eingaben, Statistik (`ci-status-emulator`, Auslöser `[emu]`).
+
+## Bekannte Grenzen
+- Zweite Chance noch ohne Werbung (Platzhalter bis Phase 5); nur Deutsch.
+- Gerätetest auf echtem Android-Handy und iPhone ausstehend.
 
 ## Offene Eingaben (siehe Master-Prompt 18.3)
 - O01 Name endgültig (Arbeitsname Tidy Sudoku), O02–O09 wie Mandala (gemeinsame Konten)

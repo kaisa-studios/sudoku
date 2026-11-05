@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../app/services.dart';
+import '../../app/theme.dart';
 import '../../data/game_repository.dart';
 import '../../domain/game/game.dart';
 import '../../domain/sudoku/difficulty.dart';
@@ -186,34 +187,43 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
         if (!didPop) _leave(GameExit.home);
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          actions: [
-            Semantics(
-              label: 'Spielzeit ${formatDuration(_shownMs)}',
-              excludeSemantics: true,
-              child: Text(formatDuration(_shownMs), style: theme.textTheme.titleMedium),
-            ),
-            const SizedBox(width: 16),
-            Semantics(
-              label: 'Fehler ${game.mistakes} von $mistakeLimit',
-              excludeSemantics: true,
-              child: Text('Fehler ${game.mistakes}/$mistakeLimit', style: theme.textTheme.titleMedium),
-            ),
-            const SizedBox(width: 16),
-          ],
-        ),
+        appBar: AppBar(title: Text(title)),
         body: SafeArea(
           child: OrientationBuilder(builder: (context, orientation) {
+            final status = Padding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+              child: Row(children: [
+                Semantics(
+                  label: 'Fehler ${game.mistakes} von $mistakeLimit',
+                  excludeSemantics: true,
+                  child: Text('Fehler ${game.mistakes}/$mistakeLimit',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                          color: game.mistakes > 0 ? context.colors.wrong : null)),
+                ),
+                const Spacer(),
+                Semantics(
+                  label: 'Spielzeit ${formatDuration(_shownMs)}',
+                  excludeSemantics: true,
+                  child: Row(children: [
+                    const Icon(Icons.timer_outlined, size: 22),
+                    const SizedBox(width: 6),
+                    Text(formatDuration(_shownMs), style: theme.textTheme.titleLarge),
+                  ]),
+                ),
+              ]),
+            );
             final board = Padding(
               padding: const EdgeInsets.all(8),
               child: Center(child: Board(game: game, onTap: (c) => setState(() => game.select(c)))),
             );
             final pad = _Controls(game: game, onAction: _act);
             if (orientation == Orientation.landscape) {
-              return Row(children: [Expanded(child: board), Expanded(child: SingleChildScrollView(child: pad))]);
+              return Row(children: [
+                Expanded(child: Column(children: [status, Expanded(child: board)])),
+                Expanded(child: Center(child: SingleChildScrollView(child: pad))),
+              ]);
             }
-            return Column(children: [Expanded(child: board), pad]);
+            return Column(children: [status, Expanded(child: board), pad]);
           }),
         ),
       ),
