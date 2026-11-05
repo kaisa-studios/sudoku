@@ -15,10 +15,6 @@ void _screen(WidgetTester tester, {Size size = const Size(1080, 2340), double ra
 }
 
 Future<void> _tapVisible(WidgetTester tester, Finder f) async {
-  if (f.evaluate().isEmpty) {
-    // lazily built lists: scroll until the item exists
-    await tester.scrollUntilVisible(f, 200, scrollable: find.byType(Scrollable).first);
-  }
   await tester.ensureVisible(f);
   await tester.pumpAndSettle();
   await tester.tap(f);
@@ -55,7 +51,7 @@ void main() {
   });
 
   testWidgets('settings: language, dark mode and timer are applied and saved', (tester) async {
-    _screen(tester);
+    _screen(tester, size: const Size(1080, 5400)); // tall: the whole settings list is built
     final services = testServices(now: _now);
     await tester.pumpWidget(TidySudokuApp(services: services));
     await tester.pumpAndSettle();
@@ -76,7 +72,7 @@ void main() {
   });
 
   testWidgets('settings: deleting game data removes the open game after confirmation', (tester) async {
-    _screen(tester);
+    _screen(tester, size: const Size(1080, 5400));
     final services = testServices(now: _now);
     await tester.pumpWidget(TidySudokuApp(services: services));
     await tester.pumpAndSettle();
@@ -136,8 +132,7 @@ void main() {
       await _tapVisible(tester, find.text(english ? 'Statistics' : 'Statistik'));
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
-      await tester.tap(find.byTooltip(english ? 'Settings' : 'Einstellungen'));
-      await tester.pumpAndSettle();
+      await _tapVisible(tester, find.byTooltip(english ? 'Settings' : 'Einstellungen'));
       await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
