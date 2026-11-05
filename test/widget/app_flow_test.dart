@@ -40,7 +40,7 @@ void main() {
     await tester.pump();
     expect(find.bySemanticsLabel(RegExp(r'Zeile 1, Spalte 3, Eingabe 4$')), findsOneWidget);
 
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     expect(find.textContaining('Spiel fortsetzen'), findsOneWidget);
 
@@ -79,7 +79,7 @@ void main() {
     await tester.pumpAndSettle();
     await _tapVisible(tester, find.text('Spiel starten'));
     await tester.pumpAndSettle();
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     await _tapVisible(tester, find.text('Spiel starten'));
     await tester.pumpAndSettle();
@@ -116,7 +116,7 @@ void main() {
     expect(find.bySemanticsLabel('Leicht, Gelöst'), findsOneWidget);
     expect(find.text('1 Tag'), findsWidgets);
 
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     expect(find.text('Heute 1 von 3 gelöst'), findsOneWidget);
   });

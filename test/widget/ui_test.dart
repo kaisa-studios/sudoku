@@ -15,6 +15,10 @@ void _screen(WidgetTester tester, {Size size = const Size(1080, 2340), double ra
 }
 
 Future<void> _tapVisible(WidgetTester tester, Finder f) async {
+  if (f.evaluate().isEmpty) {
+    // lazily built lists: scroll until the item exists
+    await tester.scrollUntilVisible(f, 200, scrollable: find.byType(Scrollable).first);
+  }
   await tester.ensureVisible(f);
   await tester.pumpAndSettle();
   await tester.tap(f);
@@ -33,7 +37,7 @@ void main() {
     expect(find.bySemanticsLabel('Zeile 1, Spalte 3, Hinweis 4, nicht bearbeitbar'), findsOneWidget);
     expect(find.text('Hinweis: Ein Feld wurde richtig eingetragen.'), findsOneWidget);
     await tester.pumpAndSettle(const Duration(seconds: 3));
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     final open = await services.games.openRegularGame();
     expect(open!.game.hintCount, 1);
@@ -77,7 +81,7 @@ void main() {
     await tester.pumpWidget(TidySudokuApp(services: services));
     await tester.pumpAndSettle();
     await _tapVisible(tester, find.text('Spiel starten'));
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     expect(find.textContaining('Spiel fortsetzen'), findsOneWidget);
 
@@ -87,7 +91,7 @@ void main() {
     expect(find.text('Alle Spieldaten löschen?'), findsOneWidget);
     await tester.tap(find.text('Endgültig löschen'));
     await tester.pumpAndSettle();
-    await tester.pageBack();
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     expect(find.textContaining('Spiel fortsetzen'), findsNothing);
   });
@@ -123,18 +127,18 @@ void main() {
       expect(find.bySemanticsLabel(english ? 'Number 1' : 'Zahl 1'), findsOneWidget);
       await tester.tap(find.byTooltip(english ? 'Large view' : 'Große Darstellung'));
       await tester.pumpAndSettle();
-      await tester.pageBack();
+      await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
 
       await _tapVisible(tester, find.text(english ? 'Daily Sudoku' : 'Tägliches Sudoku'));
-      await tester.pageBack();
+      await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
       await _tapVisible(tester, find.text(english ? 'Statistics' : 'Statistik'));
-      await tester.pageBack();
+      await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
       await tester.tap(find.byTooltip(english ? 'Settings' : 'Einstellungen'));
       await tester.pumpAndSettle();
-      await tester.pageBack();
+      await tester.tap(find.byType(BackButton));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
