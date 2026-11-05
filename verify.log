@@ -1,0 +1,8 @@
+assets/puzzles/pool.json: 100 puzzles OK
+assets/puzzles/daily.json: 2370 puzzles OK
+all 2470 puzzles verified, no duplicates
+total 508
+drwxr-xr-x 2 runner runner   4096 Nov  5 22:01 .
+drwxr-xr-x 3 runner runner   4096 Nov  5 21:56 ..
+-rw-r--r-- 1 runner runner 490389 Nov  5 22:01 daily.json
+-rw-r--r-- 1 runner runner  20424 Nov  5 21:57 pool.json
