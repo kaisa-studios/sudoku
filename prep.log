@@ -1,0 +1,39 @@
+Flutter is deprecating support for Intel-based Macs. A future version of Flutter will require an Apple Silicon Mac to build applications.
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
++ google_mobile_ads 9.2.0
+  hooks 2.0.2 (2.2.0 available)
++ http 1.6.0
++ in_app_purchase 3.3.1
++ in_app_purchase_android 0.5.5
++ in_app_purchase_platform_interface 1.4.1
++ in_app_purchase_storekit 0.4.17
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.5 available)
+  objective_c 9.5.0 (9.6.3 available)
+  record_use 0.6.0 (1.1.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
++ webview_flutter 4.14.1
++ webview_flutter_android 4.14.1
++ webview_flutter_platform_interface 2.15.1
++ webview_flutter_wkwebview 3.27.2
+Changed 10 dependencies!
+12 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+  compiling builders/aot
+  84s compiling builders/aot
+W These options have been removed and were ignored: --delete-conflicting-outputs
+  0s drift_dev on 188 inputs; lib/app/app_settings.dart
+  15s drift_dev on 188 inputs: 1 output; spent 8s analyzing, 4s sdk, 3s resolving; lib/app/config.dart
+  17s drift_dev on 188 inputs: 32 output; spent 10s analyzing, 4s sdk, 3s resolving; test/ads/ad_coordinator_test.dart
+  19s drift_dev on 188 inputs: 33 output; spent 11s analyzing, 4s sdk, 3s resolving; test/ads/ad_policy_test.dart
+  19s drift_dev on 188 inputs: 47 skipped, 89 output, 52 no-op; spent 11s analyzing, 4s sdk, 3s resolving
+  0s source_gen:combining_builder on 94 inputs; lib/app/app_settings.dart
+  0s source_gen:combining_builder on 94 inputs: 47 skipped, 1 output, 46 no-op
+  Built with build_runner/aot in 105s; wrote 90 outputs.
