@@ -157,6 +157,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Einstellungen'));
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Lizenzen'), 300, scrollable: find.byType(Scrollable).first);
+    await tester.pumpAndSettle();
     expect(find.text('Datenschutzerklärung'), findsOneWidget);
     expect(find.text('Support und Impressum'), findsOneWidget);
     await tester.tap(find.text('Lizenzen'));
