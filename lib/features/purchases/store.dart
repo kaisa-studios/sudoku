@@ -141,7 +141,7 @@ class DemoStoreGateway implements StoreGateway {
   var _counter = 0;
 
   /// Demo price, clearly labelled as demo in the app; the real price always comes from the store.
-  static const prices = {removeAdsProductId: '2,99 €'};
+  static const prices = {removeAdsProductId: '1,99 €'};
 
   @override
   String get storeName => 'demo';

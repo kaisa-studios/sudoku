@@ -145,7 +145,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Demo-Store: Testversion, es wird nichts berechnet.'), findsOneWidget);
-    await tester.tap(find.text('Für 2,99 € kaufen'));
+    await tester.tap(find.text('Für 1,99 € kaufen'));
     await tester.pumpAndSettle();
     expect(find.text('Werbefrei – danke für deinen Kauf!'), findsOneWidget);
     expect(find.text('Danke! Die Werbung ist entfernt.'), findsOneWidget);

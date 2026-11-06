@@ -136,3 +136,8 @@ Produktionsumgebung getrennt. 12 Tests (Workflow „Prüfdienst“). Signierte B
 Rückerstattungsabgleich folgen als zweiter Schritt. Online erst nach Freigabe von Cloudflare durch den
 Auftraggeber; danach `VERIFIER_URL` im Release-Build setzen. Er liegt vorerst im Sudoku-Repository und kann
 in ein eigenes Repository umziehen.
+
+## D15 – Preis „Werbung entfernen“: 1,99 € (6. Nov. 2026, Auftraggeber)
+Einmalkauf `remove_ads_lifetime` zu 1,99 € (Euro-Länder, inkl. USt.). In Google Play und App Store Connect als
+Grundpreis eintragen; andere Währungen rechnen die Stores selbst um. Die App zeigt immer den Preis aus dem Store;
+der Demo-Store zeigt zum Testen 1,99 €.

@@ -63,7 +63,7 @@ void main() {
     final p = s.purchases;
     expect(p.state, RemoveAdsState.notOwned);
     expect(p.adFreeKnown, isTrue);
-    expect(p.product!.price, '2,99 €');
+    expect(p.product!.price, '1,99 €');
     final messages = <PurchaseMessage>[];
     p.messages.listen(messages.add);
     await p.buy();
