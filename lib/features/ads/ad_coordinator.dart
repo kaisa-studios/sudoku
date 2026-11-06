@@ -1,3 +1,5 @@
+// private fields from named parameters, as in the Mandala app
+// ignore_for_file: prefer_initializing_formals
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
@@ -214,7 +216,9 @@ class AdCoordinator extends ChangeNotifier {
       }
       _interstitial = ad;
       _interstitialLoadedAt = _mono();
-    }, onError: (Object _) => _loadingInterstitial = false);
+    }, onError: (Object _) {
+      _loadingInterstitial = false;
+    });
   }
 
   /// A game reached its end (won or ended after three mistakes).

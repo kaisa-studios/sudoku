@@ -55,6 +55,8 @@ class ScriptedStore implements StoreGateway {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   test('demo store: buy → verified → owned, ad-free; price comes from the store', () async {
     final s = testServices();
     await _settle();

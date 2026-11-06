@@ -257,7 +257,8 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
 
   Future<void> _rewardedContinue() async {
     final s = context.s;
-    while (mounted) {
+    while (true) {
+      if (!mounted) return;
       _dialogOpen = true;
       _updateClock();
       final navigator = Navigator.of(context);
