@@ -165,6 +165,11 @@ abstract class S {
   String get msgRestoredOwned;
   String get msgRestoredNothing;
   String buyFor(String price);
+  String get aboutHeading;
+  String get privacyPolicy;
+  String get supportAndImprint;
+  String get licenses;
+  String get linkFailed;
 }
 
 class StringsDe extends S {
@@ -491,6 +496,16 @@ class StringsDe extends S {
       'Für dieses Store-Konto wurde kein Kauf gefunden. Ohne Internetverbindung kann nichts wiederhergestellt werden.';
   @override
   String buyFor(String price) => 'Für $price kaufen';
+  @override
+  String get aboutHeading => 'Über die App';
+  @override
+  String get privacyPolicy => 'Datenschutzerklärung';
+  @override
+  String get supportAndImprint => 'Support und Impressum';
+  @override
+  String get licenses => 'Lizenzen';
+  @override
+  String get linkFailed => 'Der Link konnte nicht geöffnet werden.';
 }
 
 class StringsEn extends S {
@@ -813,6 +828,16 @@ class StringsEn extends S {
       'No purchase was found for this store account. Nothing can be restored without an internet connection.';
   @override
   String buyFor(String price) => 'Buy for $price';
+  @override
+  String get aboutHeading => 'About';
+  @override
+  String get privacyPolicy => 'Privacy policy';
+  @override
+  String get supportAndImprint => 'Support and legal notice';
+  @override
+  String get licenses => 'Licenses';
+  @override
+  String get linkFailed => 'The link could not be opened.';
 }
 
 class AppStringsDelegate extends LocalizationsDelegate<S> {

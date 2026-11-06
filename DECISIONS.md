@@ -119,3 +119,9 @@ Heller Hintergrund, Ausschnitt des Spielfelds (3 × 3 Felder) mit hervorgehobene
 Auswahlfarbe der App, dazu „1“ und „5“. Verworfen: A „Kacheln“, C „Ziffer“ (wirkte wie ein Kalender).
 Erzeugt mit `tool/make_icon.py` (alle iOS-Größen, Android klassisch und adaptiv, Store-Symbole 512/1024 px
 in `assets/store/`). Schrift: Inter (SIL Open Font License).
+
+## D13 – Datenschutz, Support und Lizenzen in den Einstellungen (6. Nov. 2026)
+Abschnitt „Über die App“: Datenschutzerklärung und „Support und Impressum“ öffnen die gemeinsame App-Website im
+Browser (vorläufig `kaisa-solutions.at/apps/tidy-sudoku/…`, per Build-Einstellung `PRIVACY_URL`/`SUPPORT_URL`
+änderbar; `tool/build_release.sh` verlangt beide), „Lizenzen“ zeigt die Lizenzen aller verwendeten Bausteine.
+Die Seiten müssen vor der Veröffentlichung online sein (Texte im Dokument „Store-Texte und Datenschutz“).

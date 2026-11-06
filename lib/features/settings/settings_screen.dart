@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../app/config.dart';
 import '../../app/services.dart';
 import '../purchases/purchase_controller.dart';
 import '../../l10n/strings.dart';
@@ -37,6 +39,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(content: Text(text)));
     });
+  }
+
+  Future<void> _open(String url) async {
+    var ok = false;
+    try {
+      ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } on Object {
+      ok = false;
+    }
+    if (!ok && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.s.linkFailed)));
+    }
   }
 
   @override
@@ -148,6 +162,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: Text(s.deleteData),
                   subtitle: Text(s.deleteDataHint),
                   onTap: () => _deleteData(context),
+                ),
+                heading(s.aboutHeading),
+                ListTile(
+                  leading: const Icon(Icons.policy_outlined),
+                  title: Text(s.privacyPolicy),
+                  trailing: const Icon(Icons.open_in_new),
+                  onTap: () => _open(AppConfig.privacyUrl),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.help_outline),
+                  title: Text(s.supportAndImprint),
+                  trailing: const Icon(Icons.open_in_new),
+                  onTap: () => _open(AppConfig.supportUrl),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.description_outlined),
+                  title: Text(s.licenses),
+                  onTap: () => showLicensePage(
+                    context: context,
+                    applicationName: s.appTitle,
+                    applicationVersion: appVersion,
+                    applicationLegalese: '© 2026 Kaisa',
+                  ),
                 ),
                 const Divider(),
                 ListTile(title: Text(s.version(appVersion))),

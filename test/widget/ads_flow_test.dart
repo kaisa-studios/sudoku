@@ -150,4 +150,17 @@ void main() {
     expect(find.text('Werbefrei – danke für deinen Kauf!'), findsOneWidget);
     expect(find.text('Danke! Die Werbung ist entfernt.'), findsOneWidget);
   });
+
+  testWidgets('settings: privacy policy, support and licenses are reachable', (tester) async {
+    _phone(tester, height: 5400);
+    await tester.pumpWidget(TidySudokuApp(services: testServices(now: _now)));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Einstellungen'));
+    await tester.pumpAndSettle();
+    expect(find.text('Datenschutzerklärung'), findsOneWidget);
+    expect(find.text('Support und Impressum'), findsOneWidget);
+    await tester.tap(find.text('Lizenzen'));
+    await tester.pumpAndSettle();
+    expect(find.byType(LicensePage), findsOneWidget);
+  });
 }

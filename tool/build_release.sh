@@ -38,6 +38,10 @@ case "$target" in
 esac
 need BUILD_NAME
 need BUILD_NUMBER
+for v in PRIVACY_URL SUPPORT_URL; do
+  need "$v"
+  [[ "${!v:-}" == https://* ]] || { echo "$v muss mit https:// beginnen"; fail=1; }
+done
 [ "${STORE_MODE:-real}" = real ] || { echo "STORE_MODE muss real sein (kein Demo-Store)"; fail=1; }
 [ -z "${CONSENT_DEBUG_EEA:-}" ] || { echo "CONSENT_DEBUG_EEA darf im Produktionsbuild nicht gesetzt sein"; fail=1; }
 [ "${ADS_ENABLED:-true}" = true ] || { echo "ADS_ENABLED=false ist nur für Sonderbuilds"; fail=1; }
@@ -54,6 +58,8 @@ defines=(
   --dart-define=ADMOB_REWARDED_ANDROID="$ADMOB_REWARDED_ANDROID"
   --dart-define=ADMOB_REWARDED_IOS="$ADMOB_REWARDED_IOS"
   --dart-define=BUILD_NAME="$BUILD_NAME"
+  --dart-define=PRIVACY_URL="$PRIVACY_URL"
+  --dart-define=SUPPORT_URL="$SUPPORT_URL"
   --build-name="$BUILD_NAME" --build-number="$BUILD_NUMBER"
 )
 

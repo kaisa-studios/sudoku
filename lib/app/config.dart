@@ -27,6 +27,12 @@ class AppConfig {
   /// Shows the EEA consent form in test builds regardless of location.
   static const consentDebugEea = bool.fromEnvironment('CONSENT_DEBUG_EEA');
 
+  /// Public pages on the shared app website (DECISIONS D13); the release build must set them.
+  static const privacyUrl =
+      String.fromEnvironment('PRIVACY_URL', defaultValue: 'https://kaisa-solutions.at/apps/tidy-sudoku/datenschutz');
+  static const supportUrl =
+      String.fromEnvironment('SUPPORT_URL', defaultValue: 'https://kaisa-solutions.at/apps/tidy-sudoku');
+
   // Ad units: Google's official sample IDs until the real AdMob IDs are passed.
   static const interstitialAndroid =
       String.fromEnvironment('ADMOB_INTERSTITIAL_ANDROID', defaultValue: 'ca-app-pub-3940256099942544/1033173712');
