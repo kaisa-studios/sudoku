@@ -113,3 +113,9 @@ Nach Master-Prompt 10/11, Bausteine aus der Mandala-App übernommen (Store, Prü
 - **Testbuilds** (CI, Test-APKs): Googles offizielle Test-Anzeigen und der Demo-Store (in der App als
   „Demo-Store … es wird nichts berechnet“ gekennzeichnet). `tool/build_release.sh` baut die Store-Version nur mit
   echten IDs, echtem Store, ohne Debug-Geografie und mit Prüfdienst-URL.
+
+## D12 – App-Symbol: Richtung B „Spielfeld“ (6. Nov. 2026, Auftraggeber)
+Heller Hintergrund, Ausschnitt des Spielfelds (3 × 3 Felder) mit hervorgehobenem Mittelfeld „9“ in der
+Auswahlfarbe der App, dazu „1“ und „5“. Verworfen: A „Kacheln“, C „Ziffer“ (wirkte wie ein Kalender).
+Erzeugt mit `tool/make_icon.py` (alle iOS-Größen, Android klassisch und adaptiv, Store-Symbole 512/1024 px
+in `assets/store/`). Schrift: Inter (SIL Open Font License).

@@ -8,7 +8,7 @@ Stand: 6. November 2026 (Test-APK 5 = Commit f9619bd) · Grundlage: `docs/MASTER
 | 1 – Spielbarer Zwischenstand | erledigt (Test-APK 1) |
 | 2 – Vollständige Engine | erledigt: Solver, Generator (kalibriert, D6), Rater mit 10 Strategien; Ersatzpool 4 × 25; Erzeugung im Hintergrund-Isolate mit 2 s Budget, sonst Pool |
 | 3 – Spielkern | erledigt: Speichern nach jeder Aktion (SQLite/Drift), Fortsetzen, Verwerfen-Rückfrage, Drei-Fehler-Sperre auch nach Neustart, aktive Spielzeit, Statistik (6.5), Tägliches Sudoku mit Serie (D7), Hinweis (D9) |
-| 4 – Bedienung/Assets | weitgehend erledigt: Deutsch/Englisch (D8), Einstellungen (Hell/Dunkel, Sprache, Zeit, Vibration, große Darstellung, Daten löschen), große Darstellung mit Pfeiltasten (D9), 200 % Schrift auf 320 × 568 ohne Abschneiden (Tests DE/EN + Emulator). Kontraste gemessen und nachgeschärft (D10). Offen: App-Symbol, Prüfung mit echtem TalkBack/VoiceOver auf einem Gerät |
+| 4 – Bedienung/Assets | weitgehend erledigt: Deutsch/Englisch (D8), Einstellungen (Hell/Dunkel, Sprache, Zeit, Vibration, große Darstellung, Daten löschen), große Darstellung mit Pfeiltasten (D9), 200 % Schrift auf 320 × 568 ohne Abschneiden (Tests DE/EN + Emulator). Kontraste gemessen und nachgeschärft (D10). App-Symbol B „Spielfeld“ (D12). Offen: Prüfung mit echtem TalkBack/VoiceOver auf einem Gerät |
 | 5 – Monetarisierung | weitgehend erledigt (D11): Einwilligung (UMP), Interstitial nur an Übergängen nach zentraler Regel, zweite Chance per Video (Googles Testvideo auf dem Emulator erfolgreich), werbefreie zweite Chance, Kauf „Werbung entfernen“ mit Demo-Store, Wiederherstellen, Release-Prüfskript. Offen: gemeinsamer Prüfdienst (D3, inkl. `GET /health`), echte AdMob-/Store-Konten, Preis, iOS-StoreKit-2-Prüfung |
 | 6–8 | offen |
 
@@ -28,6 +28,10 @@ Doppelt geprüft: Dart-Engine (Eindeutigkeit, Einstufung mit Orakel) und unabhä
 - Werbung und Kauf nur mit Test-Anzeigen und Demo-Store; der echte Store schaltet erst frei, wenn der Prüfdienst steht.
 - Android-Rechte durch das Werbe-SDK: Internet, Netzwerkstatus, Werbe-ID (AD_ID, AdServices), Billing, WorkManager (Wake-Lock/Foreground-Service). Für das Datenschutzformular im Play Store relevant.
 - Gerätetest auf echtem Android-Handy und iPhone ausstehend.
+
+## Store-Texte und Datenschutz
+Entwurf im Dokument „Tidy Sudoku – Store-Texte und Datenschutz“ (Claude Docs): Store-Texte DE/EN,
+Datenschutzerklärung, Datenangaben Google/Apple, Zielgruppe/Altersfreigabe, offene Angaben.
 
 ## Offene Eingaben (siehe Master-Prompt 18.3)
 - O01 Name endgültig (Arbeitsname Tidy Sudoku), O02–O09 wie Mandala (gemeinsame Konten)
