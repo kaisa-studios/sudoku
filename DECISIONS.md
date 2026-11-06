@@ -125,3 +125,14 @@ Abschnitt „Über die App“: Datenschutzerklärung und „Support und Impressu
 Browser (vorläufig `kaisa-solutions.at/apps/tidy-sudoku/…`, per Build-Einstellung `PRIVACY_URL`/`SUPPORT_URL`
 änderbar; `tool/build_release.sh` verlangt beide), „Lizenzen“ zeigt die Lizenzen aller verwendeten Bausteine.
 Die Seiten müssen vor der Veröffentlichung online sein (Texte im Dokument „Store-Texte und Datenschutz“).
+
+## D14 – Kaufprüfdienst geschrieben, Inbetriebnahme nach Freigabe (6. Nov. 2026)
+`services/verify`: Cloudflare Worker in TypeScript, gemeinsam für Tidy Sudoku und Orbella, umgesetzt nach
+`mandala-studio/VERIFICATION_SERVICE.md` (gleiche Schnittstelle, die Orbella-App braucht nur die erweiterte
+Bereitschaftsprüfung `GET /health?store=…&appId=…`). Google: `productsv2.getproductpurchasev2` mit Dienstkonto
+(signiertes JWT, nur als Cloudflare-Geheimnis). Apple: StoreKit-2-JWS mit Prüfung der Zertifikatskette bis zur
+Apple Root CA G3. Zustandslos (keine Datenbank, keine gespeicherten Tokens), Rate Limit 30/min, Test- und
+Produktionsumgebung getrennt. 12 Tests (Workflow „Prüfdienst“). Signierte Berechtigungsnachweise und der
+Rückerstattungsabgleich folgen als zweiter Schritt. Online erst nach Freigabe von Cloudflare durch den
+Auftraggeber; danach `VERIFIER_URL` im Release-Build setzen. Er liegt vorerst im Sudoku-Repository und kann
+in ein eigenes Repository umziehen.

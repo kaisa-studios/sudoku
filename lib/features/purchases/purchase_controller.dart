@@ -164,7 +164,7 @@ class PurchaseController extends ChangeNotifier implements AdFreeSource {
     notifyListeners();
     try {
       // no store dialog while the purchase cannot be checked (10.5)
-      if (!await _verifier.ready()) {
+      if (!await _verifier.ready(store: _store.storeName)) {
         _emit(PurchaseMessage.checkUnavailable);
         return;
       }

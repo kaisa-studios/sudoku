@@ -32,7 +32,7 @@ abstract class EntitlementVerifier {
 
   /// Checked before a new purchase starts (10.5): if the service is not set up
   /// or not reachable, no store purchase dialog is opened.
-  Future<bool> ready();
+  Future<bool> ready({required String store});
 }
 
 /// Accepts only purchases from the simulated demo store. Used in demo builds only.
@@ -46,7 +46,7 @@ class DemoVerifier implements EntitlementVerifier {
   }
 
   @override
-  Future<bool> ready() async => true;
+  Future<bool> ready({required String store}) async => true;
 }
 
 /// Real store without a configured verification service: nothing can be unlocked;
@@ -59,7 +59,7 @@ class UnconfiguredVerifier implements EntitlementVerifier {
       const VerificationResult(VerificationOutcome.unavailable, message: 'no verification service configured');
 
   @override
-  Future<bool> ready() async => false;
+  Future<bool> ready({required String store}) async => false;
 }
 
 /// Talks to the small verification service over HTTPS. The service checks the
@@ -75,9 +75,10 @@ class RemoteVerifier implements EntitlementVerifier {
   String get _base => baseUrl.replaceAll(RegExp(r'/+$'), '');
 
   @override
-  Future<bool> ready() async {
+  Future<bool> ready({required String store}) async {
     try {
-      final r = await _client.get(Uri.parse('$_base/health')).timeout(const Duration(seconds: 5));
+      final uri = Uri.parse('$_base/health').replace(queryParameters: {'store': store, 'appId': appId});
+      final r = await _client.get(uri).timeout(const Duration(seconds: 5));
       return r.statusCode == 200;
     } on Object {
       return false;

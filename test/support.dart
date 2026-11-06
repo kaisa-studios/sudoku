@@ -222,7 +222,7 @@ class FakeVerifier implements EntitlementVerifier {
   int calls = 0;
 
   @override
-  Future<bool> ready() async => isReady;
+  Future<bool> ready({required String store}) async => isReady;
 
   @override
   Future<VerificationResult> verify({required String store, required StorePurchase purchase}) async {

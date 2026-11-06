@@ -1,0 +1,21 @@
+{
+  "name": "kaisa-verify",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kaisa purchase verification service (Cloudflare Worker) for Tidy Sudoku and Orbella",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "deploy:test": "wrangler deploy --env test",
+    "deploy:production": "wrangler deploy --env production"
+  },
+  "dependencies": {
+    "@peculiar/x509": "1.14.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20251014.0",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  }
+}

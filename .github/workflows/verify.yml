@@ -1,0 +1,40 @@
+name: Prüfdienst
+# Tests des Kaufprüfdienstes (services/verify). Bericht auf Branch ci-status-verify.
+on:
+  push:
+    branches: [main]
+    paths: ["services/verify/**", ".github/workflows/verify.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/verify
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Tests
+        id: test
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/rep
+          { npm ci && npx tsc --noEmit && npm test; } > /tmp/rep/test.log 2>&1
+      - name: Bericht
+        if: always()
+        working-directory: /tmp/rep
+        env:
+          TOKEN: ${{ github.token }}
+        run: |
+          echo "run ${{ github.run_id }} sha ${{ github.sha }} test=${{ steps.test.outcome }}" > summary.txt
+          git init -q -b r . && git config user.name ci-bot && git config user.email ci-bot@users.noreply.github.com
+          git add -A && git commit -qm "Prüfdienst ${{ github.run_id }}"
+          git push -qf "https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git" HEAD:refs/heads/ci-status-verify
+      - name: Status
+        if: always()
+        working-directory: .
+        run: test "${{ steps.test.outcome }}" = success
