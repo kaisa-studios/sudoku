@@ -163,7 +163,7 @@ adb shell input swipe 540 700 540 1800 300 && sleep 1
 adb shell am start -W -n "$PKG/.MainActivity" >> "$OUT/steps.log" 2>&1
 sleep 2
 tap_node '^(Einstellungen|Settings)' && sleep 3
-for i in 1 2 3; do find_node '(kaufen|Buy for)' > /dev/null 2>&1 && break; swipe_up; done
+for i in 1 2 3 4; do find_node '^(Für .* kaufen|Buy for)' > /dev/null 2>&1 && break; swipe_up; done
 shot 16_werbung_entfernen
 if tap_node '^(Für .* kaufen|Buy for)'; then
   sleep 4
