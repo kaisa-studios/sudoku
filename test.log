@@ -1,0 +1,110 @@
+
+added 74 packages, and audited 75 packages in 2s
+
+16 packages are looking for funding
+  run `npm fund` for details
+
+3 vulnerabilities (1 moderate, 2 critical)
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> kaisa-verify@1.0.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90m/home/runner/work/sudoku/sudoku/services/verify[39m
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2ma paid purchase is valid; the token goes into the documented URL
+[22m[39m{"event":"verify","rid":"9ab20578","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"valid","ms":5}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2mpending, cancelled, wrong product, other order, test purchase in production
+[22m[39m{"event":"verify","rid":"d26ee670","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"pending","ms":2}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2mpending, cancelled, wrong product, other order, test purchase in production
+[22m[39m{"event":"verify","rid":"eff50df6","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"revoked","ms":0}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2mpending, cancelled, wrong product, other order, test purchase in production
+[22m[39m{"event":"verify","rid":"667d6252","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"wrong_product","ms":0}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2mpending, cancelled, wrong product, other order, test purchase in production
+[22m[39m{"event":"verify","rid":"ecf2ad68","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"unknown_token","ms":0}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2mpending, cancelled, wrong product, other order, test purchase in production
+[22m[39m{"event":"verify","rid":"beb1aeb0","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"wrong_environment","ms":1}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2mtest purchases are accepted only by the test environment
+[22m[39m{"event":"verify","rid":"30b57cb7","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"valid","ms":2}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2munknown token is invalid; our own access problems and Google outages mean "try again later"
+[22m[39m{"event":"verify","rid":"14cbd3b6","store":"google_play","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"unknown_token","ms":2}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2munknown token is invalid; our own access problems and Google outages mean "try again later"
+[22m[39m{"event":"unavailable","rid":"be4010d1","store":"google_play","appId":"at.kaisasolutions.sudoku","reason":"google purchase 401"}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2munknown token is invalid; our own access problems and Google outages mean "try again later"
+[22m[39m{"event":"unavailable","rid":"8877fa98","store":"google_play","appId":"at.kaisasolutions.sudoku","reason":"google purchase 403"}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2munknown token is invalid; our own access problems and Google outages mean "try again later"
+[22m[39m{"event":"unavailable","rid":"0700d701","store":"google_play","appId":"at.kaisasolutions.sudoku","reason":"google purchase 429"}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2munknown token is invalid; our own access problems and Google outages mean "try again later"
+[22m[39m{"event":"unavailable","rid":"87f6a866","store":"google_play","appId":"at.kaisasolutions.sudoku","reason":"google purchase 500"}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2munknown token is invalid; our own access problems and Google outages mean "try again later"
+[22m[39m{"event":"unavailable","rid":"1aa2ba64","store":"google_play","appId":"at.kaisasolutions.sudoku","reason":"google purchase 503"}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mgoogle_play[2m > [22m[2mwithout service account: unavailable, and /health says so
+[22m[39m{"event":"unavailable","rid":"0b0c3cd5","store":"google_play","appId":"at.kaisasolutions.sudoku","reason":"google not configured"}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2ma correctly signed transaction from the Apple-shaped chain is valid
+[22m[39m{"event":"verify","rid":"67e43704","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"valid","ms":8}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2msignature, root, missing Apple markers and expiry are checked
+[22m[39m{"event":"verify","rid":"f20653da","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"bad_signature","ms":5}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2msignature, root, missing Apple markers and expiry are checked
+[22m[39m{"event":"verify","rid":"119ec1cf","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"bad_signature","ms":1}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2msignature, root, missing Apple markers and expiry are checked
+[22m[39m{"event":"verify","rid":"65c01fa7","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"bad_signature","ms":3}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2msignature, root, missing Apple markers and expiry are checked
+[22m[39m{"event":"verify","rid":"d68f33d4","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"bad_signature","ms":3}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2msignature, root, missing Apple markers and expiry are checked
+[22m[39m{"event":"verify","rid":"1b1c5fcf","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"bad_signature","ms":0}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2mapp, product, transaction, environment and refunds
+[22m[39m{"event":"verify","rid":"5b37f423","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"wrong_app","ms":6}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2mapp, product, transaction, environment and refunds
+[22m[39m{"event":"verify","rid":"f0bf81e3","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"wrong_product","ms":6}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2mapp, product, transaction, environment and refunds
+[22m[39m{"event":"verify","rid":"d8844cbc","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"unknown_token","ms":4}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2mapp, product, transaction, environment and refunds
+[22m[39m{"event":"verify","rid":"e8d1dee5","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"invalid","code":"wrong_environment","ms":4}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2mapp, product, transaction, environment and refunds
+[22m[39m{"event":"verify","rid":"9cd5eae2","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"valid","ms":5}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mapp_store[2m > [22m[2mapp, product, transaction, environment and refunds
+[22m[39m{"event":"verify","rid":"cdcc3e5b","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"remove_ads_lifetime","status":"revoked","ms":4}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mrequests[2m > [22m[2monly configured apps and products
+[22m[39m{"event":"verify","rid":"d72898ba","store":"app_store","appId":"com.evil","productId":"remove_ads_lifetime","status":"invalid","code":"wrong_app","ms":0}
+
+[90mstdout[2m | test/service.test.ts[2m > [22m[2mrequests[2m > [22m[2monly configured apps and products
+[22m[39m{"event":"verify","rid":"1446bed8","store":"app_store","appId":"at.kaisasolutions.sudoku","productId":"pack_love","status":"invalid","code":"wrong_product","ms":0}
+
+ [32m✓[39m test/service.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 375[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m12 passed[39m[22m[90m (12)[39m
+[2m   Start at [22m 13:47:25
+[2m   Duration [22m 967ms[2m (transform 137ms, setup 0ms, collect 289ms, tests 375ms, environment 0ms, prepare 87ms)[22m
+
