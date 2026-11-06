@@ -165,6 +165,17 @@ void main() {
     expect(grants, 0);
   });
 
+  test('rewarded: an ad that never appears ends the attempt instead of hanging', () async {
+    backend = FakeAdsBackend(video: FakeVideo.silent);
+    now = DateTime(2026, 11, 9, 10);
+    services = testServices(adsBackend: backend, clock: () => now, openTimeout: const Duration(milliseconds: 50));
+    await _settle();
+    var grants = 0;
+    expect(await services.ads.showRewarded(onReward: () async => grants++), RewardedOutcome.unavailable);
+    expect(services.ads.fullscreenActive, isFalse);
+    expect(grants, 0);
+  });
+
   test('buying "Werbung entfernen" discards loaded ads and stops all ads', () async {
     await setUpServices();
     services.ads.prepareInterstitial();

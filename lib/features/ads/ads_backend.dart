@@ -18,9 +18,9 @@ class ConsentResult {
 }
 
 abstract class LoadedInterstitial {
-  /// Shows the ad once. Completes exactly once when it was closed (true) or
-  /// could not be shown (false).
-  Future<bool> show();
+  /// Shows the ad once. [onOpened] fires when it is on screen. Completes exactly
+  /// once when it was closed (true) or could not be shown (false).
+  Future<bool> show({VoidCallback? onOpened});
   void dispose();
 }
 
@@ -168,11 +168,12 @@ class _GoogleInterstitial implements LoadedInterstitial {
   var _used = false;
 
   @override
-  Future<bool> show() {
+  Future<bool> show({VoidCallback? onOpened}) {
     final done = Completer<bool>();
     if (_used) return Future.value(false);
     _used = true;
     _ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (_) => onOpened?.call(),
       onAdDismissedFullScreenContent: (ad) {
         ad.dispose();
         if (!done.isCompleted) done.complete(true);

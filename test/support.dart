@@ -51,6 +51,7 @@ Services testServices({
   DateTime Function()? clock,
   Duration Function()? monotonic,
   Duration rewardedLoadTimeout = const Duration(seconds: 10),
+  Duration openTimeout = const Duration(seconds: 8),
   AppDatabase? db,
   String? language = 'de',
   AdsBackend adsBackend = const NoAdsBackend(),
@@ -74,6 +75,7 @@ Services testServices({
     clock: time,
     monotonic: monotonic,
     rewardedLoadTimeout: rewardedLoadTimeout,
+    openTimeout: openTimeout,
     lateRewardGrace: Duration.zero,
     enabled: true,
   );
@@ -108,6 +110,9 @@ enum FakeVideo {
 
   /// show failed
   failToShow,
+
+  /// the SDK never reports anything (no open, no close)
+  silent,
 }
 
 class FakeInterstitial implements LoadedInterstitial {
@@ -116,8 +121,9 @@ class FakeInterstitial implements LoadedInterstitial {
   VoidCallback? whileShowing;
 
   @override
-  Future<bool> show() async {
+  Future<bool> show({VoidCallback? onOpened}) async {
     shown = true;
+    onOpened?.call();
     whileShowing?.call();
     return true;
   }
@@ -137,6 +143,7 @@ class FakeRewarded implements LoadedRewarded {
   Future<bool> show({required VoidCallback onEarned, VoidCallback? onOpened}) async {
     shows++;
     if (behaviour == FakeVideo.failToShow) return false;
+    if (behaviour == FakeVideo.silent) return Completer<bool>().future;
     onOpened?.call();
     switch (behaviour) {
       case FakeVideo.earnThenClose:

@@ -46,6 +46,8 @@ class AdCoordinator extends ChangeNotifier {
     this.config = const AdPolicyConfig(),
     this.rewardedLoadTimeout = const Duration(seconds: 10),
     this.lateRewardGrace = const Duration(milliseconds: 800),
+    this.openTimeout = const Duration(seconds: 8),
+    this.resumeGrace = const Duration(seconds: 3),
     bool? enabled,
   })  : _backend = backend,
         _store = store,
@@ -62,6 +64,15 @@ class AdCoordinator extends ChangeNotifier {
   final bool _enabled;
   final AdPolicyConfig config;
   final Duration rewardedLoadTimeout;
+
+  /// An ad that was asked to show but never appeared counts as "could not be shown"
+  /// after this time (seen on an emulator: no SDK callback at all).
+  final Duration openTimeout;
+
+  /// The app is visible again after an opened ad, but the SDK did not report the
+  /// close: after this grace time the ad counts as closed. Never closes a running ad.
+  final Duration resumeGrace;
+  VoidCallback? _onResumedWhileFullscreen;
 
   /// How long to wait after closing a video for a reward callback that comes late.
   final Duration lateRewardGrace;
@@ -113,7 +124,10 @@ class AdCoordinator extends ChangeNotifier {
   Future<void> start() {
     if (_started) return _ready ?? Future.value();
     _started = true;
-    _lifecycle = AppLifecycleListener(onStateChange: (s) => _foreground = s == AppLifecycleState.resumed);
+    _lifecycle = AppLifecycleListener(onStateChange: (s) {
+      _foreground = s == AppLifecycleState.resumed;
+      if (_foreground) _onResumedWhileFullscreen?.call();
+    });
     _purchases.addListener(_onPurchases);
     _ready = _loadPersisted();
     _onPurchases();
@@ -270,7 +284,7 @@ class AdCoordinator extends ChangeNotifier {
       return false;
     }
     _setFullscreen(true);
-    final shown = await ad.show();
+    final shown = await _guardedShow((opened) => ad.show(onOpened: opened));
     _setFullscreen(false);
     if (shown) {
       _shownTimes = [..._shownTimes.where((t) => _clock().difference(t) < const Duration(hours: 1)), _clock()];
@@ -308,12 +322,15 @@ class AdCoordinator extends ChangeNotifier {
     var earned = false;
     Future<void>? granting;
     _setFullscreen(true);
-    final shown = await ad.show(
-      onEarned: () {
-        if (earned) return; // duplicate callback
-        earned = true;
-        granting = onReward();
-      },
+    final shown = await _guardedShow(
+      (opened) => ad.show(
+        onEarned: () {
+          if (earned) return; // duplicate callback
+          earned = true;
+          granting = onReward();
+        },
+        onOpened: opened,
+      ),
       onOpened: onOpened,
     );
     _setFullscreen(false);
@@ -325,6 +342,38 @@ class AdCoordinator extends ChangeNotifier {
   }
 
   // -------------------------------------------------------------- helpers --
+
+  /// Shows a full-screen ad and completes exactly once, even if the SDK stays
+  /// silent: never opened within [openTimeout] → false; opened and the app is
+  /// in the foreground again for [resumeGrace] without a close callback → true.
+  Future<bool> _guardedShow(Future<bool> Function(VoidCallback opened) show, {VoidCallback? onOpened}) {
+    final done = Completer<bool>();
+    var opened = false;
+    Timer? openTimer;
+    Timer? resumeTimer;
+    void finish(bool shown) {
+      if (done.isCompleted) return;
+      openTimer?.cancel();
+      resumeTimer?.cancel();
+      _onResumedWhileFullscreen = null;
+      done.complete(shown);
+    }
+
+    _onResumedWhileFullscreen = () {
+      if (!opened) return;
+      resumeTimer?.cancel();
+      resumeTimer = Timer(resumeGrace, () => finish(true));
+    };
+    openTimer = Timer(openTimeout, () {
+      if (!opened) finish(false);
+    });
+    show(() {
+      opened = true;
+      openTimer?.cancel();
+      onOpened?.call();
+    }).then(finish, onError: (Object _) => finish(false));
+    return done.future;
+  }
 
   void _setFullscreen(bool on) {
     _fullscreenActive = on;
