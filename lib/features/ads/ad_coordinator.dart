@@ -313,9 +313,10 @@ class AdCoordinator extends ChangeNotifier {
     } on Object {
       return RewardedOutcome.unavailable;
     }
-    if (ad == null) return RewardedOutcome.unavailable;
+    final loaded = ad;
+    if (loaded == null) return RewardedOutcome.unavailable;
     if (generation != _generation || !mayUseAds || !_foreground || _fullscreenActive) {
-      ad.dispose();
+      loaded.dispose();
       return RewardedOutcome.unavailable;
     }
 
@@ -323,7 +324,7 @@ class AdCoordinator extends ChangeNotifier {
     Future<void>? granting;
     _setFullscreen(true);
     final shown = await _guardedShow(
-      (opened) => ad.show(
+      (opened) => loaded.show(
         onEarned: () {
           if (earned) return; // duplicate callback
           earned = true;
