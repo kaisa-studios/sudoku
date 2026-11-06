@@ -18,6 +18,7 @@ Doppelt geprüft: Dart-Engine (Eindeutigkeit, Einstufung mit Orakel) und unabhä
 (`tool/verify_puzzles.py`): jede Lösung eindeutig, keine Dopplung. 0,5 MB.
 
 ## CI und Gerätetest
+- iOS: unsignierter Release-Build auf GitHub (Xcode 26.3) erfolgreich, 25,3 MB, inkl. Werbe-SDK und Kauf (Commit 7ca84a4, Auslöser `[ios]`). Installation aufs iPhone braucht das Apple-Entwicklerkonto (TestFlight).
 - CI: Analyse fehlerfrei, **86 Tests bestanden** (neu: Werbe-Regeln, Koordinator inkl. Callback-Reihenfolgen und 10-s-Grenze, Kaufzustände, Werbe-/Kaufabläufe in der App) (zusätzlich: Hinweis, Englisch, Einstellungen, große Darstellung, 200 % Schrift) (Engine, Spielregeln, Statistik-Referenzfall, Serie, Datenbank inkl.
   Neustart-Sperre und veralteter Schreibvorgänge, ausgelieferte Inhalte, App-Abläufe).
 - Emulator (Android 13, Release-App, Commit f14f8fe): startet in ≈ 1 s; Tagesrätsel, Spiel, Hinweis, große Darstellung,
