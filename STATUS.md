@@ -1,6 +1,6 @@
 # Tidy Sudoku – Umsetzungsstand
 
-Stand: 6. November 2026 (Test-APK 5 = Commit f9619bd) · Grundlage: `docs/MASTER_PROMPT.md` (Version 1.2), Entscheidungen in `DECISIONS.md`
+Stand: 6. November 2026 (Test-APK 6 = Commit b014ae9) · Grundlage: `docs/MASTER_PROMPT.md` (Version 1.2), Entscheidungen in `DECISIONS.md`
 
 | Phase | Stand |
 | --- | --- |
@@ -19,7 +19,7 @@ Doppelt geprüft: Dart-Engine (Eindeutigkeit, Einstufung mit Orakel) und unabhä
 
 ## CI und Gerätetest
 - iOS: unsignierter Release-Build auf GitHub (Xcode 26.3) erfolgreich, 25,3 MB, inkl. Werbe-SDK und Kauf (Commit 7ca84a4, Auslöser `[ios]`). Installation aufs iPhone braucht das Apple-Entwicklerkonto (TestFlight).
-- CI: Analyse fehlerfrei, **86 Tests bestanden** (neu: Werbe-Regeln, Koordinator inkl. Callback-Reihenfolgen und 10-s-Grenze, Kaufzustände, Werbe-/Kaufabläufe in der App) (zusätzlich: Hinweis, Englisch, Einstellungen, große Darstellung, 200 % Schrift) (Engine, Spielregeln, Statistik-Referenzfall, Serie, Datenbank inkl.
+- CI: Analyse fehlerfrei, **90 Tests bestanden** (neu: Werbe-Regeln, Koordinator inkl. Callback-Reihenfolgen und 10-s-Grenze, Kaufzustände, Werbe-/Kaufabläufe in der App) (zusätzlich: Hinweis, Englisch, Einstellungen, große Darstellung, 200 % Schrift) (Engine, Spielregeln, Statistik-Referenzfall, Serie, Datenbank inkl.
   Neustart-Sperre und veralteter Schreibvorgänge, ausgelieferte Inhalte, App-Abläufe).
 - Emulator (Android 13, Release-App, Commit f14f8fe): startet in ≈ 1 s; Tagesrätsel, Spiel, Hinweis, große Darstellung,
   Einstellungen, Dunkelmodus, nach erzwungenem Neustart „Spiel fortsetzen“ mit Eingaben, 200 % Systemschrift
@@ -30,7 +30,10 @@ Doppelt geprüft: Dart-Engine (Eindeutigkeit, Einstufung mit Orakel) und unabhä
 - Android-Rechte durch das Werbe-SDK: Internet, Netzwerkstatus, Werbe-ID (AD_ID, AdServices), Billing, WorkManager (Wake-Lock/Foreground-Service). Für das Datenschutzformular im Play Store relevant.
 - Gerätetest auf echtem Android-Handy und iPhone ausstehend.
 
-## Store-Texte und Datenschutz
+## Store-Texte, Screenshots und Datenschutz
+Store-Screenshots DE/EN in `assets/store/screenshots` (App Store 1290 × 2796, Google Play 1080 × 1920), erzeugt aus
+echten App-Bildschirmen (Workflow „Screenshots“) und `tool/store_screens.py`. Einstellungen: Datenschutzerklärung,
+Support und Impressum, Lizenzen (D13).
 Entwurf im Dokument „Tidy Sudoku – Store-Texte und Datenschutz“ (Claude Docs): Store-Texte DE/EN,
 Datenschutzerklärung, Datenangaben Google/Apple, Zielgruppe/Altersfreigabe, offene Angaben.
 
