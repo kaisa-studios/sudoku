@@ -12,10 +12,12 @@ import '../settings/settings_screen.dart';
 import '../stats/stats_screen.dart';
 
 class _HomeData {
-  _HomeData(this.open, this.streak, this.todayDone, this.dailyAvailable);
+  _HomeData(this.open, this.streak, this.slots, this.dailyAvailable);
   final SavedGame? open;
   final Streak streak;
-  final int todayDone;
+  /// Finished state of today's three daily puzzles, by slot.
+  final List<bool> slots;
+  int get todayDone => slots.where((d) => d).length;
   final bool dailyAvailable;
 }
 
@@ -49,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final open = await s.games.openRegularGame();
     final streak = computeStreak(await s.games.completedDailyDays(), now);
     final status = await s.games.dailyStatus(dayKey(now));
-    final done = status.values.where((p) => p == GamePhase.completed).length;
+    final slots = [for (var i = 0; i < 3; i++) status[i] == GamePhase.completed];
     if (!mounted) return;
-    setState(() => _data = _HomeData(open, streak, done, s.content.dailyFor(now) != null));
+    setState(() => _data = _HomeData(open, streak, slots, s.content.dailyFor(now) != null));
   }
 
   Future<void> _play(SavedGame saved) async {
@@ -119,9 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 480),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
+                // header: one line, left-aligned like everything below
+                Row(children: [
+                  Expanded(
+                    child: Text(s.appTitle,
+                        style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700)),
+                  ),
+                  IconButton(
                     tooltip: s.settings,
                     icon: const Icon(Icons.settings_outlined, size: 30),
                     onPressed: _loading
@@ -132,17 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             await _refresh();
                           },
                   ),
-                ),
-                Text(s.appTitle,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w600)),
-                const SizedBox(height: 8),
-                Text(s.tagline, textAlign: TextAlign.center, style: theme.textTheme.titleMedium),
-                const SizedBox(height: 28),
+                ]),
+                const SizedBox(height: 20),
                 if (data != null && data.dailyAvailable) ...[
                   _DailyCard(
                     streak: data.streak,
-                    done: data.todayDone,
+                    slots: data.slots,
                     onTap: _loading
                         ? null
                         : () async {
@@ -151,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             await _refresh();
                           },
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 28),
                 ],
                 if (data?.open != null) ...[
                   FilledButton.icon(
@@ -159,9 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.play_arrow),
                     label: Text(s.continueGame(s.difficulty(data!.open!.game.difficulty))),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 28),
                 ],
-                Text(s.newGame, style: theme.textTheme.titleLarge),
+                Text(s.newGame, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 12),
                 for (final d in Difficulty.values)
                   Padding(
@@ -172,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: _loading ? null : () => setState(() => _level = d),
                     ),
                   ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 FilledButton(
                   style: data?.open != null
                       ? FilledButton.styleFrom(
@@ -184,9 +185,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? const SizedBox.square(dimension: 26, child: CircularProgressIndicator(strokeWidth: 3))
                       : Text(s.startGame),
                 ),
-                const SizedBox(height: 16),
-                OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(minimumSize: const Size(64, 52)),
+                const SizedBox(height: 12),
+                TextButton.icon(
+                  style: TextButton.styleFrom(minimumSize: const Size(64, 52)),
                   onPressed: _loading
                       ? null
                       : () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const StatsScreen())),
@@ -203,10 +204,10 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _DailyCard extends StatelessWidget {
-  const _DailyCard({required this.streak, required this.done, this.onTap});
+  const _DailyCard({required this.streak, required this.slots, this.onTap});
 
   final Streak streak;
-  final int done;
+  final List<bool> slots;
   final VoidCallback? onTap;
 
   @override
@@ -214,6 +215,7 @@ class _DailyCard extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final s = context.s;
+    final done = slots.where((d) => d).length;
     return Semantics(
       button: true,
       label: s.dailyCardLabel(done, streak.current),
@@ -225,19 +227,30 @@ class _DailyCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(children: [
-              Icon(Icons.today, size: 36, color: scheme.onSecondaryContainer),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(s.dailyTitle, style: text.titleLarge),
-                  const SizedBox(height: 4),
-                  Text(s.dailyToday(done), style: text.bodyLarge),
+            padding: const EdgeInsets.fromLTRB(20, 16, 12, 16),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(children: [
+                Expanded(child: Text(s.dailyTitle, style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600))),
+                Icon(Icons.chevron_right, size: 28, color: scheme.onSecondaryContainer),
+              ]),
+              const SizedBox(height: 10),
+              // one calm line: today's three puzzles as circles, then the streak
+              Wrap(
+                spacing: 16,
+                runSpacing: 6,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Row(mainAxisSize: MainAxisSize.min, children: [
+                    for (final d in slots)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: Icon(d ? Icons.check_circle : Icons.circle_outlined,
+                            size: 26, color: d ? scheme.primary : scheme.onSecondaryContainer),
+                      ),
+                  ]),
                   Text(s.streakLine(streak.current), style: text.bodyLarge),
-                ]),
+                ],
               ),
-              const Icon(Icons.chevron_right),
             ]),
           ),
         ),
@@ -260,8 +273,12 @@ class _LevelTile extends StatelessWidget {
       selected: selected,
       button: true,
       child: Material(
-        color: selected ? scheme.primaryContainer : scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(14),
+        // calm list: unselected levels are outlined, only the chosen one is filled
+        color: selected ? scheme.primaryContainer : Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: BorderSide(color: selected ? scheme.primary : scheme.outlineVariant, width: selected ? 2 : 1),
+        ),
         child: InkWell(
           borderRadius: BorderRadius.circular(14),
           onTap: onTap,

@@ -93,8 +93,8 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(TidySudokuApp(services: testServices(now: DateTime(2026, 11, 9, 10))));
     await tester.pumpAndSettle();
-    expect(find.text('Heute 0 von 3 gelöst'), findsOneWidget);
-    await tester.tap(find.text('Tägliches Sudoku'));
+    expect(find.bySemanticsLabel(RegExp('^Tägliches Sudoku, heute 0 von 3 gelöst')), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel(RegExp('^Tägliches Sudoku, ')));
     await tester.pumpAndSettle();
     expect(find.text('9. November 2026'), findsOneWidget);
     expect(find.bySemanticsLabel('Leicht, Starten'), findsOneWidget);
@@ -118,7 +118,7 @@ void main() {
 
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
-    expect(find.text('Heute 1 von 3 gelöst'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('^Tägliches Sudoku, heute 1 von 3 gelöst')), findsOneWidget);
   });
 
   testWidgets('statistics: empty state', (tester) async {
