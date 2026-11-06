@@ -1,0 +1,93 @@
+[14:26:19] install build/app/outputs/flutter-apk/app-release.apk
+Performing Streamed Install
+Success
+Starting: Intent { cmp=at.kaisasolutions.sudoku/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: at.kaisasolutions.sudoku/.MainActivity
+TotalTime: 2282
+WaitTime: 2297
+Complete
+[14:26:32] screenshot 01_start
+[14:26:32] app pid: 1761
+[14:26:34] tap '^(Tägliches Sudoku|Daily Sudoku)' at 540 750
+[14:26:38] screenshot 02_tagesraetsel
+[14:26:40] tap '^(Leicht|Easy), ' at 540 952
+[14:26:47] tap '^(Zahl|Number) 1' at 194 1938
+[14:26:52] tap '^(Notizen|Notes)' at 159 1765
+[14:26:56] tap '^(Zahl|Number) 2' at 540 1938
+[14:26:59] tap '^(Zahl|Number) 7' at 194 2236
+[14:27:00] screenshot 03_tagesraetsel_spiel
+[14:27:08] tap '^(Spiel starten|Start game)' at 540 1841
+[14:27:13] screenshot 04_spiel
+[14:27:17] tap '^(Zahl|Number) 5' at 540 2106
+[14:27:22] tap '^(Zahl|Number) 3' at 886 1938
+[14:27:26] tap '^(Hinweis|Hint)' at 921 1765
+[14:27:28] screenshot 05_spiel_hinweis
+[14:27:32] tap '^(Große Darstellung|Large view)' at 1017 202
+[14:27:37] tap '^(Feld rechts|Cell to the right)' at 955 1602
+[14:27:42] tap '^(Feld darunter|Cell below)' at 787 1602
+[14:27:43] screenshot 06_grosse_darstellung
+Starting: Intent { cmp=at.kaisasolutions.sudoku/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: at.kaisasolutions.sudoku/.MainActivity
+TotalTime: 1031
+WaitTime: 1037
+Complete
+[14:27:57] screenshot 07_nach_neustart
+[14:27:59] tap '^(Spiel fortsetzen|Continue game)' at 540 912
+[14:28:03] screenshot 08_fortgesetzt
+[14:28:09] tap '^(Statistik|Statistics)' at 540 2125
+[14:28:12] screenshot 09_statistik
+[14:28:18] tap '^(Einstellungen|Settings)' at 954 398
+[14:28:21] screenshot 10_einstellungen
+[14:28:23] tap '^(Dunkel|Dark)' at 540 789
+[14:28:29] tap '^(Spiel fortsetzen|Continue game)' at 540 912
+[14:28:33] screenshot 10b_dunkel_spiel
+[14:28:38] tap '^(Einstellungen|Settings)' at 954 398
+[14:28:42] tap '^(Wie Gerät|Like device)' at 540 495
+Starting: Intent { cmp=at.kaisasolutions.sudoku/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: at.kaisasolutions.sudoku/.MainActivity
+TotalTime: 1081
+WaitTime: 1092
+Complete
+[14:28:57] screenshot 11_schrift200_start
+[14:28:59] tap '^(Spiel fortsetzen|Continue game)' at 540 1159
+[14:29:02] screenshot 12_schrift200_spiel
+Starting: Intent { cmp=at.kaisasolutions.sudoku/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: at.kaisasolutions.sudoku/.MainActivity
+TotalTime: 1066
+WaitTime: 1081
+Complete
+[14:29:17] tap '^(Spiel fortsetzen|Continue game)' at 540 912
+[14:29:24] tap ', (leer|empty)' at 424 561
+[14:29:28] tap '^(Zahl|Number) 1' at 194 1938
+[14:29:32] screenshot 13_drei_fehler
+[14:29:34] tap '^(Video ansehen|Watch video)' at 675 1589
+[14:29:47] screenshot 14_testvideo
+[14:30:03] NOT FOUND: ^(Zweite Chance|Second chance)
+[14:30:14] NOT FOUND: (Kein Video verfügbar|No video available)
+[14:30:25] NOT FOUND: ^(Notizen|Notes)
+[14:30:36] NOT FOUND: (?i)(close|schließen|skip|überspringen|zurück zur app|return to app)
+[14:30:53] NOT FOUND: ^(Zweite Chance|Second chance)
+[14:31:05] NOT FOUND: (Kein Video verfügbar|No video available)
+[14:31:21] NOT FOUND: ^(Drei Fehler|Three mistakes)
+[14:31:22] screenshot 15_nach_video
+Starting: Intent { cmp=at.kaisasolutions.sudoku/.MainActivity }
+Status: ok
+LaunchState: WARM
+Activity: at.kaisasolutions.sudoku/.MainActivity
+TotalTime: 907
+WaitTime: 910
+Complete
+[14:31:33] tap '^(Einstellungen|Settings)' at 954 398
+[14:31:45] NOT FOUND: ^(Für .* kaufen|Buy for)
+[14:31:49] screenshot 16_werbung_entfernen
+[14:31:51] tap '^(Für .* kaufen|Buy for)' at 540 751
+[14:31:55] screenshot 17_werbefrei
+[14:31:58] done

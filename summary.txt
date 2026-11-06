@@ -1,0 +1,7 @@
+run 42232411667 sha b014ae925838250e161b3eea2a87b07083e0954e prep=success boot=success emu=success
+release_app=running
+resume_after_restart=yes
+large_text=running
+rewarded=earned
+purchase_demo=owned
+after_ads=running

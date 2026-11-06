@@ -1,0 +1,35 @@
+--------- beginning of main
+11-06 14:26:23.004  1761  1761 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/sdk/native/sdk-core-v40.html:1103)
+11-06 14:26:40.302  1761  2094 I Ads     : This request is sent from a test device.
+11-06 14:26:40.382  1761  2098 W Ads     : Invoke Firebase method getInstance error.
+11-06 14:26:40.382  1761  2098 W Ads     : The Google Mobile Ads SDK will not integrate with Firebase. Admob/Firebase integration requires the latest Firebase SDK jar, but Firebase SDK is either missing or out of date
+11-06 14:26:42.818  1761  1761 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/production/sdk-core-v40-impl.js?n=true&lv=sdk_20190107_RC02:1096)
+11-06 14:26:42.853  1761  2153 I Ads     : SDK version: afma-sdk-a-v263305000.263305000.0
+11-06 14:26:42.853  1761  2153 I Ads     : HTTP timeout: 60000 milliseconds.
+11-06 14:26:44.350  1761  1761 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/sdk/native/sdk-core-v40.html:1103)
+11-06 14:27:50.311  2503  2503 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/sdk/native/sdk-core-v40.html:1103)
+11-06 14:27:59.845  2503  2670 I Ads     : This request is sent from a test device.
+11-06 14:27:59.874  2503  2627 W Ads     : Invoke Firebase method getInstance error.
+11-06 14:27:59.874  2503  2627 W Ads     : The Google Mobile Ads SDK will not integrate with Firebase. Admob/Firebase integration requires the latest Firebase SDK jar, but Firebase SDK is either missing or out of date
+11-06 14:28:02.226  2503  2503 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/production/sdk-core-v40-impl.js?n=true&lv=sdk_20190107_RC02:1096)
+11-06 14:28:02.261  2503  2607 I Ads     : SDK version: afma-sdk-a-v263305000.263305000.0
+11-06 14:28:02.261  2503  2607 I Ads     : HTTP timeout: 60000 milliseconds.
+11-06 14:28:04.138  2503  2503 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/sdk/native/sdk-core-v40.html:1103)
+11-06 14:28:49.579  2945  2945 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/sdk/native/sdk-core-v40.html:1103)
+11-06 14:28:59.254  2945  3112 I Ads     : This request is sent from a test device.
+11-06 14:28:59.281  2945  3044 W Ads     : Invoke Firebase method getInstance error.
+11-06 14:28:59.281  2945  3044 W Ads     : The Google Mobile Ads SDK will not integrate with Firebase. Admob/Firebase integration requires the latest Firebase SDK jar, but Firebase SDK is either missing or out of date
+11-06 14:29:01.658  2945  2945 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/production/sdk-core-v40-impl.js?n=true&lv=sdk_20190107_RC02:1096)
+11-06 14:29:01.691  2945  3062 I Ads     : SDK version: afma-sdk-a-v263305000.263305000.0
+11-06 14:29:01.691  2945  3062 I Ads     : HTTP timeout: 60000 milliseconds.
+11-06 14:29:06.608  3186  3186 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/sdk/native/sdk-core-v40.html:1103)
+11-06 14:29:17.879  3186  3347 I Ads     : This request is sent from a test device.
+11-06 14:29:17.895  3186  3357 W Ads     : Invoke Firebase method getInstance error.
+11-06 14:29:17.896  3186  3357 W Ads     : The Google Mobile Ads SDK will not integrate with Firebase. Admob/Firebase integration requires the latest Firebase SDK jar, but Firebase SDK is either missing or out of date
+11-06 14:29:20.209  3186  3186 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/production/sdk-core-v40-impl.js?n=true&lv=sdk_20190107_RC02:1096)
+11-06 14:29:20.244  3186  3362 I Ads     : SDK version: afma-sdk-a-v263305000.263305000.0
+11-06 14:29:20.245  3186  3362 I Ads     : HTTP timeout: 60000 milliseconds.
+11-06 14:29:21.766  3186  3186 I Ads     : JS: The jsLoaded GMSG has been sent (https://googleads.g.doubleclick.net/mads/static/sdk/native/sdk-core-v40.html:1103)
+11-06 14:29:34.279  3186  3347 I Ads     : This request is sent from a test device.
+11-06 14:29:36.432  3186  3525 I Ads     : SDK version: afma-sdk-a-v263305000.263305000.0
+11-06 14:29:36.435  3186  3525 I Ads     : HTTP timeout: 60000 milliseconds.
