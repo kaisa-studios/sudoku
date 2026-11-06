@@ -68,6 +68,9 @@ ThemeData buildTheme(Brightness brightness) {
     brightness: brightness,
     surface: dark ? const Color(0xFF15191C) : const Color(0xFFF7F3EC),
   );
+  // the platform's text theme (Roboto / San Francisco); buttons take their font from it too
+  final typography = Typography.material2021(platform: defaultTargetPlatform);
+  final text = dark ? typography.white : typography.black;
   return ThemeData(
     colorScheme: scheme,
     scaffoldBackgroundColor: scheme.surface,
@@ -76,7 +79,7 @@ ThemeData buildTheme(Brightness brightness) {
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
         minimumSize: const Size(64, 56),
-        textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+        textStyle: text.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.w600),
       ),
     ),
   );
