@@ -43,7 +43,7 @@ jobs:
         id: build
         continue-on-error: true
         run: |
-          flutter build apk --release --target-platform android-arm64 > /tmp/rep/build.log 2>&1
+          flutter build apk --release --target-platform android-arm64 --dart-define=STORE_MODE=demo > /tmp/rep/build.log 2>&1
           ls -la build/app/outputs/flutter-apk/ >> /tmp/rep/build.log
       - name: Bericht
         if: always()

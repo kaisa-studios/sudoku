@@ -68,9 +68,7 @@ void main() {
     await _tapVisible(tester, find.textContaining('Spiel fortsetzen'));
     await tester.pumpAndSettle();
     expect(find.text('Drei Fehler'), findsOneWidget);
-    await tester.tap(find.text('Weiterspielen'));
-    await tester.pumpAndSettle();
-    expect(find.text('Fehler 3/3'), findsOneWidget);
+    expect(find.text('Video ansehen'), findsOneWidget);
   });
 
   testWidgets('starting a new game asks before discarding the open one', (tester) async {

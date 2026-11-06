@@ -43,12 +43,27 @@ class _DailyScreenState extends State<DailyScreen> {
     final now = s.clock();
     final puzzles = s.content.dailyFor(now);
     if (puzzles == null) return;
-    setState(() => _busy = true);
     final key = dayKey(now);
-    final saved = await s.games.dailyGame(key, slot) ?? await s.games.startDaily(puzzles[slot], key, slot);
-    if (!mounted) return;
-    setState(() => _busy = false);
-    await Navigator.of(context).push<GameExit>(MaterialPageRoute(builder: (_) => GameScreen(saved: saved)));
+    int? next = slot;
+    while (next != null && mounted) {
+      final current = next;
+      setState(() => _busy = true);
+      final saved = await s.games.dailyGame(key, current) ?? await s.games.startDaily(puzzles[current], key, current);
+      final status = await s.games.dailyStatus(key);
+      bool open(int i) => i != current && status[i] != GamePhase.completed && status[i] != GamePhase.abandoned;
+      final following = [for (var i = 0; i < puzzles.length; i++) if (open(i)) i];
+      if (!mounted) return;
+      setState(() => _busy = false);
+      final exit = await Navigator.of(context).push<GameExit>(
+        MaterialPageRoute(builder: (_) => GameScreen(saved: saved, hasNextDaily: following.isNotEmpty)),
+      );
+      next = null;
+      if (exit == GameExit.nextDaily && following.isNotEmpty && mounted) {
+        // between daily puzzles the same central rule applies as between games (D7, 10.2)
+        await s.ads.onNewSudoku(saved.game);
+        next = following.firstWhere((i) => i > current, orElse: () => following.first);
+      }
+    }
     await _refresh();
   }
 

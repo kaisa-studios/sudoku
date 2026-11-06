@@ -51,6 +51,13 @@ class Game {
   bool failed = false;
   DateTime? failedAt;
 
+  /// When the second chance was granted (10.3).
+  DateTime? continueAt;
+
+  /// A rewarded video was actually opened for this game: the following
+  /// transition shows no interstitial (10.2).
+  bool rewardedAdOpened = false;
+
   /// Active play time in milliseconds (only while visible and playable, 6.4).
   int activeMs = 0;
   int hintCount = 0;
@@ -187,10 +194,12 @@ class Game {
   }
 
   /// The one second chance after the third mistake; the loss stays recorded.
-  bool grantContinue({ContinueSource source = ContinueSource.free}) {
+  /// Idempotent: a second call (e.g. a duplicate reward callback) changes nothing.
+  bool grantContinue({ContinueSource source = ContinueSource.free, DateTime? at}) {
     if (phase != GamePhase.awaitingContinue || continueUsed) return false;
     continueUsed = true;
     continueSource = source;
+    continueAt = at ?? DateTime.now();
     phase = GamePhase.active;
     return true;
   }
@@ -216,6 +225,8 @@ class Game {
         'continueSource': continueSource.name,
         'failed': failed,
         'failedAt': failedAt?.toIso8601String(),
+        'continueAt': continueAt?.toIso8601String(),
+        'rewardedAdOpened': rewardedAdOpened,
         'activeMs': activeMs,
         'hintCount': hintCount,
         'selected': selected,
@@ -252,6 +263,9 @@ class Game {
     g.failed = (json['failed'] as bool? ?? false) || g.mistakes >= mistakeLimit;
     final failedAt = json['failedAt'] as String?;
     g.failedAt = failedAt == null ? null : DateTime.tryParse(failedAt);
+    final continueAt = json['continueAt'] as String?;
+    g.continueAt = continueAt == null ? null : DateTime.tryParse(continueAt);
+    g.rewardedAdOpened = json['rewardedAdOpened'] as bool? ?? false;
     g.activeMs = json['activeMs'] as int? ?? 0;
     g.hintCount = json['hintCount'] as int? ?? 0;
     g.selected = json['selected'] as int?;

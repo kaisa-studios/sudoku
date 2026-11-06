@@ -53,18 +53,41 @@ class SettingsEntries extends Table {
   Set<Column> get primaryKey => {settingKey};
 }
 
-@DriftDatabase(tables: [Games, SettingsEntries])
+/// Verified store purchases ("Werbung entfernen"). An entry exists only after the
+/// verification confirmed the purchase; never a free-form "isPremium" flag.
+/// Network problems never remove an entry, only a verified refund/revocation does
+/// (Master-Prompt 10.7).
+@DataClassName('EntitlementRow')
+class Entitlements extends Table {
+  TextColumn get productId => text()();
+
+  /// google_play, app_store or demo (demo entries count only in demo builds)
+  TextColumn get store => text()();
+
+  /// verified or revoked
+  TextColumn get state => text()();
+  DateTimeColumn get verifiedAt => dateTime()();
+
+  /// Store order / transaction id (no token, no personal data)
+  TextColumn get reference => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {productId, store};
+}
+
+@DriftDatabase(tables: [Games, SettingsEntries, Entitlements])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'tidy_sudoku'));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) => m.createAll(),
         onUpgrade: (m, from, to) async {
-          // future schema steps go here, one `if (from < n)` block per version
+          // one `if (from < n)` block per version
+          if (from < 2) await m.createTable(entitlements);
         },
       );
 

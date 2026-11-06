@@ -122,5 +122,59 @@ PID=$(adb shell pidof "$PKG" | tr -d '\r')
 if [ -n "$PID" ]; then echo "large_text=running" >> "$OUT/it_result.txt"; else echo "large_text=CRASHED" >> "$OUT/it_result.txt"; fi
 adb shell settings put system font_scale 1.0
 
+adb shell dumpsys package "$PKG" | sed -n '/requested permissions:/,/install permissions:/p' > "$OUT/permissions.txt" 2>&1
+
+# second chance with Google's official test video (rewarded), then the demo purchase
+adb shell am force-stop "$PKG"
+sleep 2
+adb shell am start -W -n "$PKG/.MainActivity" >> "$OUT/steps.log" 2>&1
+sleep 10
+if tap_node '^(Spiel fortsetzen|Continue game)'; then
+  sleep 3
+  tap_node ', (leer|empty)' && sleep 1
+  for d in 1 2 3 4 5; do
+    tap_node "^(Zahl|Number) $d" && sleep 1
+    if find_node '^(Drei Fehler|Three mistakes)' > /dev/null 2>&1; then break; fi
+  done
+  shot 13_drei_fehler
+  if tap_node '^(Video ansehen|Watch video)'; then
+    sleep 12
+    shot 14_testvideo
+    # the test video runs about 15-30 s; then close it like a user (close button, else back)
+    result=unknown
+    for i in $(seq 1 10); do
+      sleep 6
+      if find_node '^(Zweite Chance|Second chance)' > /dev/null 2>&1; then result=closed_early; break; fi
+      if find_node '(Kein Video verfügbar|No video available)' > /dev/null 2>&1; then result=no_video; break; fi
+      if find_node '^(Notizen|Notes)' > /dev/null 2>&1 && ! find_node '^(Drei Fehler|Three mistakes)' > /dev/null 2>&1; then
+        result=earned; break
+      fi
+      tap_node '(?i)(close|schließen|skip|überspringen|zurück zur app|return to app)' || adb shell input keyevent KEYCODE_BACK
+    done
+    shot 15_nach_video
+    echo "rewarded=$result" >> "$OUT/it_result.txt"
+  else
+    echo "rewarded=no_button" >> "$OUT/it_result.txt"
+  fi
+  adb shell input keyevent KEYCODE_BACK && sleep 3
+  adb shell input keyevent KEYCODE_BACK && sleep 2
+fi
+adb shell input swipe 540 700 540 1800 300 && sleep 1
+adb shell am start -W -n "$PKG/.MainActivity" >> "$OUT/steps.log" 2>&1
+sleep 2
+tap_node '^(Einstellungen|Settings)' && sleep 3
+for i in 1 2 3; do find_node '(kaufen|Buy for)' > /dev/null 2>&1 && break; swipe_up; done
+shot 16_werbung_entfernen
+if tap_node '^(Für .* kaufen|Buy for)'; then
+  sleep 4
+  shot 17_werbefrei
+  if find_node '^(Werbefrei|Ad-free)' > /dev/null 2>&1; then echo "purchase_demo=owned" >> "$OUT/it_result.txt"; else echo "purchase_demo=not_owned" >> "$OUT/it_result.txt"; fi
+else
+  echo "purchase_demo=no_button" >> "$OUT/it_result.txt"
+fi
+PID=$(adb shell pidof "$PKG" | tr -d '\r')
+if [ -n "$PID" ]; then echo "after_ads=running" >> "$OUT/it_result.txt"; else echo "after_ads=CRASHED" >> "$OUT/it_result.txt"; fi
+
+adb logcat -d -s Ads:V > "$OUT/logcat_ads.txt" 2>&1
 adb logcat -d -s flutter:V AndroidRuntime:E > "$OUT/logcat.txt" 2>&1
 log "done"

@@ -8,21 +8,25 @@ import '../../app/app_settings.dart';
 import '../../app/services.dart';
 import '../../app/theme.dart';
 import '../../data/game_repository.dart';
+import '../ads/ad_coordinator.dart';
 import '../../domain/game/game.dart';
 import '../../domain/sudoku/grid.dart';
 import '../../l10n/strings.dart';
 import 'board.dart';
 
 /// Result returned to the previous screen when the player leaves.
-enum GameExit { home, newGame }
+enum GameExit { home, newGame, nextDaily }
 
 /// Smallest cell edge in the large view (Master-Prompt 8.2: at least 48).
 const double largeCellSize = 56;
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key, required this.saved});
+  const GameScreen({super.key, required this.saved, this.hasNextDaily = false});
 
   final SavedGame saved;
+
+  /// Daily puzzle with another unsolved puzzle today: the result view offers it.
+  final bool hasNextDaily;
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -31,6 +35,8 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   late final GameRepository _repo;
   late final AppSettings _settings;
+  late final Services _services;
+  bool _finishRecorded = false;
   late bool _large;
   final _clock = Stopwatch();
   final _hScroll = ScrollController();
@@ -53,12 +59,15 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     final services = ServicesScope.read(context);
+    _services = services;
     _repo = services.games;
     _settings = services.settings;
     _large = _settings.largeViewDefault;
     WidgetsBinding.instance.addObserver(this);
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) => _tick());
     _updateClock();
+    // an interstitial can only be shown at the next transition, never during the game
+    if (!game.isFinal) services.ads.prepareInterstitial();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _ensureVisible();
       if (mounted && game.phase == GamePhase.awaitingContinue) _showThirdMistake();
@@ -194,42 +203,149 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
     if (mounted) Navigator.pop(context, exit);
   }
 
+  void _flash(String message) {
+    setState(() => _message = message);
+    _messageTimer?.cancel();
+    _messageTimer = Timer(const Duration(seconds: 4), () {
+      if (mounted) setState(() => _message = null);
+    });
+  }
+
+  /// After the third mistake (6.3 / 10.3): end, decide later, or the one second
+  /// chance – with a voluntary video, or directly for ad-free players.
   Future<void> _showThirdMistake() async {
+    if (_dialogOpen || game.phase != GamePhase.awaitingContinue) return;
     final s = context.s;
+    final adFree = _services.purchases.adFree;
     final choice = await _dialog<String>((context) => AlertDialog(
           title: Text(s.threeMistakesTitle),
-          content: Text(s.threeMistakesBody),
+          content: Text(adFree ? s.threeMistakesBodyAdFree : s.threeMistakesBodyVideo),
           actions: [
             TextButton(onPressed: () => Navigator.pop(context, 'end'), child: Text(s.endGame)),
             TextButton(onPressed: () => Navigator.pop(context, 'later'), child: Text(s.later)),
-            FilledButton(onPressed: () => Navigator.pop(context, 'continue'), child: Text(s.keepPlaying)),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, 'continue'),
+              child: Text(adFree ? s.keepPlaying : s.watchVideo),
+            ),
           ],
         ));
     if (!mounted) return;
     switch (choice) {
       case 'continue':
-        _act(() => game.grantContinue());
+        if (_services.purchases.adFree) {
+          // same change as the rewarded path, without loading any ad
+          _act(() => game.grantContinue(source: ContinueSource.adFree, at: _services.clock()));
+        } else {
+          await _rewardedContinue();
+        }
       case 'end':
-        game.abandon();
-        await _leave(GameExit.home);
+        await _endAfterMistakes();
       default:
         await _leave(GameExit.home); // stays locked; the decision is offered again later
     }
+  }
+
+  /// The second chance is granted only from the SDK's reward callback; this
+  /// runs at most once per game (grantContinue is idempotent) and is saved at
+  /// once, even if the reward arrives after the video was closed.
+  Future<void> _grantRewarded() async {
+    if (game.grantContinue(source: ContinueSource.rewarded, at: _services.clock())) {
+      await _save();
+    }
+    if (mounted) setState(() {});
+  }
+
+  Future<void> _rewardedContinue() async {
+    final s = context.s;
+    while (mounted) {
+      _dialogOpen = true;
+      _updateClock();
+      final navigator = Navigator.of(context);
+      final loading = DialogRoute<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            content: Row(children: [
+              const SizedBox.square(dimension: 28, child: CircularProgressIndicator(strokeWidth: 3)),
+              const SizedBox(width: 20),
+              Expanded(child: Text(s.videoLoading)),
+            ]),
+          ),
+        ),
+      );
+      unawaited(navigator.push(loading));
+      final outcome = await _services.ads.showRewarded(
+        onOpened: () {
+          game.rewardedAdOpened = true; // no interstitial after this game (10.2)
+          _save();
+        },
+        onReward: _grantRewarded,
+      );
+      if (loading.isActive) navigator.removeRoute(loading);
+      _dialogOpen = false;
+      if (!mounted) return;
+      switch (outcome) {
+        case RewardedOutcome.earned:
+          _act(() {}); // continue the game: timer, save, view
+          return;
+        case RewardedOutcome.closedWithoutReward:
+          _updateClock();
+          _flash(s.videoClosedEarly); // the chance stays; the locked game is shown
+          return;
+        case RewardedOutcome.unavailable:
+          final next = await _dialog<String>((context) => AlertDialog(
+                title: Text(s.noVideoTitle),
+                content: Text(s.noVideoBody),
+                actions: [
+                  TextButton(onPressed: () => Navigator.pop(context, 'end'), child: Text(s.endGame)),
+                  TextButton(onPressed: () => Navigator.pop(context, 'later'), child: Text(s.later)),
+                  FilledButton(onPressed: () => Navigator.pop(context, 'retry'), child: Text(s.tryAgain)),
+                ],
+              ));
+          if (!mounted) return;
+          if (next == 'retry') continue;
+          if (next == 'end') {
+            await _endAfterMistakes();
+          } else {
+            await _leave(GameExit.home);
+          }
+          return;
+      }
+    }
+  }
+
+  /// "Spiel beenden" after three mistakes: the game is finally over and the
+  /// result view follows (a natural transition, 10.2).
+  Future<void> _endAfterMistakes() async {
+    setState(game.abandon);
+    _commitTime();
+    _updateClock();
+    await _save();
+    if (mounted) await _showFinished();
   }
 
   Future<void> _showFinished() async {
     final s = context.s;
     final won = game.outcome == GameOutcome.won;
     final daily = saved.isDaily;
+    if (!_finishRecorded) {
+      _finishRecorded = true;
+      unawaited(_services.ads.recordFinishedGame());
+    }
     final choice = await _dialog<GameExit>((context) => AlertDialog(
           title: Text(won ? s.solvedTitle : s.finishedTitle),
           content: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            if (!won) ...[Text(s.failedNote), const SizedBox(height: 12)],
+            if (!won) ...[Text(game.continueUsed ? s.failedNote : s.endedNote), const SizedBox(height: 12)],
             Text(s.timeLine(formatDuration(game.activeMs))),
             Text(s.mistakesLine(game.mistakes)),
           ]),
           actions: [
-            if (daily)
+            if (daily && widget.hasNextDaily) ...[
+              TextButton(onPressed: () => Navigator.pop(context, GameExit.home), child: Text(s.done)),
+              FilledButton(onPressed: () => Navigator.pop(context, GameExit.nextDaily), child: Text(s.nextDaily)),
+            ] else if (daily)
               FilledButton(onPressed: () => Navigator.pop(context, GameExit.home), child: Text(s.done))
             else ...[
               TextButton(onPressed: () => Navigator.pop(context, GameExit.home), child: Text(s.toHome)),
@@ -264,7 +380,13 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                   style: theme.textTheme.titleLarge
                       ?.copyWith(color: game.mistakes > 0 ? context.colors.wrong : null)),
             ),
-            if (_message != null)
+            if (game.phase == GamePhase.awaitingContinue && !_dialogOpen)
+              FilledButton.tonalIcon(
+                onPressed: _showThirdMistake,
+                icon: const Icon(Icons.replay),
+                label: Text(s.secondChance),
+              ),
+            if (_message != null && _message == s.hintDone)
               Semantics(
                 liveRegion: true,
                 label: _message,
@@ -274,6 +396,11 @@ class _GameScreenState extends State<GameScreen> with WidgetsBindingObserver {
                   const SizedBox(width: 6),
                   Text(s.hint, style: theme.textTheme.titleLarge?.copyWith(color: context.colors.entry)),
                 ]),
+              )
+            else if (_message != null)
+              Semantics(
+                liveRegion: true,
+                child: Text(_message!, style: theme.textTheme.titleMedium),
               )
             else if (_settings.showTimer)
               Semantics(

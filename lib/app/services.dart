@@ -3,13 +3,17 @@ import 'package:flutter/widgets.dart';
 import '../data/game_repository.dart';
 import 'app_settings.dart';
 import '../data/puzzle_content.dart';
+import '../features/ads/ad_coordinator.dart';
 import '../features/game/puzzle_source.dart';
+import '../features/purchases/purchase_controller.dart';
 
 /// Explicit dependencies of the app (Master-Prompt 4.2: simple DI).
 class Services {
   Services({
     required this.games,
     required this.content,
+    required this.purchases,
+    required this.ads,
     AppSettings? settings,
     PuzzleSource? source,
     DateTime Function()? clock,
@@ -20,6 +24,12 @@ class Services {
   final GameRepository games;
   final AppSettings settings;
   final PuzzleContent content;
+
+  /// "Werbung entfernen" (store, verification, local entitlement).
+  final PurchaseController purchases;
+
+  /// The only place that loads or shows ads (Master-Prompt 10.1).
+  final AdCoordinator ads;
   final PuzzleSource source;
   final DateTime Function() clock;
 }

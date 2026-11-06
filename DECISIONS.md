@@ -81,3 +81,35 @@ WCAG-Kontraste der Rasterfarben berechnet (hell/dunkel): alle Ziffern und Notize
 (normal, ausgewählt, Zeile/Spalte/Block, gleiche Zahl) mindestens 5,5 : 1; dicke Linien ≥ 9 : 1, dünne Linien
 ≥ 3 : 1 zum Hintergrund. Das ausgewählte Feld hat zusätzlich einen Rahmen in der Akzentfarbe, damit die Auswahl
 nicht nur über einen hellen Farbton erkennbar ist. Falsche Eingaben: Farbe plus Kreuz-Symbol plus Ansage „falsch“.
+
+## D11 – Werbung und „Werbung entfernen“ umgesetzt (6. Nov. 2026)
+Nach Master-Prompt 10/11, Bausteine aus der Mandala-App übernommen (Store, Prüfdienst-Anbindung, Consent).
+- **Ein Koordinator** (`AdCoordinator`) lädt und zeigt alle Anzeigen; die Regeln stehen als reine, getestete
+  Funktion in `ad_policy.dart`. Keine Banner, keine Native-/App-Open-Anzeigen.
+- **Interstitial** nur nach Tippen auf „Neues Sudoku“ bzw. „Nächstes Rätsel“ (Tagesrätsel) in der Ergebnisansicht
+  einer wirklich beendeten Partie (gewonnen oder nach drei Fehlern beendet). Werbefrei: die erste beendete Partie
+  nach Installation und der erste solche Übergang je App-Start. Danach jeder 2. gezählte Übergang, frühestens
+  180 s nach der letzten Vollbildanzeige (auch Video), höchstens 3 pro Stunde, nie nach einer Partie mit
+  geöffnetem Video, nie bei zurückgestellter Uhr. Zähler und Zeiten überstehen einen Neustart.
+- **Zweite Chance per Video** (Rewarded): freigeschaltet nur durch den Belohnungs-Callback des SDK, sofort
+  gespeichert (Quelle `rewarded`); doppelte oder verspätete Callbacks schalten nichts zusätzlich frei.
+  Laden höchstens 10 s, danach gilt der Versuch als gescheitert und ein später geladenes Video wird verworfen.
+  Kein Video: Hinweistext aus 10.3 mit „Erneut versuchen / Später / Spiel beenden“. Video vorzeitig
+  geschlossen: Chance bleibt, gesperrtes Spiel mit Knopf „Zweite Chance“. **Grenze (dokumentiert):** stirbt die
+  App genau zwischen Belohnung und Speichern, ist die Belohnung verloren, die Chance aber nicht verbraucht.
+- **Werbefreie Nutzer** bekommen die zweite Chance ohne Video (Quelle `adFree`), es wird nichts geladen und sie
+  sehen kein neues Einwilligungsformular; vorhandene Datenschutzauswahl bleibt erreichbar.
+- **Einwilligung (UMP)** bei jedem Start; Anzeigen nur, wenn das SDK es erlaubt. Einstellungen zeigen
+  „Datenschutzauswahl für Werbung“, wenn erforderlich.
+- **Kauf** `remove_ads_lifetime` (Google: einmalig, nie konsumiert; Apple: Non-Consumable), Preis immer live
+  aus dem Store. Zustände unknown/notOwned/pending/verifying/owned/revoked/error. Ausstehende Zahlung schaltet
+  nichts frei. Vor dem Kauf wird der Prüfdienst angefragt (`GET /health`); ist er nicht eingerichtet oder nicht
+  erreichbar, öffnet sich kein Kaufdialog. Bezahlt, aber Prüfung nicht möglich: „Bezahlt, Prüfung noch
+  ausstehend“ (auch nach Neustart), kein zweiter Kauf, Anzeigen vorsorglich aus. Netzfehler nehmen nie einen
+  Kauf weg, nur ein bestätigter Widerruf. Werbefreiheit gilt offline ohne Ablauf. „Käufe wiederherstellen“
+  in den Einstellungen.
+- **Prüfdienst:** der gemeinsame Kaisa-Dienst (D3) braucht zusätzlich `GET /health` und die App-ID
+  `at.kaisasolutions.sudoku`. Bis er steht, kann der echte Store nichts freischalten (sichere Voreinstellung).
+- **Testbuilds** (CI, Test-APKs): Googles offizielle Test-Anzeigen und der Demo-Store (in der App als
+  „Demo-Store … es wird nichts berechnet“ gekennzeichnet). `tool/build_release.sh` baut die Store-Version nur mit
+  echten IDs, echtem Store, ohne Debug-Geografie und mit Prüfdienst-URL.

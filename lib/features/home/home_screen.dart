@@ -64,6 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(builder: (_) => GameScreen(saved: current)),
       );
       if (exit != GameExit.newGame || !mounted) break;
+      // the one place for an interstitial: "Neues Sudoku" after a finished game (10.2)
+      await ServicesScope.read(context).ads.onNewSudoku(current.game);
+      if (!mounted) break;
       final next = await _newGame(current.game.difficulty);
       if (next == null) break;
       current = next;

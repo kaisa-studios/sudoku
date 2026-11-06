@@ -47,7 +47,7 @@ jobs:
           {
             flutter pub get
             dart run build_runner build --delete-conflicting-outputs
-            flutter build apk --release --target-platform android-x64
+            flutter build apk --release --target-platform android-x64 --dart-define=STORE_MODE=demo
             (cd android && ./gradlew --stop)
             pkill -f KotlinCompileDaemon || true
             free -m

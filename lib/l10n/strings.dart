@@ -130,6 +130,41 @@ abstract class S {
   String get deleteDone;
   String get localStorageNote;
   String version(String v);
+
+  // ---- ads and purchases
+  String get threeMistakesBodyVideo;
+  String get threeMistakesBodyAdFree;
+  String get watchVideo;
+  String get videoLoading;
+  String get noVideoTitle;
+  String get noVideoBody;
+  String get tryAgain;
+  String get videoClosedEarly;
+  String get secondChance;
+  String get lockedNote;
+  String get endedNote;
+  String get nextDaily;
+  String get removeAdsHeading;
+  String get removeAdsOffer;
+  String get removeAdsOwned;
+  String get purchasePending;
+  String get purchaseVerifying;
+  String get paidUnverifiedNote;
+  String get checkAgain;
+  String get storeUnavailable;
+  String get restorePurchases;
+  String get revokedNote;
+  String get demoStoreNote;
+  String get privacyOptions;
+  String get msgUnlocked;
+  String get msgCanceled;
+  String get msgFailed;
+  String get msgVerificationFailed;
+  String get msgPaidUnverified;
+  String get msgCheckUnavailable;
+  String get msgRestoredOwned;
+  String get msgRestoredNothing;
+  String buyFor(String price);
 }
 
 class StringsDe extends S {
@@ -358,6 +393,104 @@ class StringsDe extends S {
       'Deine Spiele werden nur auf diesem Gerät gespeichert. Es gibt kein Konto und keine Cloud.';
   @override
   String version(String v) => 'Version $v';
+  @override
+  String get threeMistakesBodyVideo =>
+      'Dieses Sudoku zählt jetzt als nicht geschafft. Mit einem kurzen Video bekommst du eine zweite Chance und kannst es zu Ende spielen.';
+  @override
+  String get threeMistakesBodyAdFree =>
+      'Dieses Sudoku zählt jetzt als nicht geschafft. Du hast eine zweite Chance und kannst es zu Ende spielen.';
+  @override
+  String get watchVideo =>
+      'Video ansehen';
+  @override
+  String get videoLoading =>
+      'Video wird geladen …';
+  @override
+  String get noVideoTitle =>
+      'Kein Video verfügbar';
+  @override
+  String get noVideoBody =>
+      'Zurzeit ist kein Video verfügbar. Du kannst es später erneut versuchen oder das Spiel beenden.';
+  @override
+  String get tryAgain =>
+      'Erneut versuchen';
+  @override
+  String get videoClosedEarly =>
+      'Video vorzeitig beendet – deine zweite Chance bleibt erhalten.';
+  @override
+  String get secondChance =>
+      'Zweite Chance';
+  @override
+  String get lockedNote =>
+      'Drei Fehler – das Spiel ist gesperrt.';
+  @override
+  String get endedNote =>
+      'Zählt als nicht geschafft.';
+  @override
+  String get nextDaily =>
+      'Nächstes Rätsel';
+  @override
+  String get removeAdsHeading =>
+      'Werbung entfernen';
+  @override
+  String get removeAdsOffer =>
+      'Einmal kaufen: alle Werbung entfernen. Die einmalige zweite Chance erhältst du ohne Video.';
+  @override
+  String get removeAdsOwned =>
+      'Werbefrei – danke für deinen Kauf!';
+  @override
+  String get purchasePending =>
+      'Zahlung ausstehend. Die Werbefreiheit gilt, sobald der Store die Zahlung bestätigt.';
+  @override
+  String get purchaseVerifying =>
+      'Kauf wird geprüft …';
+  @override
+  String get paidUnverifiedNote =>
+      'Bezahlt, Prüfung noch ausstehend. Du musst nicht erneut kaufen – die Prüfung folgt, sobald eine Verbindung besteht.';
+  @override
+  String get checkAgain =>
+      'Erneut prüfen';
+  @override
+  String get storeUnavailable =>
+      'Der Store ist gerade nicht erreichbar.';
+  @override
+  String get restorePurchases =>
+      'Käufe wiederherstellen';
+  @override
+  String get revokedNote =>
+      'Dein Kauf wurde erstattet oder widerrufen.';
+  @override
+  String get demoStoreNote =>
+      'Demo-Store: Testversion, es wird nichts berechnet.';
+  @override
+  String get privacyOptions =>
+      'Datenschutzauswahl für Werbung';
+  @override
+  String get msgUnlocked =>
+      'Danke! Die Werbung ist entfernt.';
+  @override
+  String get msgCanceled =>
+      'Kauf abgebrochen.';
+  @override
+  String get msgFailed =>
+      'Das hat nicht geklappt. Bitte versuche es später erneut.';
+  @override
+  String get msgVerificationFailed =>
+      'Der Kauf konnte nicht bestätigt werden. Es wurde nichts freigeschaltet.';
+  @override
+  String get msgPaidUnverified =>
+      'Bezahlt – die Prüfung folgt, sobald eine Verbindung besteht.';
+  @override
+  String get msgCheckUnavailable =>
+      'Kaufen ist gerade nicht möglich, weil die Kaufprüfung nicht erreichbar ist. Bitte versuche es später erneut. Spielen kannst du weiterhin kostenlos.';
+  @override
+  String get msgRestoredOwned =>
+      'Kauf wiederhergestellt – werbefrei.';
+  @override
+  String get msgRestoredNothing =>
+      'Für dieses Store-Konto wurde kein Kauf gefunden. Ohne Internetverbindung kann nichts wiederhergestellt werden.';
+  @override
+  String buyFor(String price) => 'Für $price kaufen';
 }
 
 class StringsEn extends S {
@@ -582,6 +715,104 @@ class StringsEn extends S {
   String get localStorageNote => 'Your games are stored only on this device. There is no account and no cloud.';
   @override
   String version(String v) => 'Version $v';
+  @override
+  String get threeMistakesBodyVideo =>
+      'This Sudoku now counts as not solved. Watch a short video for a second chance and finish it.';
+  @override
+  String get threeMistakesBodyAdFree =>
+      'This Sudoku now counts as not solved. You have a second chance and can finish it.';
+  @override
+  String get watchVideo =>
+      'Watch video';
+  @override
+  String get videoLoading =>
+      'Loading video …';
+  @override
+  String get noVideoTitle =>
+      'No video available';
+  @override
+  String get noVideoBody =>
+      'No video is available right now. You can try again later or end the game.';
+  @override
+  String get tryAgain =>
+      'Try again';
+  @override
+  String get videoClosedEarly =>
+      'Video closed early – your second chance is kept.';
+  @override
+  String get secondChance =>
+      'Second chance';
+  @override
+  String get lockedNote =>
+      'Three mistakes – the game is locked.';
+  @override
+  String get endedNote =>
+      'Counts as not solved.';
+  @override
+  String get nextDaily =>
+      'Next puzzle';
+  @override
+  String get removeAdsHeading =>
+      'Remove ads';
+  @override
+  String get removeAdsOffer =>
+      'Buy once: remove all ads. You get the one-time second chance without a video.';
+  @override
+  String get removeAdsOwned =>
+      'Ad-free – thank you for your purchase!';
+  @override
+  String get purchasePending =>
+      'Payment pending. Ads are removed as soon as the store confirms the payment.';
+  @override
+  String get purchaseVerifying =>
+      'Checking the purchase …';
+  @override
+  String get paidUnverifiedNote =>
+      'Paid, check still outstanding. You do not need to buy again – it is checked as soon as there is a connection.';
+  @override
+  String get checkAgain =>
+      'Check again';
+  @override
+  String get storeUnavailable =>
+      'The store cannot be reached right now.';
+  @override
+  String get restorePurchases =>
+      'Restore purchases';
+  @override
+  String get revokedNote =>
+      'Your purchase was refunded or revoked.';
+  @override
+  String get demoStoreNote =>
+      'Demo store: test version, nothing is charged.';
+  @override
+  String get privacyOptions =>
+      'Privacy choices for ads';
+  @override
+  String get msgUnlocked =>
+      'Thank you! Ads are removed.';
+  @override
+  String get msgCanceled =>
+      'Purchase canceled.';
+  @override
+  String get msgFailed =>
+      'That did not work. Please try again later.';
+  @override
+  String get msgVerificationFailed =>
+      'The purchase could not be confirmed. Nothing was unlocked.';
+  @override
+  String get msgPaidUnverified =>
+      'Paid – the check follows as soon as there is a connection.';
+  @override
+  String get msgCheckUnavailable =>
+      'Buying is not possible right now because the purchase check cannot be reached. Please try again later. You can keep playing for free.';
+  @override
+  String get msgRestoredOwned =>
+      'Purchase restored – ad-free.';
+  @override
+  String get msgRestoredNothing =>
+      'No purchase was found for this store account. Nothing can be restored without an internet connection.';
+  @override
+  String buyFor(String price) => 'Buy for $price';
 }
 
 class AppStringsDelegate extends LocalizationsDelegate<S> {
