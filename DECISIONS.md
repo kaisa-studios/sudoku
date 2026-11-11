@@ -122,9 +122,10 @@ in `assets/store/`). Schrift: Inter (SIL Open Font License).
 
 ## D13 – Datenschutz, Support und Lizenzen in den Einstellungen (6. Nov. 2026)
 Abschnitt „Über die App“: Datenschutzerklärung und „Support und Impressum“ öffnen die gemeinsame App-Website im
-Browser (vorläufig `kaisa-solutions.at/apps/tidy-sudoku/…`, per Build-Einstellung `PRIVACY_URL`/`SUPPORT_URL`
+Browser (`kaisa-solutions.at/tidy-sudoku-datenschutz` und `kaisa-solutions.at/apps` – einfache Seitenadressen,
+wie Wix sie direkt anbietet; per Build-Einstellung `PRIVACY_URL`/`SUPPORT_URL`
 änderbar; `tool/build_release.sh` verlangt beide), „Lizenzen“ zeigt die Lizenzen aller verwendeten Bausteine.
-Die Seiten müssen vor der Veröffentlichung online sein (Texte im Dokument „Store-Texte und Datenschutz“).
+Die Seiten müssen vor der Veröffentlichung online sein (Texte im Dokument „Kaisa Apps – Website-Seiten“).
 
 ## D14 – Kaufprüfdienst geschrieben, Inbetriebnahme nach Freigabe (6. Nov. 2026)
 `services/verify`: Cloudflare Worker in TypeScript, gemeinsam für Tidy Sudoku und Orbella, umgesetzt nach

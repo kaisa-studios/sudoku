@@ -29,9 +29,9 @@ class AppConfig {
 
   /// Public pages on the shared app website (DECISIONS D13); the release build must set them.
   static const privacyUrl =
-      String.fromEnvironment('PRIVACY_URL', defaultValue: 'https://kaisa-solutions.at/apps/tidy-sudoku/datenschutz');
+      String.fromEnvironment('PRIVACY_URL', defaultValue: 'https://kaisa-solutions.at/tidy-sudoku-datenschutz');
   static const supportUrl =
-      String.fromEnvironment('SUPPORT_URL', defaultValue: 'https://kaisa-solutions.at/apps/tidy-sudoku');
+      String.fromEnvironment('SUPPORT_URL', defaultValue: 'https://kaisa-solutions.at/apps');
 
   // Ad units: Google's official sample IDs until the real AdMob IDs are passed.
   static const interstitialAndroid =
