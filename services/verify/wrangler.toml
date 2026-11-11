@@ -7,16 +7,16 @@ workers_dev = true
 
 [vars]
 ENVIRONMENT = "production"
-# Nur diese Apps und Produkte werden bestätigt (Orbella-ID nach der endgültigen Paket-ID ergänzen)
-APPS = '{"at.kaisasolutions.sudoku":["remove_ads_lifetime"]}'
+# Nur diese Apps und Produkte werden bestätigt: Tidy Sudoku und Orbella (Mandala)
+APPS = '{"at.kaisasolutions.sudoku":["remove_ads_lifetime"],"at.kaisasolutions.mandala":["pack_cosmos","pack_mountains","pack_animals","pack_love","remove_ads_lifetime"]}'
 
 [env.test]
 name = "kaisa-verify-test"
-vars = { ENVIRONMENT = "test", APPS = '{"at.kaisasolutions.sudoku":["remove_ads_lifetime"]}' }
+vars = { ENVIRONMENT = "test", APPS = '{"at.kaisasolutions.sudoku":["remove_ads_lifetime"],"at.kaisasolutions.mandala":["pack_cosmos","pack_mountains","pack_animals","pack_love","remove_ads_lifetime"]}' }
 
 [env.production]
 name = "kaisa-verify"
-vars = { ENVIRONMENT = "production", APPS = '{"at.kaisasolutions.sudoku":["remove_ads_lifetime"]}' }
+vars = { ENVIRONMENT = "production", APPS = '{"at.kaisasolutions.sudoku":["remove_ads_lifetime"],"at.kaisasolutions.mandala":["pack_cosmos","pack_mountains","pack_animals","pack_love","remove_ads_lifetime"]}' }
 
 # Schutz vor Missbrauch: höchstens 30 Prüfungen pro Minute und Absender
 [[env.production.ratelimits]]
