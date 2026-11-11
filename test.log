@@ -1,0 +1,873 @@
+00:00 +0: loading /home/runner/work/sudoku/sudoku/test/screenshots/screenshots_test.dart
+00:00 +0: /home/runner/work/sudoku/sudoku/test/screenshots/screenshots_test.dart: store screenshots
+00:00 +0 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: demo store: buy → verified → owned, ad-free; price comes from the store
+00:00 +1 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: pending payment grants nothing; the later PURCHASED update unlocks
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:78:15)
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +2 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: duplicate delivery is handled once
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:96:15)
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +3 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: cancel is not an error
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:107:15)
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +4 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: verification service not reachable: no store dialog is opened
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:120:15)
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +5 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: paid but check unavailable: "Prüfung ausstehend", no ads, no second purchase, kept across restart
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:132:16)
+#7      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#8      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#9      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +6 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: a network error never takes away a verified purchase; a confirmed refund does
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:160:16)
+#7      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#8      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#9      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +7 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: invalid purchase: nothing unlocked, not acknowledged
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:180:15)
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +8 ~1: /home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart: restore in the demo store brings the purchase back on a "new device"
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:190:19)
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/purchases/purchase_controller_test.dart:194:19)
+<asynchronous suspension>
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:00 +9 ~1: /home/runner/work/sudoku/sudoku/test/purchases/remote_verifier_test.dart: health check names store and app
+00:00 +10 ~1: /home/runner/work/sudoku/sudoku/test/purchases/remote_verifier_test.dart: answers of the service map to the outcomes
+00:01 +11 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: grid units and peers
+00:01 +12 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: grid validation
+00:01 +13 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: exact solver solves the example puzzle uniquely
+00:01 +14 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: exact solver detects multiple and zero solutions
+00:01 +15 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: exact solver random solutions are valid and seed-reproducible
+00:01 +16 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver example puzzle needs only singles
+00:01 +17 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +18 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +19 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +20 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +21 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +22 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +23 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +24 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +25 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +26 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +27 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +28 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: logical solver never removes the true digit (oracle check on many puzzles)
+00:01 +29 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique easy puzzles rated exactly easy
+00:01 +30 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique medium puzzles rated exactly medium
+00:01 +31 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:01 +32 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:01 +33 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:01 +34 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:01 +35 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:01 +36 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:01 +37 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:02 +38 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:02 +39 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:02 +40 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:02 +41 ~1: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:03 +41 ~1: /home/runner/work/sudoku/sudoku/test/domain/calibration_test.dart: calibration of carving methods
+  Skip: nur bei Bedarf: skip entfernen und CI-Log lesen
+00:03 +41 ~2: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:05 +42 ~2: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:05 +42 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: device language English: the whole app speaks English
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ui_test.dart:44:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:05 +43 ~2: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:05 +43 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: settings: language, dark mode and timer are applied and saved
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ui_test.dart:55:22)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:06 +44 ~2: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:06 +44 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: settings: deleting game data removes the open game after confirmation
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ui_test.dart:76:22)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:06 +45 ~2: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique hard puzzles rated exactly hard
+00:06 +45 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: large view: arrows move the selection, position is announced
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ui_test.dart:97:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:07 +46 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: large view: arrows move the selection, position is announced
+
+Warning: A call to tap() with finder "Found 1 widget with a semantics label named "Zahl 9": [
+  Semantics(container: false, properties: SemanticsProperties, label: "Zahl 9", dependencies: [Directionality], renderObject: RenderSemanticsAnnotations#a7aed relayoutBoundary=up19),
+]" derived an Offset (Offset(261.3, 752.0)) that would not hit test on the specified widget.
+Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
+Indeed, Offset(261.3, 752.0) is outside the bounds of the root of the render tree, Size(320.0, 568.0).
+The finder corresponds to this RenderBox: RenderSemanticsAnnotations#a7aed relayoutBoundary=up19
+The hit test result at that offset is: HitTestResult(HitTestEntry<HitTestTarget>#18489(_ReusableRenderView#39019), HitTestEntry<HitTestTarget>#b0af4(<AutomatedTestWidgetsFlutterBinding>))
+#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
+#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
+#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
+#3      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ui_test.dart:110:18)
+<asynchronous suspension>
+#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#6      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+To silence this warning, pass "warnIfMissed: false" to "tap()".
+To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
+
+00:07 +47 ~2: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator produces unique expert puzzles rated exactly expert
+00:07 +47 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: 200 % text on a small phone: every screen works without overflow (de)
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ui_test.dart:119:55)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:07 +48 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: 200 % text on a small phone: every screen works without overflow (de)
+00:07 +48 ~2: /home/runner/work/sudoku/sudoku/test/domain/sudoku_engine_test.dart: generator (tearDownAll)
+generation easy: 0, 0, 0, 0, 0 ms
+generation medium: 7, 6, 23, 9, 11 ms
+generation hard: 171, 53, 622, 224, 1697 ms
+generation expert: 43, 136, 38 ms
+00:07 +48 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: 200 % text on a small phone: every screen works without overflow (de)
+00:07 +49 ~2: /home/runner/work/sudoku/sudoku/test/widget/ui_test.dart: 200 % text on a small phone: every screen works without overflow (en)
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ui_test.dart:119:55)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:08 +50 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: start, enter digits, leave, continue with the saved state
+00:09 +51 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: second chance with a video: only the reward callback unlocks, saved as "rewarded"
+00:09 +51 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: third mistake shows the dialog; "Später" keeps the game locked
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart:55:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:10 +52 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: second chance with a video: only the reward callback unlocks, saved as "rewarded"
+00:10 +52 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: starting a new game asks before discarding the open one
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart:76:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:10 +53 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: starting a new game asks before discarding the open one
+00:10 +53 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: no video available: the exact message, retry, later keeps the chance
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart:76:34)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:10 +54 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: no video available: the exact message, retry, later keeps the chance
+00:10 +54 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: daily sudoku: three puzzles, solving one starts the streak
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart:92:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:11 +55 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: daily sudoku: three puzzles, solving one starts the streak
+00:11 +55 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: video closed early: locked game with the way back to the decision
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart:96:34)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:12 +56 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: daily sudoku: three puzzles, solving one starts the streak
+00:12 +56 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: ad-free: second chance without any video
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart:110:16)
+#7      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#8      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#9      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:12 +57 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: daily sudoku: three puzzles, solving one starts the streak
+00:12 +57 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: ending after three mistakes leads to the result view with "Neues Sudoku"
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart:127:34)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:12 +58 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: daily sudoku: three puzzles, solving one starts the streak
+00:12 +58 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: settings: buy "Werbung entfernen" in the demo store
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart:139:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:13 +59 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: daily sudoku: three puzzles, solving one starts the streak
+00:13 +59 ~2: /home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart: settings: privacy policy, support and licenses are reachable
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/ads_flow_test.dart:156:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:13 +60 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: daily sudoku: three puzzles, solving one starts the streak
+00:13 +61 ~2: /home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart: statistics: empty state
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/widget/app_flow_test.dart:124:53)
+#8      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#9      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:14 +62 ~2: /home/runner/work/sudoku/sudoku/test/data/game_repository_test.dart: a started game is saved and restored exactly
+00:14 +63 ~2: /home/runner/work/sudoku/sudoku/test/data/game_repository_test.dart: the third-mistake lock survives a restart
+00:14 +64 ~2: /home/runner/work/sudoku/sudoku/test/data/game_repository_test.dart: starting a new game ends the open one; at most one open regular game
+00:14 +65 ~2: /home/runner/work/sudoku/sudoku/test/data/game_repository_test.dart: stale saves never overwrite newer ones
+00:14 +66 ~2: /home/runner/work/sudoku/sudoku/test/data/game_repository_test.dart: daily games: one per day and slot, streak from finished days
+00:14 +67 ~2: /home/runner/work/sudoku/sudoku/test/data/game_repository_test.dart: settings and deleting all game data
+00:14 +68 ~2: /home/runner/work/sudoku/sudoku/test/data/game_repository_test.dart: content: pool and daily lookup by local day
+00:14 +69 ~2: /home/runner/work/sudoku/sudoku/test/data/content_assets_test.dart: shipped pool: 25 puzzles per level, each unique and rated as labelled
+00:14 +70 ~2: /home/runner/work/sudoku/sudoku/test/data/content_assets_test.dart: daily puzzles cover 1 Nov 2026 to 29 Dec 2028
+00:14 +71 ~2: /home/runner/work/sudoku/sudoku/test/data/content_assets_test.dart: random sample of daily puzzles is unique and rated as labelled
+00:14 +72 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_policy_test.dart: shows on every second counted transition when all rules hold
+00:14 +73 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_policy_test.dart: a voluntary discard never counts and never shows
+00:14 +74 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_policy_test.dart: first finished game after install and first transition per session are exempt and not counted
+00:14 +75 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_policy_test.dart: no interstitial after a game with an opened rewarded video, even after the cooldown
+00:14 +76 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_policy_test.dart: at least 180 s since the last full-screen ad
+00:14 +77 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_policy_test.dart: at most 3 per rolling hour
+00:14 +78 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_policy_test.dart: device clock set backwards: no ad, to be safe
+00:15 +79 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: consent once per start, SDK only when ads may be requested
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:62:11)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +80 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: first game and first transition per session stay ad-free, then every second
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:70:11)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +81 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: a discarded game (not finally over) never shows an ad and is not counted
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:88:11)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +82 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: no interstitial after a game with an opened rewarded video
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:100:11)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +83 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: a restart keeps the counters: no burst of ads
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:109:11)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +84 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: rewarded: reward and close in any order grant exactly one second chance
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:135:13)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:135:13)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:135:13)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +85 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: rewarded: closed early, no fill, show error and load timeout
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:144:11)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:148:11)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:151:11)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:15)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +86 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: rewarded: a load slower than the timeout ends the attempt; the late ad is thrown away
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:157:11)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +87 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: rewarded: an ad that never appears ends the attempt instead of hanging
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:171:16)
+#8      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#9      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#10     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +88 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: buying "Werbung entfernen" discards loaded ads and stops all ads
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      testServices (file:///home/runner/work/sudoku/sudoku/test/support.dart:62:26)
+#7      main.setUpServices (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:39:16)
+#8      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:180:11)
+#9      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#10     Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#11     Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +89 ~2: /home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart: ad-free players are not sent through the consent form again
+WARNING (drift): It looks like you've created the database class AppDatabase multiple times. When these two databases use the same QueryExecutor, race conditions will occur and might corrupt the database. 
+Try to follow the advice at https://drift.simonbinder.eu/faq/#using-the-database or, if you know what you're doing, set driftRuntimeOptions.dontWarnAboutMultipleDatabases = true
+Here is the stacktrace from when the database was opened a second time:
+#0      GeneratedDatabase._handleInstantiated (package:drift/src/runtime/api/db_base.dart:96:30)
+#1      GeneratedDatabase._whenConstructed (package:drift/src/runtime/api/db_base.dart:73:12)
+#2      new GeneratedDatabase (package:drift/src/runtime/api/db_base.dart:64:5)
+#3      new _$AppDatabase (package:sudoku/data/app_database.g.dart:1666:36)
+#4      new AppDatabase (package:sudoku/data/app_database.dart:80:44)
+#5      memoryDb (file:///home/runner/work/sudoku/sudoku/test/support.dart:26:5)
+#6      main.<anonymous closure> (file:///home/runner/work/sudoku/sudoku/test/ads/ad_coordinator_test.dart:195:16)
+#7      Declarer.test.<anonymous closure>.<anonymous closure> (package:test_api/src/backend/declarer.dart:253:25)
+<asynchronous suspension>
+#8      Declarer.test.<anonymous closure> (package:test_api/src/backend/declarer.dart:250:11)
+<asynchronous suspension>
+#9      Invoker._waitForOutstandingCallbacks.<anonymous closure> (package:test_api/src/backend/invoker.dart:318:9)
+<asynchronous suspension>
+This warning will only appear on debug builds.
+00:15 +90 ~2: All tests passed!
